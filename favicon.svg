@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0E1322"/><stop offset="1" stop-color="#080B14"/></linearGradient>
+    <radialGradient id="halo" cx="0.5" cy="0.34" r="0.65"><stop offset="0" stop-color="#A77BFF" stop-opacity="0.22"/><stop offset="1" stop-color="#A77BFF" stop-opacity="0"/></radialGradient>
+    <clipPath id="tileclip"><rect x="112" y="112" width="800" height="800" rx="196"/></clipPath>
+    <filter id="rough" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.016" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="7" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+  <rect x="112" y="112" width="800" height="800" rx="196" fill="url(#tile)"/>
+  <g clip-path="url(#tileclip)"><rect x="112" y="112" width="800" height="800" fill="url(#halo)"/></g>
+  <rect x="116.5" y="116.5" width="791" height="791" rx="191.5" fill="none" stroke="#ffffff" stroke-opacity="0.10" stroke-width="3"/>
+  <g fill="none" stroke-width="25" stroke-linecap="round" stroke-linejoin="round" filter="url(#rough)">
+    <path d="M476 324 C 452 432 430 520 354 650" stroke="#3DA8F5"/>
+    <path d="M388 614 L354 650 L350 600" stroke="#3DA8F5"/>
+    <path d="M548 324 C 572 432 594 520 670 650" stroke="#FF7A5C"/>
+    <path d="M674 600 L670 650 L636 614" stroke="#FF7A5C"/>
+    <path d="M414 500 C 470 492 554 508 610 500" stroke="#A77BFF"/>
+    <path d="M449 481 L414 500 L449 519" stroke="#A77BFF"/>
+    <path d="M575 481 L610 500 L575 519" stroke="#A77BFF"/>
+  </g>
+  <g><rect x="420" y="214" width="184" height="104" rx="26" fill="#161D30" stroke="#ffffff" stroke-opacity="0.16" stroke-width="3"/><circle cx="452" cy="246" r="9" fill="#A77BFF"/><rect x="472" y="240" width="104" height="12" rx="6" fill="#ffffff" fill-opacity="0.30"/><rect x="448" y="276" width="128" height="11" rx="5.5" fill="#ffffff" fill-opacity="0.16"/></g>
+  <g><rect x="208" y="660" width="184" height="104" rx="26" fill="#161D30" stroke="#ffffff" stroke-opacity="0.16" stroke-width="3"/><circle cx="240" cy="692" r="9" fill="#3DA8F5"/><rect x="260" y="686" width="104" height="12" rx="6" fill="#ffffff" fill-opacity="0.30"/><rect x="236" y="722" width="128" height="11" rx="5.5" fill="#ffffff" fill-opacity="0.16"/></g>
+  <g><rect x="632" y="660" width="184" height="104" rx="26" fill="#161D30" stroke="#ffffff" stroke-opacity="0.16" stroke-width="3"/><circle cx="664" cy="692" r="9" fill="#FF7A5C"/><rect x="684" y="686" width="104" height="12" rx="6" fill="#ffffff" fill-opacity="0.30"/><rect x="660" y="722" width="128" height="11" rx="5.5" fill="#ffffff" fill-opacity="0.16"/></g>
+</svg>

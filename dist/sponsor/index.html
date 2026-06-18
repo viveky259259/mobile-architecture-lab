@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mobile Architecture Lab — Sponsorship Deck</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Sponsor MAL — Mumbai Architecture Lab" />
+<meta property="og:description" content="Put your product in the room where Mumbai's elite mobile architects are forged. 5 labs, 80–120 senior engineers each, 15–20 certified architects." />
+<meta property="og:image" content="https://mumbaiarchitecturelab.netlify.app/og-image.png" />
+<meta property="og:url" content="https://mumbaiarchitecturelab.netlify.app/sponsor" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --flutter:#3DA8F5;
+    --flutter-d:#02569B;
+    --swift:#FF7A5C;
+    --swift-d:#F05138;
+    --kotlin:#A77BFF;
+    --react:#61DAFB;
+    --green:#5EE6A8;
+
+    --bg:#070A12;
+    --ink:#F3F7FF;
+    --muted:#A8B4CC;
+    --faint:#6A7790;
+    --line:rgba(255,255,255,.09);
+    --line-2:rgba(255,255,255,.14);
+    --glass:rgba(255,255,255,.035);
+    --glass-2:rgba(255,255,255,.06);
+    --grad:linear-gradient(110deg,var(--flutter),var(--kotlin) 50%,var(--swift));
+    --grad-soft:linear-gradient(110deg,rgba(61,168,245,.16),rgba(167,123,255,.14) 50%,rgba(255,122,92,.16));
+    --shadow:0 30px 80px -24px rgba(0,0,0,.7);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  html,body{background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.5;letter-spacing:-.005em}
+  body{scroll-snap-type:y mandatory;overflow-y:scroll}
+
+  .slide{
+    position:relative;min-height:100vh;width:100%;
+    padding:72px 84px 84px;display:flex;flex-direction:column;justify-content:center;
+    scroll-snap-align:start;overflow:hidden;isolation:isolate;
+  }
+  /* layered mesh + grid background */
+  .slide::before{
+    content:"";position:absolute;inset:0;z-index:-2;
+    background:
+      radial-gradient(900px 620px at 88% -8%,rgba(61,168,245,.20),transparent 60%),
+      radial-gradient(760px 560px at -6% 108%,rgba(255,122,92,.14),transparent 58%),
+      radial-gradient(680px 520px at 50% 50%,rgba(167,123,255,.06),transparent 70%),
+      var(--bg);
+  }
+  .slide::after{
+    content:"";position:absolute;inset:0;z-index:-1;opacity:.5;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:56px 56px;
+    -webkit-mask-image:radial-gradient(120% 100% at 50% 0%,#000 35%,transparent 78%);
+            mask-image:radial-gradient(120% 100% at 50% 0%,#000 35%,transparent 78%);
+  }
+  .accent-line{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--grad);opacity:.9;z-index:1}
+  .glow{position:absolute;width:520px;height:520px;border-radius:50%;filter:blur(120px);z-index:-1;opacity:.5;pointer-events:none}
+
+  /* top chrome */
+  .topbar{position:absolute;top:34px;left:84px;right:84px;display:flex;align-items:center;justify-content:space-between;z-index:2}
+  .brand-mini{display:flex;align-items:center;gap:11px}
+  .brand-mini svg{width:26px;height:26px}
+  .brand-mini b{font-family:"Sora";font-weight:700;font-size:14px;letter-spacing:.01em}
+  .brand-mini b span{color:var(--faint);font-weight:500}
+  .num{font-family:"JetBrains Mono";font-size:12px;color:var(--faint);letter-spacing:.18em}
+  .num b{color:var(--swift)}
+
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:"JetBrains Mono";font-size:11.5px;
+    letter-spacing:.24em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:22px;
+    padding:8px 14px;border:1px solid var(--line-2);border-radius:999px;background:var(--glass);backdrop-filter:blur(8px)}
+  .eyebrow .spark{width:6px;height:6px;border-radius:50%;background:var(--grad);box-shadow:0 0 12px 1px var(--flutter)}
+
+  h1{font-family:"Sora";font-size:66px;line-height:1.02;font-weight:800;letter-spacing:-.03em}
+  h2{font-family:"Sora";font-size:46px;line-height:1.06;font-weight:800;letter-spacing:-.025em;margin-bottom:10px}
+  h3{font-family:"Sora";font-size:19px;font-weight:700;letter-spacing:-.01em}
+  .lead{font-size:19px;color:var(--muted);max-width:62ch;margin-top:20px;font-weight:400}
+  .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .muted{color:var(--muted)} .faint{color:var(--faint)}
+
+  .grid{display:grid;gap:20px}
+  .g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+
+  .card{position:relative;border:1px solid transparent;border-radius:20px;padding:26px;
+    background:var(--glass) padding-box,linear-gradient(160deg,rgba(255,255,255,.2),var(--line) 42%) border-box;
+    backdrop-filter:blur(14px);transition:.2s;overflow:hidden}
+  .card h3{margin-bottom:9px}
+  .card p{font-size:14.5px;color:var(--muted)}
+  .card .ic{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+    font-size:20px;margin-bottom:16px;background:var(--glass-2);border:1px solid var(--line)}
+
+  .pill{display:inline-flex;align-items:center;gap:9px;font-size:13px;font-weight:600;
+    padding:9px 16px;border-radius:999px;border:1px solid var(--line-2);background:var(--glass);color:var(--muted);backdrop-filter:blur(8px)}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block;box-shadow:0 0 10px 0 currentColor}
+  .pill .logo{width:15px;height:15px;flex:none;filter:drop-shadow(0 0 7px currentColor)}
+  .row{display:flex;gap:13px;flex-wrap:wrap}
+
+  .stat{font-family:"Sora";font-weight:800;line-height:1;letter-spacing:-.03em}
+  .stat-l{font-size:14px;color:var(--muted);margin-top:11px}
+  ul.clean{list-style:none;display:flex;flex-direction:column;gap:15px;margin-top:20px}
+  ul.clean li{font-size:16.5px;color:var(--muted);padding-left:30px;position:relative}
+  ul.clean li::before{content:"";position:absolute;left:0;top:7px;width:11px;height:11px;border-radius:4px;background:var(--grad);box-shadow:0 0 12px -1px var(--kotlin)}
+  ul.clean li b{color:var(--ink);font-weight:700}
+
+  .two{display:grid;grid-template-columns:1.12fr .88fr;gap:52px;align-items:center}
+  .quote{font-family:"Sora";font-size:30px;font-weight:600;line-height:1.32;letter-spacing:-.02em;max-width:22ch}
+  .quote b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+  /* funnel panel */
+  .panel{position:relative;background:linear-gradient(165deg,var(--glass-2),var(--glass));border:1px solid var(--line-2);
+    border-radius:24px;padding:34px;box-shadow:var(--shadow);overflow:hidden}
+  .panel .sep{height:1px;background:var(--line);margin:22px 0}
+
+  /* timeline */
+  .timeline{display:flex;margin-top:38px;position:relative}
+  .timeline::before{content:"";position:absolute;top:13px;left:6%;right:6%;height:2px;
+    background:linear-gradient(90deg,var(--flutter),var(--swift),var(--kotlin),var(--react),var(--green))}
+  .tl{flex:1;padding:0 16px;position:relative;text-align:left}
+  .tl .node{width:26px;height:26px;border-radius:50%;position:relative;z-index:2;border:4px solid var(--bg);box-shadow:0 0 0 4px var(--glass-2);display:flex;align-items:center;justify-content:center}
+  .tl .node svg{width:13px;height:13px;fill:var(--bg)}
+  .tl .d{font-family:"JetBrains Mono";font-size:11px;color:var(--faint);margin-top:16px;letter-spacing:.08em}
+  .tl .t{font-family:"Sora";font-size:16px;font-weight:700;margin-top:6px;letter-spacing:-.01em}
+  .tl .s{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.45}
+
+  /* tier cards */
+  .tiers{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:26px;align-items:stretch}
+  .tier{position:relative;border-radius:20px;border:1px solid var(--line);background:var(--glass);padding:24px 18px;
+    backdrop-filter:blur(14px);display:flex;flex-direction:column}
+  .tier.feat{border:2.5px solid transparent;
+    background:var(--glass) padding-box,var(--grad) border-box;
+    box-shadow:var(--shadow),0 0 36px -8px rgba(167,123,255,.4)}
+  .tier .badge{align-self:flex-start;font-family:"JetBrains Mono";font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+    padding:6px 12px;border-radius:8px;color:#070A12;margin-bottom:16px}
+  .b-title{background:linear-gradient(120deg,var(--swift),#FFB59E)}
+  .b-plat{background:linear-gradient(120deg,#E2ECFB,#A9BFE0)}
+  .b-gold{background:linear-gradient(120deg,#F8CE63,#E0922E)}
+  .b-comm{background:linear-gradient(120deg,#7FE9C0,#46C796)}
+  .b-acad{background:linear-gradient(120deg,#9FB4FF,#7C8BFF)}
+  .tier .price{font-family:"Sora";font-size:27px;font-weight:800;letter-spacing:-.02em}
+  .tier .slot{font-size:12px;color:var(--faint);margin:4px 0 16px;font-family:"JetBrains Mono";letter-spacing:.04em}
+  .tier ul{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:auto}
+  .tier ul li{font-size:12.8px;color:var(--muted);padding-left:20px;position:relative;line-height:1.4}
+  .tier ul li::before{content:"✓";position:absolute;left:0;top:0;color:var(--green);font-weight:700;font-size:12px}
+  .tier ul li.no{color:var(--faint)}
+  .tier ul li.no::before{content:"–";color:var(--faint)}
+
+  /* integration mini-cards */
+  .int{display:flex;gap:16px;align-items:flex-start}
+  .int .bar{width:4px;align-self:stretch;border-radius:4px;flex:none}
+
+  .cta-line{display:flex;align-items:center;gap:14px;font-family:"Sora";font-size:21px;font-weight:600;margin-top:4px}
+  .cta-line .ic{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+    background:var(--glass-2);border:1px solid var(--line);font-size:18px;flex:none}
+  .cta-line span{color:var(--swift)}
+
+  .foot{position:absolute;bottom:26px;left:84px;font-family:"JetBrains Mono";font-size:11px;color:var(--faint);letter-spacing:.06em;z-index:2}
+
+  .venue-lockup{position:absolute;bottom:54px;right:84px;text-align:right;z-index:2;
+    padding:16px 22px;border:1px solid var(--line-2);border-radius:16px;background:var(--glass);backdrop-filter:blur(10px)}
+  .venue-lockup .vl-label{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
+  .venue-lockup .vl-name{font-family:"Sora";font-weight:700;font-size:16px;letter-spacing:-.01em;color:var(--ink)}
+  .venue-lockup .vl-name span{color:var(--faint);font-weight:500}
+
+  /* venue partner logo plaque (brand logo has dark colors → needs a light surface) */
+  .venue-logo{display:inline-flex;align-items:center;justify-content:center;
+    background:#fff;border-radius:11px;padding:11px 16px;box-shadow:0 10px 28px -12px rgba(0,0,0,.55)}
+  .venue-logo svg{display:block;height:26px;width:auto}
+  .venue-lockup .venue-logo{margin:0 0 12px auto}
+
+  a.lnk{color:var(--flutter);text-decoration:none;border-bottom:1px solid rgba(61,168,245,.4);transition:.15s}
+  a.lnk:hover{color:var(--swift);border-bottom-color:var(--swift)}
+  .cta-line a{color:inherit;text-decoration:none;transition:.15s}
+  .cta-line a:hover{color:var(--swift)}
+
+  .nav{position:fixed;right:20px;bottom:20px;z-index:50;display:flex;gap:9px}
+  .nav button{width:42px;height:42px;border-radius:12px;border:1px solid var(--line-2);background:rgba(20,27,42,.7);
+    color:var(--ink);font-size:18px;cursor:pointer;backdrop-filter:blur(10px)}
+  .nav button:hover{background:rgba(40,50,72,.8)}
+
+  @media print{
+    html,body{overflow:visible}
+    .slide{min-height:0;height:1080px;page-break-after:always;break-after:page}
+    .nav{display:none}
+    @page{size:1920px 1080px;margin:0}
+  }
+
+  /* ===== RESPONSIVE / MOBILE (screen only — never affects PDF export) ===== */
+  @media screen and (max-width:900px){
+    html,body{overflow-x:hidden;scroll-snap-type:none}
+    .slide{
+      min-height:100vh;height:auto;width:100%;max-width:100%;overflow:visible;scroll-snap-align:none;
+      padding:84px 30px 92px;justify-content:flex-start;
+    }
+    .slide::after{background-size:44px 44px}
+    .glow{filter:blur(90px);opacity:.4}
+    /* drop desktop hard line-breaks so headings wrap to the narrow width */
+    h1 br,h2 br{display:none}
+    h1,h2{overflow-wrap:break-word}
+    h1{font-size:38px;line-height:1.06}
+    h2{font-size:31px}
+    .lead{font-size:16.5px;max-width:none;margin-top:16px}
+    .quote{font-size:25px;max-width:none}
+    /* collapse every multi-column layout to one column */
+    .two{grid-template-columns:1fr;gap:32px;align-items:start}
+    .g2,.g3,.g4{grid-template-columns:1fr}
+    .grid{gap:14px}
+    .tiers{grid-template-columns:1fr;gap:14px;margin-top:22px}
+    .tier{padding:22px 22px}
+    /* timeline: horizontal -> vertical */
+    .timeline{flex-direction:column;margin-top:24px;gap:4px}
+    .timeline::before{display:none}
+    .tl{flex:none;padding:0 0 18px 2px;text-align:left}
+    .tl .node{display:inline-flex}
+    .tl .d{margin-top:10px}
+    /* top/bottom chrome fit narrow width */
+    .topbar{top:22px;left:30px;right:30px;gap:12px}
+    .brand-mini b{font-size:12px}
+    .num{font-size:9.5px;letter-spacing:.1em;text-align:right;flex:0 1 auto;min-width:0}
+    .venue-lockup .vl-name{font-size:14px}
+    .foot{left:30px;right:30px;bottom:18px}
+    .nav{right:14px;bottom:14px}
+    .panel{padding:26px}
+    .card{padding:22px}
+    /* venue lockup: out of the corner, into the flow */
+    .venue-lockup{position:static;text-align:left;right:auto;bottom:auto;margin-top:30px;display:inline-block}
+    .venue-lockup .venue-logo{margin:0 0 12px 0}
+    /* shrink oversized inline stat numbers */
+    .stat[style*="58px"]{font-size:42px!important}
+  }
+  @media screen and (max-width:430px){
+    .slide{padding:78px 20px 86px}
+    h1{font-size:34px}
+    h2{font-size:27px}
+    .quote{font-size:22px}
+    .stat[style*="58px"]{font-size:38px!important}
+    .stat[style*="38px"]{font-size:32px!important}
+    .topbar{left:20px;right:20px}
+    .foot{left:20px;right:20px}
+  }
+</style>
+</head>
+<body>
+
+  <!-- 1. COVER -->
+  <section class="slide" id="s1">
+    <div class="accent-line"></div>
+    <div class="glow" style="background:var(--flutter);top:-180px;right:-120px"></div>
+    <div class="glow" style="background:var(--swift);bottom:-200px;left:-140px;opacity:.35"></div>
+    <div class="topbar">
+      <div class="brand-mini">
+        <svg viewBox="0 0 100 100" fill="none"><path d="M20 22 L50 42 L80 22" stroke="#3DA8F5" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 46 L50 66 L80 46" stroke="#A77BFF" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 70 L50 90 L80 70" stroke="#FF7A5C" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <b>Mobile Architecture Lab <span>/ MAL</span></b>
+      </div>
+      <div class="num"><b>SPONSORSHIP</b> · MUMBAI 2026</div>
+    </div>
+    <div class="eyebrow"><span class="spark"></span> Sponsorship Prospectus</div>
+    <h1>Sponsor the room where <br/>Mumbai's <span class="grad">elite mobile <br/>architects</span> are forged.</h1>
+    <p class="lead">A 5-part, production-grade engineering lab. 80–120 senior engineers per session. An outcome cohort of 15–20 certified Mobile Architects who build a real product with your tools — across 5 labs and in their own codebases.</p>
+    <div class="row" style="margin-top:38px">
+      <span class="pill" style="color:var(--flutter)"><svg class="logo" viewBox="0 0 24 24" fill="currentColor"><path d="M14.314 0L2.3 12 6 15.7 21.684.013h-7.357zm.014 11.072L7.857 17.53l6.47 6.47H21.7l-6.46-6.468 6.46-6.46h-7.37z"/></svg><span style="color:var(--muted)">Flutter</span></span>
+      <span class="pill" style="color:var(--swift)"><svg class="logo" viewBox="0 0 24 24" fill="currentColor"><path d="M7.508 0c-.287 0-.573 0-.86.002-.241.002-.483.003-.724.01-.132.003-.263.009-.395.015A9.154 9.154 0 0 0 4.348.15 5.492 5.492 0 0 0 2.85.645 5.04 5.04 0 0 0 .645 2.848c-.245.48-.4.972-.495 1.5-.093.52-.122 1.05-.136 1.576a35.2 35.2 0 0 0-.012.724C0 6.935 0 7.221 0 7.508v8.984c0 .287 0 .575.002.862.002.24.005.481.012.722.014.526.043 1.057.136 1.576.095.528.25 1.02.495 1.5a5.03 5.03 0 0 0 2.205 2.203c.48.244.97.4 1.498.495.52.093 1.05.124 1.576.138.241.007.483.009.724.01.287.002.573.002.86.002h8.984c.287 0 .573 0 .86-.002.241-.001.483-.003.724-.01a10.523 10.523 0 0 0 1.578-.138 5.322 5.322 0 0 0 1.498-.495 5.035 5.035 0 0 0 2.203-2.203c.245-.48.4-.972.495-1.5.093-.52.124-1.05.138-1.576.007-.241.009-.481.01-.722.002-.287.002-.575.002-.862V7.508c0-.287 0-.573-.002-.86a33.662 33.662 0 0 0-.01-.724 10.5 10.5 0 0 0-.138-1.576 5.328 5.328 0 0 0-.495-1.5A5.039 5.039 0 0 0 21.152.645 5.32 5.32 0 0 0 19.654.15a10.493 10.493 0 0 0-1.578-.138 34.98 34.98 0 0 0-.722-.01C17.067 0 16.779 0 16.492 0H7.508zm6.035 3.41c4.114 2.47 6.545 7.162 5.549 11.131-.024.093-.05.181-.076.272l.002.001c2.062 2.538 1.5 5.258 1.236 4.745-1.072-2.086-3.066-1.568-4.088-1.043a6.803 6.803 0 0 1-.281.158l-.02.012-.002.002c-2.115 1.123-4.957 1.205-7.812-.022a12.568 12.568 0 0 1-5.64-4.838c.649.48 1.35.902 2.097 1.252 3.019 1.414 6.051 1.311 8.197-.002C9.651 12.73 7.101 9.67 5.146 7.191a10.628 10.628 0 0 1-1.005-1.384c2.34 2.142 6.038 4.83 7.365 5.576C8.69 8.408 6.208 4.743 6.324 4.86c4.436 4.47 8.528 6.996 8.528 6.996.154.085.27.154.36.213.085-.215.16-.437.224-.668.708-2.588-.09-5.548-1.893-7.992z"/></svg><span style="color:var(--muted)">Swift / iOS</span></span>
+      <span class="pill" style="color:var(--kotlin)"><svg class="logo" viewBox="0 0 24 24" fill="currentColor"><path d="M18.4395 5.5586c-.675 1.1664-1.352 2.3318-2.0274 3.498-.0366-.0155-.0742-.0286-.1113-.043-1.8249-.6957-3.484-.8-4.42-.787-1.8551.0185-3.3544.4643-4.2597.8203-.084-.1494-1.7526-3.021-2.0215-3.4864a1.1451 1.1451 0 0 0-.1406-.1914c-.3312-.364-.9054-.4859-1.379-.203-.475.282-.7136.9361-.3886 1.5019 1.9466 3.3696-.0966-.2158 1.9473 3.3593.0172.031-.4946.2642-1.3926 1.0177C2.8987 12.176.452 14.772 0 18.9902h24c-.119-1.1108-.3686-2.099-.7461-3.0683-.7438-1.9118-1.8435-3.2928-2.7402-4.1836a12.1048 12.1048 0 0 0-2.1309-1.6875c.6594-1.122 1.312-2.2559 1.9649-3.3848.2077-.3615.1886-.7956-.0079-1.1191a1.1001 1.1001 0 0 0-.8515-.5332c-.5225-.0536-.9392.3128-1.0488.5449zm-.0391 8.461c.3944.5926.324 1.3306-.1563 1.6503-.4799.3197-1.188.0985-1.582-.4941-.3944-.5927-.324-1.3307.1563-1.6504.4727-.315 1.1812-.1086 1.582.4941zM7.207 13.5273c.4803.3197.5506 1.0577.1563 1.6504-.394.5926-1.1038.8138-1.584.4941-.48-.3197-.5503-1.0577-.1563-1.6504.4008-.6021 1.1087-.8106 1.584-.4941z"/></svg><span style="color:var(--muted)">Kotlin / Android</span></span>
+      <span class="pill" style="color:var(--react)"><svg class="logo" viewBox="0 0 24 24" fill="currentColor"><path d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44-.96-.236-2.006-.417-3.107-.534-.66-.905-1.345-1.727-2.035-2.447 1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442-1.107.117-2.154.298-3.113.538-.112-.49-.195-.964-.254-1.42-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87-.728.063-1.466.098-2.21.098-.74 0-1.477-.035-2.202-.093-.406-.582-.802-1.204-1.183-1.86-.372-.64-.71-1.29-1.018-1.946.303-.657.646-1.313 1.013-1.954.38-.66.773-1.286 1.18-1.868.728-.064 1.466-.098 2.21-.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933-.2-.39-.41-.783-.64-1.174-.225-.392-.465-.774-.705-1.146zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493-.28-.958-.646-1.956-1.1-2.98.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39.24-.375.48-.762.705-1.158.225-.39.435-.788.636-1.18zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143-.695-.102-1.365-.23-2.006-.386.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295-.22-.005-.406-.05-.553-.132-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z"/></svg><span style="color:var(--muted)">React Native</span></span>
+      <span class="pill" style="color:var(--green)"><span class="dot"></span><span style="color:var(--muted)">AI · DevOps · Security</span></span>
+    </div>
+    <div class="venue-lockup">
+      <div class="vl-label">Venue Partner</div>
+      <div class="venue-logo"><svg viewBox="0 0 496 108" role="img" aria-label="ATLAS SkillTech University · ISDI" xmlns="http://www.w3.org/2000/svg"><path d="M73.9806 85.9885L37.0196 64.6671L0.0585938 85.9885L37.0196 107.427L73.9806 85.9885Z" fill="#AEAACB"/><path d="M0.0585938 21.3214V64.0228L37.0196 85.3442L73.9806 64.0228V21.3214L37.0196 0L0.0585938 21.3214Z" fill="#342B7C"/><path d="M73.9806 21.3214V64.0228L37.0196 85.3442V42.76L0 21.3214L37.0196 0L73.9806 21.3214Z" fill="#3CA7B6"/><path d="M55.5293 32.0406L37.0195 85.4028L73.9806 64.0813L55.5293 32.0406ZM57.1694 49.7304L63.847 61.3283L50.4333 69.0602L57.1694 49.7304Z" fill="#342B7C"/><path d="M335.871 69.4703V14.6438H341.26V69.4703H335.871Z" fill="#E12A7B"/><path d="M242.678 20.1499L220.771 64.0228H264.585L242.678 20.1499ZM242.678 40.5927L249.824 54.8265H235.59L242.678 40.5927Z" fill="#342B7C"/><path d="M117.853 20.1499L95.8877 64.0228H139.761L117.853 20.1499ZM117.853 40.5927L125 54.8265H110.766L117.853 40.5927Z" fill="#342B7C"/><path d="M160.614 29.9906V64.0228H151.242V29.9906H138.238V21.3214H173.617V29.9906H160.614Z" fill="#342B7C"/><path d="M183.458 64.0228V21.3214H192.83V55.4708H214.093V64.0228H183.458Z" fill="#342B7C"/><path d="M287.312 64.6086C280.869 64.6086 274.308 62.3242 269.212 57.7553L274.777 51.1363C278.643 54.2993 282.626 56.2909 287.546 56.2909C291.412 56.2909 293.697 54.7679 293.697 52.2492V52.132C293.697 49.7305 292.232 48.559 285.086 46.6845C276.476 44.5173 270.969 42.1157 270.969 33.6223V33.5051C270.969 25.7732 277.178 20.6185 285.906 20.6185C292.115 20.6185 297.445 22.5515 301.78 26.066L296.918 33.1536C293.111 30.5178 289.421 28.9362 285.848 28.9362C282.274 28.9362 280.341 30.5763 280.341 32.6265V32.7436C280.341 35.5552 282.157 36.4339 289.538 38.3669C298.207 40.6513 303.069 43.7558 303.069 51.1948V51.312C303.01 59.8054 296.508 64.6086 287.312 64.6086Z" fill="#342B7C"/><path d="M382.38 19.2712H374.355V64.9014H382.38V19.2712Z" fill="#E12A7B"/><path d="M383.258 65.78H373.476V18.3926H383.258V65.78ZM375.234 64.0227H381.501V20.1498H375.234V64.0227Z" fill="#E12A7B"/><path d="M494.961 19.2712H486.937V64.9014H494.961V19.2712Z" fill="#E12A7B"/><path d="M495.84 65.78H486.058V18.3926H495.84V65.78ZM487.815 64.0227H494.083V20.1498H487.815V64.0227Z" fill="#E12A7B"/><path d="M455.482 19.2712H440.604L429.943 48.6175H438.495V64.9014H455.54C469.891 64.9014 479.79 54.9436 479.79 42.057V41.9399C479.732 29.1119 469.833 19.2712 455.482 19.2712ZM471.297 42.1742C471.297 51.1362 465.03 57.5795 455.482 57.5795H446.461V48.5589H438.436L446.461 26.5346H455.423C465.029 26.5346 471.238 33.095 471.238 42.057V42.1742H471.297Z" fill="#E12A7B"/><path d="M455.482 65.78H437.558V49.4375H428.654L439.959 18.334H455.423C470.008 18.334 480.552 28.2332 480.552 41.8813V41.9984C480.61 55.8222 470.008 65.78 455.482 65.78ZM439.315 64.0227H455.482C469.012 64.0227 478.853 54.7678 478.853 42.057V41.9398C478.853 29.2876 469.012 20.1498 455.482 20.1498H441.248L431.231 47.7388H437.909L445.934 25.7145H455.54C465.381 25.7145 472.234 32.4506 472.234 42.1156V42.2327C472.234 51.8391 465.381 58.5166 455.54 58.5166H445.582V49.4375H439.315V64.0227ZM447.34 56.7008H455.482C464.444 56.7008 470.418 50.8433 470.418 42.1741V42.057C470.418 33.4464 464.268 27.4132 455.482 27.4132H447.105L439.725 47.6802H447.34V56.7008Z" fill="#E12A7B"/><path d="M394.036 51.8392C394.387 52.132 395.5 53.0692 395.793 53.3621C399.835 56.6423 403.994 58.4582 409.207 58.4582C414.186 58.4582 417.29 56.1737 417.29 52.7178V52.6006C417.29 49.3204 415.475 47.5632 406.981 45.6302C397.258 43.2872 391.81 40.417 391.81 31.9821V31.865C391.81 24.0159 398.312 18.627 407.391 18.627C414.069 18.627 418.989 20.6771 423.148 23.723L420.512 31.0449C420.336 30.9278 419.341 30.1663 419.165 30.0491C415.24 27.2375 411.316 25.7146 407.274 25.7146C402.588 25.7146 399.835 28.1162 399.835 31.1035V31.2206C399.835 34.7352 401.944 36.3167 410.671 38.3668C420.336 40.7098 425.315 44.1658 425.315 51.722V51.8392C425.315 60.3911 418.579 65.4872 409.031 65.4872C405.165 65.4872 401.358 64.7257 397.843 63.2028C395.559 62.207 393.333 60.9183 391.283 59.2782L394.036 51.8392Z" fill="#E12A7B"/><path d="M409.031 66.4244C404.99 66.4244 401.124 65.6629 397.492 64.0813C395.091 63.027 392.806 61.6798 390.756 60.0396L390.287 59.6296L393.685 50.3161L394.622 51.1362C394.973 51.4291 396.028 52.3663 396.379 52.6006C400.597 55.9979 404.58 57.5209 409.266 57.5209C413.659 57.5209 416.471 55.5879 416.471 52.6592V52.542C416.471 50.2576 415.768 48.5003 406.864 46.3916C396.789 43.9314 390.99 40.8269 390.99 31.9235V31.8063C390.99 23.4887 397.785 17.6897 407.45 17.6897C413.659 17.6897 418.931 19.3884 423.734 22.9615L424.261 23.3715L420.981 32.3921L420.044 31.6892C419.985 31.6306 419.751 31.4549 419.458 31.2792C419.165 31.0449 418.814 30.8106 418.696 30.6934C414.83 27.8818 411.082 26.5346 407.333 26.5346C403.408 26.5346 400.772 28.3504 400.772 31.0449V31.162C400.772 33.7979 401.768 35.3209 410.906 37.4882C418.872 39.4211 426.253 42.4671 426.253 51.722V51.8391C426.194 60.7426 419.458 66.4244 409.031 66.4244ZM392.337 59.0439C394.153 60.4497 396.145 61.5626 398.195 62.4998C401.592 63.9642 405.224 64.6671 409.031 64.6671C418.404 64.6671 424.437 59.6882 424.437 51.8977V51.7805C424.437 45.2201 420.512 41.7056 410.437 39.2454C402.354 37.3124 398.957 35.7895 398.957 31.2206V31.1034C398.957 27.4132 402.354 24.8359 407.274 24.8359C411.374 24.8359 415.475 26.3003 419.634 29.3462C419.692 29.4048 419.868 29.5219 420.044 29.6391L422.094 24.0744C417.759 20.9699 413.073 19.5055 407.391 19.5055C398.722 19.5055 392.689 24.6016 392.689 31.8649V31.9821C392.689 39.8312 397.609 42.4085 407.216 44.7515C415.533 46.6845 418.169 48.5589 418.169 52.6006V52.7177C418.169 56.7594 414.655 59.3367 409.207 59.3367C404.111 59.3367 399.777 57.6966 395.208 54.0064C395.032 53.8892 394.739 53.5964 394.388 53.3035L392.337 59.0439Z" fill="#E12A7B"/></svg></div>
+      <div class="vl-name">ATLAS SkillTech University <span>· BKC, Mumbai</span></div>
+    </div>
+    <div class="foot">Hosted by Vivek Yadav &amp; Yogesh Singh · <a href="https://luma.com/la88nwqr" target="_blank" class="lnk">luma.com/la88nwqr</a></div>
+  </section>
+
+  <!-- 2. THE OPPORTUNITY -->
+  <section class="slide" id="s2">
+    <div class="accent-line"></div>
+    <div class="topbar"><div class="brand-mini"><b style="color:var(--faint)">MAL</b></div><div class="num"><b>02</b> · THE GAP</div></div>
+    <div class="eyebrow"><span class="spark"></span> Why this, why now</div>
+    <h2>Mumbai is full of meetups. <br/>None of them build <span class="grad">architects.</span></h2>
+    <div class="grid g3" style="margin-top:40px">
+      <div class="card"><div class="ic">📉</div><h3>Beginner saturation</h3><p>The ecosystem is flooded with intro talks and slide decks. Senior engineers have nowhere to go deep on real production systems.</p></div>
+      <div class="card"><div class="ic">🧱</div><h3>No path to T-shaped</h3><p>The market rewards engineers who are <i>deep</i> in one stack, <i>fluent</i> across the rest, and grounded in fundamentals — observability, principles, trade-offs. Nowhere teaches all three together.</p></div>
+      <div class="card"><div class="ic">🎲</div><h3>Tools picked in the dark</h3><p>Tech leads choose SDKs, CI, analytics &amp; AI tooling for entire orgs — but rarely get to <i>use</i> them under real production pressure first.</p></div>
+    </div>
+    <p class="lead" style="margin-top:38px">MAL closes all three gaps at once — and puts your product at the centre of the moment a senior engineer decides what to adopt.</p>
+  </section>
+
+  <!-- 3. WHAT IS MAL -->
+  <section class="slide" id="s3">
+    <div class="accent-line"></div>
+    <div class="glow" style="background:var(--kotlin);top:40%;right:-160px;opacity:.3"></div>
+    <div class="topbar"><div class="brand-mini"><b style="color:var(--faint)">MAL</b></div><div class="num"><b>03</b> · THE FORMAT</div></div>
+    <div class="two">
+      <div>
+        <div class="eyebrow"><span class="spark"></span> Not a series. A lab.</div>
+        <h2>An applied engineering <br/>funnel — built live.</h2>
+        <p class="lead">Speakers teach the <i>decision</i>, not the feature. Across 5 Saturdays each architect builds <b>their own product</b> — a hyperlocal marketplace with offline-first AI — levelling it up every session across five dimensions:</p>
+        <ul class="clean">
+          <li><b>Architecture &amp; Platform Mastery</b> — real systems, real trade-offs</li>
+          <li><b>On-device &amp; Hybrid AI</b> — offline-first inference, MCP agents, codegen</li>
+          <li><b>Production DevOps</b> — CI/CD, OTA, observability</li>
+          <li><b>Design &amp; Growth</b> — UX, telemetry, deep links, attribution</li>
+          <li><b>Security</b> — pinning, RASP, VAPT on a real build</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <div class="eyebrow" style="margin-bottom:18px"><span class="spark"></span> The outcome funnel</div>
+        <div class="stat grad" style="font-size:58px">80–120</div>
+        <div class="stat-l">engineers in the room, <b style="color:var(--ink)">every session</b></div>
+        <div class="sep"></div>
+        <div class="stat" style="font-size:58px;color:var(--swift)">15–20</div>
+        <div class="stat-l">graduate as <b style="color:var(--ink)">Certified Mobile Architects</b> via take-home "Architect Proof" challenges</div>
+        <div class="sep"></div>
+        <div class="stat" style="font-size:36px">3 months</div>
+        <div class="stat-l">sustained engagement — not a one-night impression</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. AUDIENCE -->
+  <section class="slide" id="s4">
+    <div class="accent-line"></div>
+    <div class="topbar"><div class="brand-mini"><b style="color:var(--faint)">MAL</b></div><div class="num"><b>04</b> · THE AUDIENCE</div></div>
+    <div class="eyebrow"><span class="spark"></span> Who's in the room</div>
+    <h2>High-intent, high-seniority, <br/>decision-making developers.</h2>
+    <div class="grid g4" style="margin-top:42px">
+      <div class="card"><div class="stat grad" style="font-size:38px">Mid–Sr</div><div class="stat-l">Engineers, tech leads &amp; staff-level mobile devs</div></div>
+      <div class="card"><div class="stat grad" style="font-size:38px">Founders</div><div class="stat-l">Startup CTOs &amp; technical founders choosing their stack</div></div>
+      <div class="card"><div class="stat grad" style="font-size:38px">Gated</div><div class="stat-l">Application-reviewed entry — serious builders only</div></div>
+      <div class="card"><div class="stat grad" style="font-size:38px">400+</div><div class="stat-l">Cumulative senior-dev touchpoints across 5 sessions</div></div>
+    </div>
+    <div class="grid g2" style="margin-top:20px">
+      <div class="card"><h3>What they control</h3><p>SDK adoption, CI/CD platform, crash &amp; APM tooling, analytics &amp; attribution vendors, AI dev tools, cloud &amp; BaaS — for their companies, not just themselves.</p></div>
+      <div class="card"><h3>Why they show up</h3><p>To go from "coder" to "architect." They're motivated, they execute the challenges, and they remember exactly which tools made the live build work.</p></div>
+    </div>
+  </section>
+
+  <!-- 5. ROADMAP -->
+  <section class="slide" id="s5">
+    <div class="accent-line"></div>
+    <div class="topbar"><div class="brand-mini"><b style="color:var(--faint)">MAL</b></div><div class="num"><b>05</b> · THE ROADMAP</div></div>
+    <div class="eyebrow"><span class="spark"></span> 5 labs · 3 months · one product, built by every architect</div>
+    <h2>Where your tech gets used.</h2>
+    <div class="timeline">
+      <div class="tl"><div class="node" style="background:var(--flutter)"><svg viewBox="0 0 24 24"><path d="M14.314 0L2.3 12 6 15.7 21.684.013h-7.357zm.014 11.072L7.857 17.53l6.47 6.47H21.7l-6.46-6.468 6.46-6.46h-7.37z"/></svg></div><div class="d">JUL · LAB 1</div><div class="t">Flutter &amp; Design Systems</div><div class="s">Figma-to-code tokens, AI scaffolding, OTA (Shorebird), telemetry foundation.</div></div>
+      <div class="tl"><div class="node" style="background:var(--swift)"><svg viewBox="0 0 24 24"><path d="M7.508 0c-.287 0-.573 0-.86.002-.241.002-.483.003-.724.01-.132.003-.263.009-.395.015A9.154 9.154 0 0 0 4.348.15 5.492 5.492 0 0 0 2.85.645 5.04 5.04 0 0 0 .645 2.848c-.245.48-.4.972-.495 1.5-.093.52-.122 1.05-.136 1.576a35.2 35.2 0 0 0-.012.724C0 6.935 0 7.221 0 7.508v8.984c0 .287 0 .575.002.862.002.24.005.481.012.722.014.526.043 1.057.136 1.576.095.528.25 1.02.495 1.5a5.03 5.03 0 0 0 2.205 2.203c.48.244.97.4 1.498.495.52.093 1.05.124 1.576.138.241.007.483.009.724.01.287.002.573.002.86.002h8.984c.287 0 .573 0 .86-.002.241-.001.483-.003.724-.01a10.523 10.523 0 0 0 1.578-.138 5.322 5.322 0 0 0 1.498-.495 5.035 5.035 0 0 0 2.203-2.203c.245-.48.4-.972.495-1.5.093-.52.124-1.05.138-1.576.007-.241.009-.481.01-.722.002-.287.002-.575.002-.862V7.508c0-.287 0-.573-.002-.86a33.662 33.662 0 0 0-.01-.724 10.5 10.5 0 0 0-.138-1.576 5.328 5.328 0 0 0-.495-1.5A5.039 5.039 0 0 0 21.152.645 5.32 5.32 0 0 0 19.654.15a10.493 10.493 0 0 0-1.578-.138 34.98 34.98 0 0 0-.722-.01C17.067 0 16.779 0 16.492 0H7.508zm6.035 3.41c4.114 2.47 6.545 7.162 5.549 11.131-.024.093-.05.181-.076.272l.002.001c2.062 2.538 1.5 5.258 1.236 4.745-1.072-2.086-3.066-1.568-4.088-1.043a6.803 6.803 0 0 1-.281.158l-.02.012-.002.002c-2.115 1.123-4.957 1.205-7.812-.022a12.568 12.568 0 0 1-5.64-4.838c.649.48 1.35.902 2.097 1.252 3.019 1.414 6.051 1.311 8.197-.002C9.651 12.73 7.101 9.67 5.146 7.191a10.628 10.628 0 0 1-1.005-1.384c2.34 2.142 6.038 4.83 7.365 5.576C8.69 8.408 6.208 4.743 6.324 4.86c4.436 4.47 8.528 6.996 8.528 6.996.154.085.27.154.36.213.085-.215.16-.437.224-.668.708-2.588-.09-5.548-1.893-7.992z"/></svg></div><div class="d">JUL · LAB 2</div><div class="t">Native iOS / Swift</div><div class="s">Concurrency &amp; Actors, Instruments profiling, Universal Links, Maestro L1.</div></div>
+      <div class="tl"><div class="node" style="background:var(--kotlin)"><svg viewBox="0 0 24 24"><path d="M18.4395 5.5586c-.675 1.1664-1.352 2.3318-2.0274 3.498-.0366-.0155-.0742-.0286-.1113-.043-1.8249-.6957-3.484-.8-4.42-.787-1.8551.0185-3.3544.4643-4.2597.8203-.084-.1494-1.7526-3.021-2.0215-3.4864a1.1451 1.1451 0 0 0-.1406-.1914c-.3312-.364-.9054-.4859-1.379-.203-.475.282-.7136.9361-.3886 1.5019 1.9466 3.3696-.0966-.2158 1.9473 3.3593.0172.031-.4946.2642-1.3926 1.0177C2.8987 12.176.452 14.772 0 18.9902h24c-.119-1.1108-.3686-2.099-.7461-3.0683-.7438-1.9118-1.8435-3.2928-2.7402-4.1836a12.1048 12.1048 0 0 0-2.1309-1.6875c.6594-1.122 1.312-2.2559 1.9649-3.3848.2077-.3615.1886-.7956-.0079-1.1191a1.1001 1.1001 0 0 0-.8515-.5332c-.5225-.0536-.9392.3128-1.0488.5449zm-.0391 8.461c.3944.5926.324 1.3306-.1563 1.6503-.4799.3197-1.188.0985-1.582-.4941-.3944-.5927-.324-1.3307.1563-1.6504.4727-.315 1.1812-.1086 1.582.4941zM7.207 13.5273c.4803.3197.5506 1.0577.1563 1.6504-.394.5926-1.1038.8138-1.584.4941-.48-.3197-.5503-1.0577-.1563-1.6504.4008-.6021 1.1087-.8106 1.584-.4941z"/></svg></div><div class="d">AUG · LAB 3</div><div class="t">Native Android / Kotlin</div><div class="s">Compose, background workers, FCM segments, ProGuard/R8, Maestro L2.</div></div>
+      <div class="tl"><div class="node" style="background:var(--react)"><svg viewBox="0 0 24 24"><path d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44-.96-.236-2.006-.417-3.107-.534-.66-.905-1.345-1.727-2.035-2.447 1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442-1.107.117-2.154.298-3.113.538-.112-.49-.195-.964-.254-1.42-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87-.728.063-1.466.098-2.21.098-.74 0-1.477-.035-2.202-.093-.406-.582-.802-1.204-1.183-1.86-.372-.64-.71-1.29-1.018-1.946.303-.657.646-1.313 1.013-1.954.38-.66.773-1.286 1.18-1.868.728-.064 1.466-.098 2.21-.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933-.2-.39-.41-.783-.64-1.174-.225-.392-.465-.774-.705-1.146zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493-.28-.958-.646-1.956-1.1-2.98.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39.24-.375.48-.762.705-1.158.225-.39.435-.788.636-1.18zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143-.695-.102-1.365-.23-2.006-.386.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295-.22-.005-.406-.05-.553-.132-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z"/></svg></div><div class="d">SEP · LAB 4</div><div class="t">React Native</div><div class="s">New Arch (Fabric/TurboModules), 120Hz Reanimated, OTA, attribution.</div></div>
+      <div class="tl"><div class="node" style="background:var(--green)"><svg viewBox="0 0 24 24"><path d="M12 1l8.5 3.8v5.7c0 4.98-3.6 9.1-8.5 10.5-4.9-1.4-8.5-5.52-8.5-10.5V4.8z"/></svg></div><div class="d">SEP · LAB 5</div><div class="t">Enterprise &amp; Security</div><div class="s">Super-app shell, SSL pinning &amp; RASP, VAPT, KMP/Rust, graduation.</div></div>
+    </div>
+    <div class="grid g3" style="margin-top:48px">
+      <div class="card"><div class="ic">🛠️</div><h3 class="grad">Real integration</h3><p>Your SDK / API / cloud gets wired into 15–20 real builds — used in production conditions, not shown on a logo slide.</p></div>
+      <div class="card"><div class="ic">🏅</div><h3 class="grad">Architect Proofs</h3><p>Take-home challenges can require your tool. Architects ship it into a GitHub portfolio — with architecture decision records (ADRs) you can audit.</p></div>
+      <div class="card"><div class="ic">🔁</div><h3 class="grad">Repeat exposure</h3><p>5 sessions over 3 months means compounding brand recall — not a single forgettable evening.</p></div>
+    </div>
+  </section>
+
+  <!-- 6. WHY SPONSOR -->
+  <section class="slide" id="s6">
+    <div class="accent-line"></div>
+    <div class="glow" style="background:var(--swift);bottom:-160px;right:-120px;opacity:.3"></div>
+    <div class="topbar"><div class="brand-mini"><b style="color:var(--faint)">MAL</b></div><div class="num"><b>06</b> · THE VALUE</div></div>
+    <div class="two">
+      <div>
+        <div class="eyebrow"><span class="spark"></span> The pitch in one line</div>
+        <p class="quote">Standard sponsorships buy a logo people ignore. MAL embeds your product into <b>the build</b> — and into the codebases of the engineers who pick tools for their teams.</p>
+      </div>
+      <div>
+        <ul class="clean">
+          <li><b>Broad reach + deep adoption.</b> 80–120 in the room <i>and</i> 15–20 architects building with you.</li>
+          <li><b>Real product feedback</b> from senior engineers using your platform under pressure.</li>
+          <li><b>Targeted recruiting.</b> Direct access to a pre-vetted pool of elite mobile talent.</li>
+          <li><b>Category ownership</b> as the tool associated with Mumbai's most serious mobile program.</li>
+          <li><b>Content afterlife.</b> Your tech features in session recordings, repos &amp; social clips.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. TIERS -->
+  <section class="slide" id="s7">
+    <div class="accent-line"></div>
+    <div class="topbar"><div class="brand-mini"><b style="color:var(--faint)">MAL</b></div><div class="num"><b>07</b> · THE TIERS</div></div>
+    <div class="eyebrow"><span class="spark"></span> Sponsorship packages</div>
+    <h2>Five ways to partner.</h2>
+    <div class="tiers">
+      <div class="tier feat">
+        <span class="badge b-title">Title</span>
+        <div class="price">₹50,000</div><div class="slot">1 slot · exclusive</div>
+        <ul>
+          <li>Series naming &amp; "Powered by"</li>
+          <li>Live integration · all 5 labs</li>
+          <li>Architect Proof inclusion</li>
+          <li>10-min keynote ×5</li>
+          <li>Lead logo + finale jury seat</li>
+          <li>Premium booth + hiring + socials</li>
+        </ul>
+      </div>
+      <div class="tier">
+        <span class="badge b-plat">Platinum</span>
+        <div class="price">₹30,000</div><div class="slot">2 slots</div>
+        <ul>
+          <li class="no">Series naming</li>
+          <li>Live integration · all 5 labs</li>
+          <li>Architect Proof inclusion</li>
+          <li>5-min keynote ×2</li>
+          <li>Logo on all assets</li>
+          <li>Booth + hiring access</li>
+        </ul>
+      </div>
+      <div class="tier">
+        <span class="badge b-gold">Hiring</span>
+        <div class="price">₹20,000</div><div class="slot">4 slots · recruiting</div>
+        <ul>
+          <li>Full cohort résumé book</li>
+          <li>Intros to 15–20 architects</li>
+          <li>On-site interview corner</li>
+          <li>"We're hiring" lightning slot</li>
+          <li>Logo on all assets</li>
+          <li class="no">Live integration</li>
+        </ul>
+      </div>
+      <div class="tier">
+        <span class="badge b-acad">Academic</span>
+        <div class="price">₹2,000</div><div class="slot">colleges · labs · student bodies</div>
+        <ul>
+          <li>5 reserved student seats / lab</li>
+          <li>1 sponsored Architect Proof seat</li>
+          <li>Faculty observer passes</li>
+          <li>Academic-partner logo wall</li>
+          <li>Campus talent pipeline + CVs</li>
+          <li class="no">Live integration</li>
+        </ul>
+      </div>
+      <div class="tier">
+        <span class="badge b-comm">Community</span>
+        <div class="price">In-kind</div><div class="slot">credits · devices · swag · food</div>
+        <ul>
+          <li class="no">Series naming</li>
+          <li class="no">Live integration</li>
+          <li class="no">Architect Proof</li>
+          <li class="no">Keynote</li>
+          <li>Community-wall logo</li>
+          <li>Group social mention</li>
+        </ul>
+      </div>
+    </div>
+    <p class="faint" style="margin-top:20px;font-size:12.5px;font-family:'JetBrains Mono';letter-spacing:.03em">Pricing kept intentionally accessible for the Mumbai market — adjustable per cash vs. in-kind value. Title slot is exclusive.</p>
+  </section>
+
+  <!-- 8. INTEGRATION -->
+  <section class="slide" id="s8">
+    <div class="accent-line"></div>
+    <div class="topbar"><div class="brand-mini"><b style="color:var(--faint)">MAL</b></div><div class="num"><b>08</b> · THE INTEGRATION</div></div>
+    <div class="eyebrow"><span class="spark"></span> Who fits MAL</div>
+    <h2>Your category, across <span class="grad">every lab.</span></h2>
+    <p class="lead" style="margin-top:14px">No single-session slotting. Your product is woven through all 5 labs — wherever it fits the live build, it shows up, session after session.</p>
+    <div class="grid g3" style="margin-top:30px">
+      <div class="card int"><div class="bar" style="background:var(--flutter)"></div><div><h3 style="color:var(--flutter)">Cloud &amp; BaaS</h3><p style="margin-top:6px">Backend, auth, storage &amp; realtime the product runs on — in every lab.</p></div></div>
+      <div class="card int"><div class="bar" style="background:var(--kotlin)"></div><div><h3 style="color:var(--kotlin)">AI Dev Tools</h3><p style="margin-top:6px">Coding assistants, MCP agents &amp; codegen used live throughout the build.</p></div></div>
+      <div class="card int"><div class="bar" style="background:var(--kotlin)"></div><div><h3 style="color:var(--kotlin)">On-device &amp; Hybrid AI</h3><p style="margin-top:6px">On-device inference runtimes &amp; small models — Gemini Nano, Core ML, ONNX, MediaPipe — powering the offline-first AI in every build.</p></div></div>
+      <div class="card int"><div class="bar" style="background:var(--swift)"></div><div><h3 style="color:var(--swift)">CI/CD &amp; Delivery</h3><p style="margin-top:6px">Pipelines, build infra &amp; OTA shipping wired in across all 5 sessions.</p></div></div>
+      <div class="card int"><div class="bar" style="background:var(--react)"></div><div><h3 style="color:var(--react)">Monitoring &amp; APM</h3><p style="margin-top:6px">Crash, performance &amp; observability watching the app as it grows.</p></div></div>
+      <div class="card int"><div class="bar" style="background:var(--green)"></div><div><h3 style="color:var(--green)">Security &amp; AppSec</h3><p style="margin-top:6px">RASP, SSL pinning, secrets &amp; VAPT hardening the production build.</p></div></div>
+      <div class="card int" style="background:var(--glass-2)"><div class="bar" style="background:linear-gradient(var(--flutter),var(--swift))"></div><div><h3 class="grad">Analytics &amp; Growth</h3><p style="margin-top:6px">Telemetry, funnels, attribution &amp; deep-link tooling from lab one onward.</p></div></div>
+    </div>
+  </section>
+
+  <!-- 9. TEAM + CTA -->
+  <section class="slide" id="s9">
+    <div class="accent-line"></div>
+    <div class="glow" style="background:var(--flutter);top:-160px;left:30%;opacity:.32"></div>
+    <div class="topbar"><div class="brand-mini"><b style="color:var(--faint)">MAL</b></div><div class="num"><b>09</b> · LET'S PARTNER</div></div>
+    <div class="two">
+      <div>
+        <div class="eyebrow"><span class="spark"></span> Hosts &amp; organizers</div>
+        <h2>Built by practitioners, <br/>for practitioners.</h2>
+        <div class="grid g2" style="margin-top:26px">
+          <div class="card"><h3>Vivek Yadav</h3><p style="margin-top:6px">Lead organizer · curriculum &amp; tech ops</p></div>
+          <div class="card"><h3>Yogesh Singh</h3><p style="margin-top:6px">Co-host · community &amp; cohort experience</p></div>
+        </div>
+        <div class="card int" style="margin-top:20px;background:var(--glass-2)">
+          <div class="bar" style="background:var(--grad)"></div>
+          <div>
+            <div style="font-family:'JetBrains Mono';font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--faint);margin-bottom:5px">Venue Partner</div>
+            <h3>ATLAS SkillTech University</h3>
+            <p style="margin-top:5px">BKC, Mumbai — Maharashtra's premier business &amp; innovation district.</p>
+            <div class="venue-logo" style="margin-top:14px"><svg viewBox="0 0 496 108" role="img" aria-label="ATLAS SkillTech University · ISDI" xmlns="http://www.w3.org/2000/svg"><path d="M73.9806 85.9885L37.0196 64.6671L0.0585938 85.9885L37.0196 107.427L73.9806 85.9885Z" fill="#AEAACB"/><path d="M0.0585938 21.3214V64.0228L37.0196 85.3442L73.9806 64.0228V21.3214L37.0196 0L0.0585938 21.3214Z" fill="#342B7C"/><path d="M73.9806 21.3214V64.0228L37.0196 85.3442V42.76L0 21.3214L37.0196 0L73.9806 21.3214Z" fill="#3CA7B6"/><path d="M55.5293 32.0406L37.0195 85.4028L73.9806 64.0813L55.5293 32.0406ZM57.1694 49.7304L63.847 61.3283L50.4333 69.0602L57.1694 49.7304Z" fill="#342B7C"/><path d="M335.871 69.4703V14.6438H341.26V69.4703H335.871Z" fill="#E12A7B"/><path d="M242.678 20.1499L220.771 64.0228H264.585L242.678 20.1499ZM242.678 40.5927L249.824 54.8265H235.59L242.678 40.5927Z" fill="#342B7C"/><path d="M117.853 20.1499L95.8877 64.0228H139.761L117.853 20.1499ZM117.853 40.5927L125 54.8265H110.766L117.853 40.5927Z" fill="#342B7C"/><path d="M160.614 29.9906V64.0228H151.242V29.9906H138.238V21.3214H173.617V29.9906H160.614Z" fill="#342B7C"/><path d="M183.458 64.0228V21.3214H192.83V55.4708H214.093V64.0228H183.458Z" fill="#342B7C"/><path d="M287.312 64.6086C280.869 64.6086 274.308 62.3242 269.212 57.7553L274.777 51.1363C278.643 54.2993 282.626 56.2909 287.546 56.2909C291.412 56.2909 293.697 54.7679 293.697 52.2492V52.132C293.697 49.7305 292.232 48.559 285.086 46.6845C276.476 44.5173 270.969 42.1157 270.969 33.6223V33.5051C270.969 25.7732 277.178 20.6185 285.906 20.6185C292.115 20.6185 297.445 22.5515 301.78 26.066L296.918 33.1536C293.111 30.5178 289.421 28.9362 285.848 28.9362C282.274 28.9362 280.341 30.5763 280.341 32.6265V32.7436C280.341 35.5552 282.157 36.4339 289.538 38.3669C298.207 40.6513 303.069 43.7558 303.069 51.1948V51.312C303.01 59.8054 296.508 64.6086 287.312 64.6086Z" fill="#342B7C"/><path d="M382.38 19.2712H374.355V64.9014H382.38V19.2712Z" fill="#E12A7B"/><path d="M383.258 65.78H373.476V18.3926H383.258V65.78ZM375.234 64.0227H381.501V20.1498H375.234V64.0227Z" fill="#E12A7B"/><path d="M494.961 19.2712H486.937V64.9014H494.961V19.2712Z" fill="#E12A7B"/><path d="M495.84 65.78H486.058V18.3926H495.84V65.78ZM487.815 64.0227H494.083V20.1498H487.815V64.0227Z" fill="#E12A7B"/><path d="M455.482 19.2712H440.604L429.943 48.6175H438.495V64.9014H455.54C469.891 64.9014 479.79 54.9436 479.79 42.057V41.9399C479.732 29.1119 469.833 19.2712 455.482 19.2712ZM471.297 42.1742C471.297 51.1362 465.03 57.5795 455.482 57.5795H446.461V48.5589H438.436L446.461 26.5346H455.423C465.029 26.5346 471.238 33.095 471.238 42.057V42.1742H471.297Z" fill="#E12A7B"/><path d="M455.482 65.78H437.558V49.4375H428.654L439.959 18.334H455.423C470.008 18.334 480.552 28.2332 480.552 41.8813V41.9984C480.61 55.8222 470.008 65.78 455.482 65.78ZM439.315 64.0227H455.482C469.012 64.0227 478.853 54.7678 478.853 42.057V41.9398C478.853 29.2876 469.012 20.1498 455.482 20.1498H441.248L431.231 47.7388H437.909L445.934 25.7145H455.54C465.381 25.7145 472.234 32.4506 472.234 42.1156V42.2327C472.234 51.8391 465.381 58.5166 455.54 58.5166H445.582V49.4375H439.315V64.0227ZM447.34 56.7008H455.482C464.444 56.7008 470.418 50.8433 470.418 42.1741V42.057C470.418 33.4464 464.268 27.4132 455.482 27.4132H447.105L439.725 47.6802H447.34V56.7008Z" fill="#E12A7B"/><path d="M394.036 51.8392C394.387 52.132 395.5 53.0692 395.793 53.3621C399.835 56.6423 403.994 58.4582 409.207 58.4582C414.186 58.4582 417.29 56.1737 417.29 52.7178V52.6006C417.29 49.3204 415.475 47.5632 406.981 45.6302C397.258 43.2872 391.81 40.417 391.81 31.9821V31.865C391.81 24.0159 398.312 18.627 407.391 18.627C414.069 18.627 418.989 20.6771 423.148 23.723L420.512 31.0449C420.336 30.9278 419.341 30.1663 419.165 30.0491C415.24 27.2375 411.316 25.7146 407.274 25.7146C402.588 25.7146 399.835 28.1162 399.835 31.1035V31.2206C399.835 34.7352 401.944 36.3167 410.671 38.3668C420.336 40.7098 425.315 44.1658 425.315 51.722V51.8392C425.315 60.3911 418.579 65.4872 409.031 65.4872C405.165 65.4872 401.358 64.7257 397.843 63.2028C395.559 62.207 393.333 60.9183 391.283 59.2782L394.036 51.8392Z" fill="#E12A7B"/><path d="M409.031 66.4244C404.99 66.4244 401.124 65.6629 397.492 64.0813C395.091 63.027 392.806 61.6798 390.756 60.0396L390.287 59.6296L393.685 50.3161L394.622 51.1362C394.973 51.4291 396.028 52.3663 396.379 52.6006C400.597 55.9979 404.58 57.5209 409.266 57.5209C413.659 57.5209 416.471 55.5879 416.471 52.6592V52.542C416.471 50.2576 415.768 48.5003 406.864 46.3916C396.789 43.9314 390.99 40.8269 390.99 31.9235V31.8063C390.99 23.4887 397.785 17.6897 407.45 17.6897C413.659 17.6897 418.931 19.3884 423.734 22.9615L424.261 23.3715L420.981 32.3921L420.044 31.6892C419.985 31.6306 419.751 31.4549 419.458 31.2792C419.165 31.0449 418.814 30.8106 418.696 30.6934C414.83 27.8818 411.082 26.5346 407.333 26.5346C403.408 26.5346 400.772 28.3504 400.772 31.0449V31.162C400.772 33.7979 401.768 35.3209 410.906 37.4882C418.872 39.4211 426.253 42.4671 426.253 51.722V51.8391C426.194 60.7426 419.458 66.4244 409.031 66.4244ZM392.337 59.0439C394.153 60.4497 396.145 61.5626 398.195 62.4998C401.592 63.9642 405.224 64.6671 409.031 64.6671C418.404 64.6671 424.437 59.6882 424.437 51.8977V51.7805C424.437 45.2201 420.512 41.7056 410.437 39.2454C402.354 37.3124 398.957 35.7895 398.957 31.2206V31.1034C398.957 27.4132 402.354 24.8359 407.274 24.8359C411.374 24.8359 415.475 26.3003 419.634 29.3462C419.692 29.4048 419.868 29.5219 420.044 29.6391L422.094 24.0744C417.759 20.9699 413.073 19.5055 407.391 19.5055C398.722 19.5055 392.689 24.6016 392.689 31.8649V31.9821C392.689 39.8312 397.609 42.4085 407.216 44.7515C415.533 46.6845 418.169 48.5589 418.169 52.6006V52.7177C418.169 56.7594 414.655 59.3367 409.207 59.3367C404.111 59.3367 399.777 57.6966 395.208 54.0064C395.032 53.8892 394.739 53.5964 394.388 53.3035L392.337 59.0439Z" fill="#E12A7B"/></svg></div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="eyebrow" style="margin-bottom:16px"><span class="spark"></span> Reserve your tier</div>
+        <p class="muted" style="margin-bottom:24px;font-size:15px">Title &amp; Platinum slots are limited and allocated first-come. We'll tailor the integration to your product in a 20-minute call.</p>
+        <div class="cta-line"><span class="ic">✉</span><a href="mailto:viveky259259@gmail.com">viveky259259@gmail.com</a></div>
+        <div class="cta-line" style="margin-top:14px"><span class="ic">☎</span><a href="tel:+917021730766">+91 70217 30766</a></div>
+        <div class="cta-line" style="margin-top:14px;font-size:18px"><span class="ic">↗</span><a href="https://luma.com/la88nwqr" target="_blank">luma.com/la88nwqr</a></div>
+      </div>
+    </div>
+    <div class="foot">Mobile Architecture Lab · Mumbai 2026 · Sponsorship Prospectus</div>
+  </section>
+
+<div class="nav">
+  <button onclick="move(-1)" aria-label="Previous">‹</button>
+  <button onclick="move(1)" aria-label="Next">›</button>
+</div>
+<script>
+  const slides=[...document.querySelectorAll('.slide')];let i=0;
+  function go(n){i=Math.max(0,Math.min(slides.length-1,n));slides[i].scrollIntoView({behavior:'smooth'});}
+  function move(d){go(i+d);}
+  addEventListener('keydown',e=>{
+    if(['ArrowDown','ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();move(1);}
+    if(['ArrowUp','ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();move(-1);}
+  });
+  const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting)i=slides.indexOf(en.target);}),{threshold:.6});
+  slides.forEach(s=>io.observe(s));
+</script>
+</body>
+</html>

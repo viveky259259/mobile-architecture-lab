@@ -1,0 +1,14 @@
+# Internal strategy — keep local, not for public repo
+DESIGN.md
+REVIEWS.md
+conversations.md
+
+# Tooling / local artifacts
+.gstack/
+.netlify/
+.DS_Store
+
+# Working scaffolds & render previews
+logo/_*.html
+*-preview.png
+preview-cover.png

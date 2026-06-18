@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MAL — Mumbai Mobile Architect Lab</title>
+<meta name="description" content="A 5-part engineering lab that turns senior mobile engineers into T-shaped architects. Build a real offline-first, AI-powered product across 5 labs. Lab 1: 11 July 2026, Atlas, Mumbai." />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="MAL — Mumbai Architecture Lab" />
+<meta property="og:description" content="A 5-lab series that turns senior engineers into T-shaped mobile architects. Lab 1: 11 July 2026, Atlas, Mumbai." />
+<meta property="og:image" content="https://mumbaiarchitecturelab.netlify.app/og-image.png" />
+<meta property="og:url" content="https://mumbaiarchitecturelab.netlify.app/" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --flutter:#3DA8F5; --swift:#FF7A5C; --kotlin:#A77BFF; --react:#61DAFB; --green:#5EE6A8;
+    --bg:#070A12; --bg-2:#0B0F1A;
+    --ink:#F3F7FF; --muted:#A8B4CC; --faint:#6A7790;
+    --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.14);
+    --glass:rgba(255,255,255,.035); --glass-2:rgba(255,255,255,.06);
+    --grad:linear-gradient(110deg,var(--flutter),var(--kotlin) 50%,var(--swift));
+    --shadow:0 30px 80px -24px rgba(0,0,0,.7);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.55;letter-spacing:-.005em;overflow-x:hidden}
+  h1,h2,h3,.eyebrow,.kicker{font-family:"Sora",sans-serif}
+  a{color:inherit;text-decoration:none}
+  .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .mono{font-family:"JetBrains Mono",monospace}
+
+  /* ---------- nav ---------- */
+  .nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:18px 7vw;backdrop-filter:blur(14px);background:rgba(7,10,18,.55);border-bottom:1px solid var(--line)}
+  .nav .brand{font-family:"Sora";font-weight:800;letter-spacing:.04em;font-size:18px;display:flex;align-items:center;gap:11px}
+  .nav .brand .ico{width:34px;height:34px;border-radius:9px;display:block}
+  .nav .brand span{color:var(--faint);font-weight:600;font-size:12px;letter-spacing:.18em;margin-left:8px}
+  .nav .links{display:flex;gap:28px;align-items:center;font-size:14px;color:var(--muted)}
+  .nav .links a:hover{color:var(--ink)}
+  .nav .cta{padding:9px 18px;border-radius:999px;background:var(--grad);color:#04060c;font-weight:700;font-size:13.5px}
+  @media(max-width:760px){.nav .links a:not(.cta){display:none}.nav{padding:14px 6vw}}
+
+  /* ---------- section shell ---------- */
+  section{position:relative;padding:130px 7vw 110px;overflow:hidden}
+  .glow{position:absolute;width:560px;height:560px;border-radius:50%;filter:blur(130px);opacity:.28;pointer-events:none;z-index:0}
+  .inner{position:relative;z-index:1;max-width:1120px;margin:0 auto}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+    padding:7px 14px;border:1px solid var(--line-2);border-radius:999px;background:var(--glass)}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
+  .lead{color:var(--muted);font-size:19px;max-width:620px;line-height:1.6}
+
+  /* ---------- hero ---------- */
+  #hero{min-height:100vh;display:flex;align-items:center;
+    background:radial-gradient(1200px 600px at 70% -5%,rgba(61,168,245,.10),transparent 60%)}
+  #hero h1{font-size:clamp(40px,6.4vw,80px);line-height:1.02;font-weight:800;letter-spacing:-.02em;margin:26px 0 22px}
+  #hero .lead{font-size:21px;max-width:640px}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-top:40px}
+  .btn{padding:15px 30px;border-radius:999px;font-weight:700;font-size:15.5px;font-family:"Sora";transition:.2s;display:inline-flex;align-items:center;gap:10px}
+  .btn-primary{background:var(--grad);color:#04060c;box-shadow:0 16px 40px -16px rgba(61,168,245,.6)}
+  .btn-primary:hover{transform:translateY(-2px)}
+  .btn-ghost{border:1px solid var(--line-2);color:var(--ink);background:var(--glass)}
+  .btn-ghost:hover{border-color:var(--ink)}
+  .herometa{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:46px;font-size:14px;color:var(--muted)}
+  .herometa b{color:var(--ink);font-weight:600}
+  .stats{display:flex;gap:46px;flex-wrap:wrap;margin-top:54px;padding-top:34px;border-top:1px solid var(--line)}
+  .stat .n{font-family:"Sora";font-weight:800;font-size:38px;line-height:1}
+  .stat .l{font-size:13.5px;color:var(--faint);margin-top:8px;max-width:170px}
+
+  /* ---------- cards / grids ---------- */
+  .kicker{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--flutter);font-weight:600}
+  h2{font-size:clamp(30px,4.2vw,46px);line-height:1.08;font-weight:700;letter-spacing:-.015em;margin:14px 0 18px}
+  .grid{display:grid;gap:18px;margin-top:46px}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  @media(max-width:860px){.g3,.g2{grid-template-columns:1fr}}
+  .card{padding:26px 24px;border:1px solid var(--line);border-radius:18px;background:var(--glass);transition:.2s}
+  .card:hover{border-color:var(--line-2);background:var(--glass-2);transform:translateY(-3px)}
+  .card .ic{font-size:24px;margin-bottom:14px}
+  .card h3{font-size:18.5px;font-weight:600;margin-bottom:8px}
+  .card p{color:var(--muted);font-size:14.5px}
+
+  /* ---------- timeline ---------- */
+  .labs{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:46px}
+  @media(max-width:860px){.labs{grid-template-columns:1fr}}
+  .lab{padding:22px 18px;border:1px solid var(--line);border-radius:16px;background:var(--glass);position:relative}
+  .lab .num{font-family:"JetBrains Mono";font-size:12px;color:var(--faint)}
+  .lab .bar{height:3px;width:38px;border-radius:3px;margin:14px 0 12px}
+  .lab h4{font-family:"Sora";font-size:15px;font-weight:600;margin-bottom:6px}
+  .lab p{font-size:12.5px;color:var(--muted);line-height:1.5}
+  .lab.cur{background:linear-gradient(180deg,rgba(61,168,245,.10),var(--glass));border-color:rgba(61,168,245,.4)}
+  .lab .tag{position:absolute;top:-9px;right:14px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+    background:var(--flutter);color:#04060c;font-weight:700;padding:3px 9px;border-radius:999px}
+
+  /* ---------- product callout ---------- */
+  .product{margin-top:30px;padding:28px 30px;border:1px solid var(--line-2);border-radius:20px;
+    background:linear-gradient(120deg,rgba(167,123,255,.08),rgba(61,168,245,.06));display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+  .product .big{font-family:"Sora";font-weight:700;font-size:22px;flex:1;min-width:260px}
+  .product .tags{display:flex;gap:8px;flex-wrap:wrap}
+  .pill{font-size:12.5px;padding:7px 13px;border-radius:999px;border:1px solid var(--line-2);background:var(--glass);color:var(--muted)}
+
+  /* ---------- lab1 / apply ---------- */
+  #apply{background:radial-gradient(1000px 520px at 30% 110%,rgba(255,122,92,.10),transparent 60%)}
+  .applywrap{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:start}
+  @media(max-width:900px){.applywrap{grid-template-columns:1fr}}
+  .leave{list-style:none;margin-top:8px}
+  .leave li{padding:11px 0;border-bottom:1px solid var(--line);color:var(--muted);font-size:15px;display:flex;gap:12px}
+  .leave li b{color:var(--ink);font-weight:600}
+  .leave li::before{content:"→";color:var(--flutter)}
+  .panel{padding:30px 28px;border:1px solid var(--line-2);border-radius:22px;background:var(--glass-2);box-shadow:var(--shadow)}
+  .panel .when{font-family:"Sora";font-weight:800;font-size:26px;margin-bottom:4px}
+  .panel .where{color:var(--muted);font-size:15px;margin-bottom:22px}
+  .detail{display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid var(--line);font-size:14.5px}
+  .detail .k{color:var(--faint)} .detail .v{color:var(--ink);font-weight:600;text-align:right}
+  .panel .btn{width:100%;justify-content:center;margin-top:24px}
+  .gated{margin-top:14px;font-size:12.5px;color:var(--faint);text-align:center}
+
+  footer{padding:50px 7vw;border-top:1px solid var(--line);text-align:center;color:var(--faint);font-size:13.5px}
+  footer a{color:var(--muted)} footer a:hover{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="brand"><img class="ico" src="/favicon.svg" alt="MAL logo"/>MAL<span>MUMBAI ARCHITECTURE LAB</span></div>
+  <div class="links">
+    <a href="#how">How it works</a>
+    <a href="#apply">Lab 1</a>
+    <a class="cta" href="https://luma.com/iwn39kby" target="_blank" rel="noopener">Apply →</a>
+  </div>
+</nav>
+
+<!-- ===================== 1 · HERO ===================== -->
+<section id="hero">
+  <div class="glow" style="background:var(--flutter);top:-160px;right:-120px"></div>
+  <div class="glow" style="background:var(--kotlin);bottom:-200px;left:-160px;opacity:.2"></div>
+  <div class="inner">
+    <span class="eyebrow"><span class="dot"></span> 5 labs · 3 months · Mumbai</span>
+    <h1>Become a <span class="grad">mobile architect.</span><br/>Not just a mobile developer.</h1>
+    <p class="lead">MAL is an application-only engineering lab for senior mobile engineers. Over five sessions you build one real, production-grade product — and walk out <b style="color:var(--ink)">T-shaped</b>: deep in one stack, fluent across the rest, grounded in the fundamentals that actually get you hired.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="https://luma.com/iwn39kby" target="_blank" rel="noopener">Apply for Lab 1 →</a>
+      <a class="btn btn-ghost" href="#how">See how it works</a>
+    </div>
+    <div class="herometa">
+      <span>🗓️ <b>Lab 1 · 11 July 2026</b></span>
+      <span>📍 <b>Atlas, Mumbai</b></span>
+      <span>🎟️ <b>Free · application-gated</b></span>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="n grad">80–120</div><div class="l">senior engineers in the room each lab</div></div>
+      <div class="stat"><div class="n grad">15–20</div><div class="l">graduate as certified mobile architects</div></div>
+      <div class="stat"><div class="n grad">1</div><div class="l">real product you build end-to-end</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 2 · HOW IT WORKS ===================== -->
+<section id="how" style="background:var(--bg-2)">
+  <div class="glow" style="background:var(--green);top:10%;left:-180px;opacity:.14"></div>
+  <div class="inner">
+    <div class="kicker">How it works</div>
+    <h2>You don't attend MAL.<br/>You <span class="grad">build through it.</span></h2>
+    <p class="lead">Speakers teach the <i>decision</i>, not the feature. Each architect builds their own app and levels it up every lab — learning the gaps, defending the trade-offs, shipping real code.</p>
+
+    <div class="product">
+      <div class="big">Everyone builds the same brief:<br/><span class="grad">a hyperlocal marketplace with offline-first AI.</span></div>
+      <div class="tags">
+        <span class="pill">Offline-first sync</span>
+        <span class="pill">On-device AI</span>
+        <span class="pill">Deep links</span>
+        <span class="pill">Observability</span>
+        <span class="pill">Scale</span>
+      </div>
+    </div>
+
+    <div class="grid g3">
+      <div class="card"><div class="ic">🧱</div><h3>Deep, then broad</h3><p>Go deep in your primary stack, fluent across the others — exactly the T-shape the market hires for.</p></div>
+      <div class="card"><div class="ic">🏛️</div><h3>Decisions, not just code</h3><p>Every lab you write an Architecture Decision Record. Reasoning is the artifact that separates an architect from a coder.</p></div>
+      <div class="card"><div class="ic">👥</div><h3>Pods + mentors</h3><p>You build individually but review in pods of 4–5 with a mentor architect — never stuck, never coasting.</p></div>
+    </div>
+
+    <div class="kicker" style="margin-top:64px">The arc</div>
+    <div class="labs">
+      <div class="lab cur"><span class="tag">11 Jul</span><div class="num">LAB 01</div><div class="bar" style="background:var(--flutter)"></div><h4>Flutter &amp; Foundations</h4><p>Architecture skeleton + your first on-device AI feature.</p></div>
+      <div class="lab"><div class="num">LAB 02</div><div class="bar" style="background:var(--swift)"></div><h4>Native iOS / Swift</h4><p>Concurrency, performance, release pipeline.</p></div>
+      <div class="lab"><div class="num">LAB 03</div><div class="bar" style="background:var(--kotlin)"></div><h4>Native Android / Kotlin</h4><p>Modularization, CI/CD, crash analytics.</p></div>
+      <div class="lab"><div class="num">LAB 04</div><div class="bar" style="background:var(--react)"></div><h4>React Native</h4><p>Deep links, multi-env, growth &amp; attribution.</p></div>
+      <div class="lab"><div class="num">LAB 05</div><div class="bar" style="background:var(--green)"></div><h4>Synthesis &amp; Scale</h4><p>Observability, resilience, architecture defense.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 3 · LAB 1 + APPLY ===================== -->
+<section id="apply">
+  <div class="glow" style="background:var(--swift);bottom:-160px;right:-120px;opacity:.2"></div>
+  <div class="inner">
+    <div class="kicker">It starts here</div>
+    <h2>Lab 1 — <span class="grad">Flutter &amp; Foundations</span></h2>
+    <div class="applywrap">
+      <div>
+        <p class="lead" style="max-width:560px">This isn't an intro-to-Flutter meetup. In one focused 4-hour session you lay the architectural foundation of the product and leave with a working skeleton and your first decisions on paper.</p>
+        <ul class="leave">
+          <li><span><b>A walking skeleton</b> of your app in Flutter</span></li>
+          <li><span><b>Your first ADR</b> — a documented architecture decision</span></li>
+          <li><span><b>A clear path</b> to extend it before Lab 2</span></li>
+          <li><span><b>A spot in the cohort</b>, if you keep shipping</span></li>
+        </ul>
+        <p style="margin-top:24px;color:var(--muted);font-size:14.5px"><b style="color:var(--ink)">Who should apply:</b> mid-to-senior mobile engineers, tech leads, and technical founders ready to commit to the full series. Some Flutter familiarity helps — the focus is architecture and decisions, not syntax. Not for absolute beginners.</p>
+      </div>
+      <div class="panel">
+        <div class="when">11 July 2026</div>
+        <div class="where">Saturday · 4 hours</div>
+        <div class="detail"><span class="k">Venue</span><span class="v">Atlas, Mumbai</span></div>
+        <div class="detail"><span class="k">Entry</span><span class="v">Free · gated</span></div>
+        <div class="detail"><span class="k">Format</span><span class="v">Talks + live build</span></div>
+        <div class="detail"><span class="k">Seats</span><span class="v">Capped</span></div>
+        <a class="btn btn-primary" href="https://luma.com/iwn39kby" target="_blank" rel="noopener">Apply now →</a>
+        <div class="gated">Every application is reviewed to keep the room serious.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div style="font-family:'Sora';font-weight:800;letter-spacing:.05em;color:var(--ink);margin-bottom:8px">MAL</div>
+  Mumbai Mobile Architect Lab · Built by practitioners, for practitioners.<br/>
+  <a href="/sponsor">Sponsor MAL</a> &nbsp;·&nbsp; <a href="https://luma.com/iwn39kby" target="_blank" rel="noopener">Apply for Lab 1</a>
+</footer>
+
+</body>
+</html>
