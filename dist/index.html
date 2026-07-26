@@ -3,21 +3,34 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>MAL — Mumbai Mobile Architect Lab</title>
-<meta name="description" content="A 5-part engineering lab that turns senior mobile engineers into T-shaped architects. Build a real offline-first, AI-powered product across 5 labs. Lab 1: 11 July 2026, Atlas, Mumbai." />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<title>MAL — Mobile Architecture Lab</title>
+<meta name="description" content="A 5-part engineering lab that turns senior mobile engineers into T-shaped architects. Build a real offline-first, AI-powered product across 5 labs. Lab 1: July 11, 2026, Paytm, Mumbai." />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="MAL — Mumbai Architecture Lab" />
-<meta property="og:description" content="A 5-lab series that turns senior engineers into T-shaped mobile architects. Lab 1: 11 July 2026, Atlas, Mumbai." />
-<meta property="og:image" content="https://mumbaiarchitecturelab.netlify.app/og-image.png" />
-<meta property="og:url" content="https://mumbaiarchitecturelab.netlify.app/" />
+<meta property="og:title" content="MAL — Mobile Architecture Lab" />
+<meta property="og:description" content="A 5-lab series that turns senior engineers into T-shaped mobile architects. Lab 1: July 11, 2026, Paytm, Mumbai." />
+<meta property="og:image" content="https://mobilearchitecturelab.netlify.app/og-image.png" />
+<meta property="og:url" content="https://mobilearchitecturelab.netlify.app/" />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<script>
+  (function(){
+    try {
+      var stored = localStorage.getItem('mal-theme');
+      var prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      var isLight = stored === 'light' || (!stored && prefersLight);
+      if (isLight) {
+        document.documentElement.dataset.theme = 'light';
+      }
+    } catch (e) {}
+  })();
+</script>
 <style>
   :root{
+    color-scheme:dark;
     --flutter:#3DA8F5; --swift:#FF7A5C; --kotlin:#A77BFF; --react:#61DAFB; --green:#5EE6A8;
     --bg:#070A12; --bg-2:#0B0F1A;
     --ink:#F3F7FF; --muted:#A8B4CC; --faint:#6A7790;
@@ -25,6 +38,26 @@
     --glass:rgba(255,255,255,.035); --glass-2:rgba(255,255,255,.06);
     --grad:linear-gradient(110deg,var(--flutter),var(--kotlin) 50%,var(--swift));
     --shadow:0 30px 80px -24px rgba(0,0,0,.7);
+    --nav-bg:rgba(7,10,18,.55);
+    --hero-bg:radial-gradient(1200px 600px at 70% -5%,rgba(61,168,245,.10),transparent 60%);
+    --apply-bg:radial-gradient(1000px 520px at 30% 110%,rgba(255,122,92,.10),transparent 60%);
+    --product-bg:linear-gradient(120deg,rgba(167,123,255,.08),rgba(61,168,245,.06));
+    --sponsor-bg:linear-gradient(130deg,rgba(94,230,168,.09),rgba(61,168,245,.06));
+    --lab-current-bg:linear-gradient(180deg,rgba(61,168,245,.10),var(--glass));
+  }
+  :root[data-theme="light"]{
+    color-scheme:light;
+    --bg:#F7FAFC; --bg-2:#EEF4F8;
+    --ink:#07111F; --muted:#42526A; --faint:#6B7A90;
+    --line:rgba(7,17,31,.10); --line-2:rgba(7,17,31,.16);
+    --glass:rgba(255,255,255,.66); --glass-2:rgba(255,255,255,.86);
+    --shadow:0 28px 70px -34px rgba(11,28,48,.42);
+    --nav-bg:rgba(247,250,252,.78);
+    --hero-bg:radial-gradient(1000px 560px at 72% -6%,rgba(61,168,245,.18),transparent 64%);
+    --apply-bg:radial-gradient(900px 500px at 28% 110%,rgba(255,122,92,.16),transparent 62%);
+    --product-bg:linear-gradient(120deg,rgba(167,123,255,.12),rgba(61,168,245,.10));
+    --sponsor-bg:linear-gradient(130deg,rgba(94,230,168,.16),rgba(61,168,245,.10));
+    --lab-current-bg:linear-gradient(180deg,rgba(61,168,245,.16),var(--glass));
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
@@ -37,14 +70,20 @@
 
   /* ---------- nav ---------- */
   .nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
-    padding:18px 7vw;backdrop-filter:blur(14px);background:rgba(7,10,18,.55);border-bottom:1px solid var(--line)}
+    padding:18px 7vw;backdrop-filter:blur(14px);background:var(--nav-bg);border-bottom:1px solid var(--line)}
   .nav .brand{font-family:"Sora";font-weight:800;letter-spacing:.04em;font-size:18px;display:flex;align-items:center;gap:11px}
-  .nav .brand .ico{width:34px;height:34px;border-radius:9px;display:block}
+  .nav .brand .ico{width:34px;height:34px;border-radius:9px;display:block;background:url("logo/mal-icon-dark.svg") center/contain no-repeat}
+  :root[data-theme="light"] .nav .brand .ico{background-image:url("favicon.svg")}
   .nav .brand span{color:var(--faint);font-weight:600;font-size:12px;letter-spacing:.18em;margin-left:8px}
   .nav .links{display:flex;gap:28px;align-items:center;font-size:14px;color:var(--muted)}
   .nav .links a:hover{color:var(--ink)}
   .nav .cta{padding:9px 18px;border-radius:999px;background:var(--grad);color:#04060c;font-weight:700;font-size:13.5px}
-  @media(max-width:760px){.nav .links a:not(.cta){display:none}.nav{padding:14px 6vw}}
+  .theme-toggle{width:38px;height:38px;border-radius:999px;border:1px solid var(--line-2);background:var(--glass);
+    color:var(--ink);display:grid;place-items:center;cursor:pointer;font-size:17px;line-height:1;transition:.2s}
+  .theme-toggle:hover{border-color:var(--ink);transform:translateY(-1px)}
+  .theme-toggle::before{content:"☀"}
+  :root[data-theme="light"] .theme-toggle::before{content:"☾"}
+  @media(max-width:760px){.nav .links a:not(.cta){display:none}.nav{padding:14px 6vw}.theme-toggle{width:36px;height:36px}}
 
   /* ---------- section shell ---------- */
   section{position:relative;padding:130px 7vw 110px;overflow:hidden}
@@ -57,7 +96,7 @@
 
   /* ---------- hero ---------- */
   #hero{min-height:100vh;display:flex;align-items:center;
-    background:radial-gradient(1200px 600px at 70% -5%,rgba(61,168,245,.10),transparent 60%)}
+    background:var(--hero-bg)}
   #hero h1{font-size:clamp(40px,6.4vw,80px);line-height:1.02;font-weight:800;letter-spacing:-.02em;margin:26px 0 22px}
   #hero .lead{font-size:21px;max-width:640px}
   .hero-cta{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-top:40px}
@@ -66,6 +105,14 @@
   .btn-primary:hover{transform:translateY(-2px)}
   .btn-ghost{border:1px solid var(--line-2);color:var(--ink);background:var(--glass)}
   .btn-ghost:hover{border-color:var(--ink)}
+  .hero-sponsor{display:inline-flex;align-items:center;gap:15px;margin-top:32px;padding:14px 18px;border:1px solid var(--line-2);
+    border-radius:18px;background:var(--glass);box-shadow:0 20px 60px -36px rgba(61,168,245,.7);transition:.2s}
+  .hero-sponsor:hover{border-color:rgba(61,168,245,.45);background:var(--glass-2);transform:translateY(-2px)}
+  .hero-sponsor img{width:48px;height:48px;object-fit:contain;flex:0 0 auto}
+  .hero-sponsor span{display:block}
+  .hero-sponsor .label{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+  .hero-sponsor strong{display:block;margin-top:2px;font-family:"Sora";font-size:19px;color:var(--ink);line-height:1.15}
+  .hero-sponsor .note{margin-top:2px;color:var(--muted);font-size:13px}
   .herometa{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:46px;font-size:14px;color:var(--muted)}
   .herometa b{color:var(--ink);font-weight:600}
   .stats{display:flex;gap:46px;flex-wrap:wrap;margin-top:54px;padding-top:34px;border-top:1px solid var(--line)}
@@ -93,32 +140,112 @@
   .lab .bar{height:3px;width:38px;border-radius:3px;margin:14px 0 12px}
   .lab h4{font-family:"Sora";font-size:15px;font-weight:600;margin-bottom:6px}
   .lab p{font-size:12.5px;color:var(--muted);line-height:1.5}
-  .lab.cur{background:linear-gradient(180deg,rgba(61,168,245,.10),var(--glass));border-color:rgba(61,168,245,.4)}
+  .lab.past{opacity:.82}
+  .lab.cur{background:var(--lab-current-bg);border-color:rgba(61,168,245,.4)}
   .lab .tag{position:absolute;top:-9px;right:14px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;
     background:var(--flutter);color:#04060c;font-weight:700;padding:3px 9px;border-radius:999px}
+  .lab.past .tag{background:var(--faint);color:var(--bg)}
+  .lab.cur .tag{background:var(--green)}
+  .lab-cta{display:inline-flex;margin-top:13px;color:var(--ink);font-family:"Sora";font-size:11.5px;font-weight:700}
+  .lab-cta:hover{color:var(--flutter)}
 
   /* ---------- product callout ---------- */
   .product{margin-top:30px;padding:28px 30px;border:1px solid var(--line-2);border-radius:20px;
-    background:linear-gradient(120deg,rgba(167,123,255,.08),rgba(61,168,245,.06));display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+    background:var(--product-bg);display:flex;gap:24px;align-items:center;flex-wrap:wrap}
   .product .big{font-family:"Sora";font-weight:700;font-size:22px;flex:1;min-width:260px}
   .product .tags{display:flex;gap:8px;flex-wrap:wrap}
   .pill{font-size:12.5px;padding:7px 13px;border-radius:999px;border:1px solid var(--line-2);background:var(--glass);color:var(--muted)}
 
+  /* ---------- sponsor ---------- */
+  .sponsorwrap{display:grid;grid-template-columns:1.05fr .95fr;gap:42px;align-items:center}
+  @media(max-width:900px){.sponsorwrap{grid-template-columns:1fr}}
+  .sponsor-copy .lead{max-width:600px}
+  .sponsor-panel{border:1px solid var(--line-2);background:var(--sponsor-bg);
+    border-radius:22px;padding:32px;box-shadow:var(--shadow)}
+  .measure-brand{display:flex;align-items:center;gap:18px}
+  .measure-logo{width:86px;height:86px;object-fit:contain;flex:0 0 auto}
+  .measure-name{font-family:"Sora";font-size:32px;font-weight:800;letter-spacing:0;color:var(--ink)}
+  .sponsor-panel p{color:var(--muted);font-size:15px;margin-top:16px}
+  .sponsor-points{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:24px}
+  @media(max-width:560px){.sponsor-points{grid-template-columns:1fr}.measure-logo{width:72px;height:72px}.measure-name{font-size:28px}}
+  .sponsor-points span{font-size:12.5px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:8px 12px;background:var(--glass)}
+  .partner-wall{max-width:1120px;margin:42px auto 0;padding-top:34px;border-top:1px solid var(--line)}
+  .partner-head{display:flex;justify-content:space-between;gap:28px;align-items:end;margin-bottom:22px}
+  .partner-head h2{font-size:clamp(25px,3vw,34px);margin-bottom:0}
+  .partner-intro{max-width:430px;color:var(--muted);font-size:15px}
+  .partner-grid{display:grid;grid-template-columns:1.05fr .98fr .92fr .92fr;gap:14px}
+  .partner-card{min-height:142px;border:1px solid var(--line);border-radius:18px;background:var(--glass);
+    padding:22px;display:flex;flex-direction:column;justify-content:space-between;gap:18px;transition:.2s}
+  .partner-card:hover{border-color:var(--line-2);background:var(--glass-2);transform:translateY(-2px)}
+  .partner-role{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+  .partner-logo-wide{display:block;width:100%;max-width:360px;height:42px;object-fit:contain;object-position:left center}
+  .partner-brand{display:flex;align-items:center;gap:14px}
+  .partner-icon{width:42px;height:42px;border-radius:12px;border:1px solid var(--line-2);background:rgba(61,168,245,.10);
+    color:var(--flutter);display:grid;place-items:center;flex:0 0 auto}
+  .partner-icon svg{width:25px;height:25px;fill:currentColor}
+  .partner-icon.flutterflow{background:linear-gradient(135deg,rgba(61,168,245,.18),rgba(167,123,255,.18));color:var(--kotlin)}
+  .partner-icon.flutterflow span{font-family:"Sora";font-size:15px;font-weight:800;letter-spacing:0;color:var(--ink)}
+  .partner-icon.swift{background:linear-gradient(135deg,rgba(255,122,92,.18),rgba(255,190,120,.16));color:var(--swift);font-family:"Sora";font-size:18px;font-weight:800}
+  .partner-logo-square{width:56px;height:56px;object-fit:contain;flex:0 0 auto}
+  .partner-logo-plaque{width:56px;height:56px;border-radius:14px;background:#070A12;border:1px solid rgba(255,255,255,.12);
+    display:grid;place-items:center;flex:0 0 auto;padding:8px}
+  .partner-logo-plaque img{width:100%;height:100%;object-fit:contain}
+  .partner-name{font-family:"Sora";font-size:20px;font-weight:700;line-height:1.15}
+  .partner-note{color:var(--muted);font-size:13.5px}
+  @media(max-width:900px){.partner-head{display:block}.partner-intro{margin-top:10px}.partner-grid{grid-template-columns:1fr}}
+  @media(max-width:560px){.partner-card{min-height:128px}.partner-logo-wide{height:34px}.partner-name{font-size:18px}}
+
   /* ---------- lab1 / apply ---------- */
-  #apply{background:radial-gradient(1000px 520px at 30% 110%,rgba(255,122,92,.10),transparent 60%)}
+  #apply{background:var(--apply-bg)}
   .applywrap{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:start}
   @media(max-width:900px){.applywrap{grid-template-columns:1fr}}
   .leave{list-style:none;margin-top:8px}
   .leave li{padding:11px 0;border-bottom:1px solid var(--line);color:var(--muted);font-size:15px;display:flex;gap:12px}
   .leave li b{color:var(--ink);font-weight:600}
   .leave li::before{content:"→";color:var(--flutter)}
+  .agenda{margin-top:28px;border:1px solid var(--line);border-radius:18px;background:var(--glass);overflow:hidden}
+  .agenda-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;padding:18px 20px;border-bottom:1px solid var(--line)}
+  .agenda-label{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+  .agenda h3{font-size:18px;margin-top:4px;font-weight:700}
+  .agenda-date{font-family:"JetBrains Mono";font-size:12px;color:var(--muted);white-space:nowrap;margin-top:4px}
+  .agenda-list{list-style:none}
+  .agenda-list li{display:grid;grid-template-columns:104px 1fr;gap:16px;padding:16px 20px;border-top:1px solid var(--line)}
+  .agenda-list li:first-child{border-top:0}
+  .agenda-time{font-family:"JetBrains Mono";font-size:12px;color:var(--flutter);padding-top:2px}
+  .agenda-copy b{display:block;font-family:"Sora";font-size:14.5px;line-height:1.35}
+  @media(max-width:560px){.agenda-head{display:block}.agenda-date{margin-top:8px}.agenda-list li{grid-template-columns:1fr;gap:6px}}
   .panel{padding:30px 28px;border:1px solid var(--line-2);border-radius:22px;background:var(--glass-2);box-shadow:var(--shadow)}
   .panel .when{font-family:"Sora";font-weight:800;font-size:26px;margin-bottom:4px}
   .panel .where{color:var(--muted);font-size:15px;margin-bottom:22px}
   .detail{display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid var(--line);font-size:14.5px}
   .detail .k{color:var(--faint)} .detail .v{color:var(--ink);font-weight:600;text-align:right}
   .panel .btn{width:100%;justify-content:center;margin-top:24px}
+  .next-callout{margin-top:22px;padding:14px 15px;border:1px solid rgba(94,230,168,.35);border-radius:14px;background:rgba(94,230,168,.08)}
+  .next-label{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--green)}
+  .next-callout strong{display:block;font-family:"Sora";font-size:14px;margin-top:4px}
+  .next-callout > span:last-child{display:block;color:var(--muted);font-size:12px;margin-top:3px}
   .gated{margin-top:14px;font-size:12.5px;color:var(--faint);text-align:center}
+
+  /* ---------- project submission popup ---------- */
+  .project-popup{position:fixed;right:24px;bottom:24px;z-index:45;width:min(360px,calc(100vw - 32px));
+    padding:18px 48px 18px 20px;border:1px solid rgba(61,168,245,.48);border-radius:18px;
+    background:linear-gradient(135deg,rgba(61,168,245,.18),rgba(167,123,255,.16) 52%,rgba(255,122,92,.16));
+    box-shadow:0 22px 70px -28px rgba(0,0,0,.8);backdrop-filter:blur(18px);
+    animation:popup-in .55s cubic-bezier(.2,.8,.2,1) both}
+  .project-popup::before{content:"";position:absolute;left:20px;top:-4px;width:42px;height:4px;border-radius:999px;background:var(--grad);box-shadow:0 0 18px rgba(61,168,245,.7)}
+  .project-popup a{display:block}
+  .project-popup .label{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--flutter);font-weight:600}
+  .project-popup strong{display:block;font-family:"Sora";font-size:17px;line-height:1.25;margin-top:5px}
+  .project-popup p{font-size:13px;line-height:1.45;color:var(--muted);margin-top:5px}
+  .project-popup .submit-link{display:inline-block;margin-top:11px;color:var(--ink);font-family:"Sora";font-size:12.5px;font-weight:700}
+  .project-popup a:focus-visible{outline:2px solid var(--ink);outline-offset:4px;border-radius:5px}
+  .project-popup .close{position:absolute;top:10px;right:10px;width:28px;height:28px;border:1px solid var(--line-2);border-radius:50%;
+    background:var(--glass);color:var(--muted);font-size:18px;line-height:1;cursor:pointer;display:grid;place-items:center}
+  .project-popup .close:hover{color:var(--ink);border-color:var(--ink)}
+  .project-popup .close:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  @keyframes popup-in{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
+  @media(max-width:560px){.project-popup{right:16px;bottom:16px}}
+  @media(prefers-reduced-motion:reduce){.project-popup{animation:none}}
 
   footer{padding:50px 7vw;border-top:1px solid var(--line);text-align:center;color:var(--faint);font-size:13.5px}
   footer a{color:var(--muted)} footer a:hover{color:var(--ink)}
@@ -127,11 +254,14 @@
 <body>
 
 <nav class="nav">
-  <div class="brand"><img class="ico" src="/favicon.svg" alt="MAL logo"/>MAL<span>MUMBAI ARCHITECTURE LAB</span></div>
+  <div class="brand"><span class="ico" role="img" aria-label="MAL logo"></span>MAL<span>MOBILE ARCHITECTURE LAB</span></div>
   <div class="links">
     <a href="#how">How it works</a>
+    <a href="/homework/">Homework</a>
+    <a href="#sponsor">Sponsors</a>
     <a href="#apply">Lab 1</a>
-    <a class="cta" href="https://luma.com/iwn39kby" target="_blank" rel="noopener">Apply →</a>
+    <button class="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false"></button>
+    <a class="cta" href="https://luma.com/og3owi91" target="_blank" rel="noopener">Register for Lab 2 →</a>
   </div>
 </nav>
 
@@ -144,13 +274,22 @@
     <h1>Become a <span class="grad">mobile architect.</span><br/>Not just a mobile developer.</h1>
     <p class="lead">MAL is an application-only engineering lab for senior mobile engineers. Over five sessions you build one real, production-grade product — and walk out <b style="color:var(--ink)">T-shaped</b>: deep in one stack, fluent across the rest, grounded in the fundamentals that actually get you hired.</p>
     <div class="hero-cta">
-      <a class="btn btn-primary" href="https://luma.com/iwn39kby" target="_blank" rel="noopener">Apply for Lab 1 →</a>
+      <a class="btn btn-primary" href="https://luma.com/og3owi91" target="_blank" rel="noopener">Register for Lab 2 →</a>
       <a class="btn btn-ghost" href="#how">See how it works</a>
     </div>
+    <a class="hero-sponsor" href="https://measure.sh/" target="_blank" rel="noopener" aria-label="Visit Measure, MAL title sponsor">
+      <img src="logo/measure-logo-color.png" alt="Measure logo" />
+      <span>
+        <span class="label">Title sponsor</span>
+        <strong>Measure</strong>
+        <span class="note">Production monitoring for mobile teams</span>
+      </span>
+    </a>
     <div class="herometa">
-      <span>🗓️ <b>Lab 1 · 11 July 2026</b></span>
-      <span>📍 <b>Atlas, Mumbai</b></span>
+      <span>🗓️ <b>Lab 1 · July 11, 2026</b></span>
+      <span>📍 <b>Paytm, Mumbai</b></span>
       <span>🎟️ <b>Free · application-gated</b></span>
+      <span>🏷️ <b>Title Sponsor · <a href="https://measure.sh/" target="_blank" rel="noopener">Measure</a></b></span>
     </div>
     <div class="stats">
       <div class="stat"><div class="n grad">80–120</div><div class="l">senior engineers in the room each lab</div></div>
@@ -187,11 +326,87 @@
 
     <div class="kicker" style="margin-top:64px">The arc</div>
     <div class="labs">
-      <div class="lab cur"><span class="tag">11 Jul</span><div class="num">LAB 01</div><div class="bar" style="background:var(--flutter)"></div><h4>Flutter &amp; Foundations</h4><p>Architecture skeleton + your first on-device AI feature.</p></div>
-      <div class="lab"><div class="num">LAB 02</div><div class="bar" style="background:var(--swift)"></div><h4>Native iOS / Swift</h4><p>Concurrency, performance, release pipeline.</p></div>
-      <div class="lab"><div class="num">LAB 03</div><div class="bar" style="background:var(--kotlin)"></div><h4>Native Android / Kotlin</h4><p>Modularization, CI/CD, crash analytics.</p></div>
-      <div class="lab"><div class="num">LAB 04</div><div class="bar" style="background:var(--react)"></div><h4>React Native</h4><p>Deep links, multi-env, growth &amp; attribution.</p></div>
-      <div class="lab"><div class="num">LAB 05</div><div class="bar" style="background:var(--green)"></div><h4>Synthesis &amp; Scale</h4><p>Observability, resilience, architecture defense.</p></div>
+      <div class="lab past"><span class="tag">Previous</span><div class="num">LAB 01 · JUL 11</div><div class="bar" style="background:var(--flutter)"></div><h4>Flutter &amp; Foundations</h4><p>Architecture skeleton + your first on-device AI feature.</p></div>
+      <div class="lab cur"><span class="tag">Register now</span><div class="num">LAB 02 · JUL 25</div><div class="bar" style="background:var(--swift)"></div><h4>Native iOS / Swift</h4><p>Concurrency, performance, release pipeline.</p><a class="lab-cta" href="https://luma.com/og3owi91" target="_blank" rel="noopener">Register for Lab 2 →</a></div>
+      <div class="lab"><span class="tag">Aug 22</span><div class="num">LAB 03</div><div class="bar" style="background:var(--kotlin)"></div><h4>Native Android / Kotlin</h4><p>Modularization, CI/CD, crash analytics.</p></div>
+      <div class="lab"><span class="tag">Sep 5</span><div class="num">LAB 04</div><div class="bar" style="background:var(--react)"></div><h4>React Native</h4><p>Deep links, multi-env, growth &amp; attribution.</p></div>
+      <div class="lab"><span class="tag">Sep 26</span><div class="num">LAB 05</div><div class="bar" style="background:var(--green)"></div><h4>Synthesis &amp; Scale</h4><p>Observability, resilience, architecture defense.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 3 · TITLE SPONSOR ===================== -->
+<section id="sponsor" style="background:var(--bg)">
+  <div class="glow" style="background:var(--green);top:18%;right:-200px;opacity:.12"></div>
+  <div class="inner sponsorwrap">
+    <div class="sponsor-copy">
+      <div class="kicker">Title sponsor</div>
+      <h2>Measure backs the production-readiness layer of MAL.</h2>
+      <p class="lead">Measure is the open-source mobile app monitoring and crash reporting platform helping mobile teams get to the root cause of crashes, ANRs, bugs, and performance issues faster.</p>
+    </div>
+    <a class="sponsor-panel" href="https://measure.sh/" target="_blank" rel="noopener" aria-label="Visit Measure">
+      <div class="measure-brand">
+        <img class="measure-logo" src="logo/measure-logo-color.png" alt="Measure logo" loading="lazy" />
+        <div class="measure-name">Measure</div>
+      </div>
+      <p>Built for mobile engineers across Android, iOS, Flutter, Kotlin Multiplatform, and React Native — with session timelines, traces, logs, and app-health context for production debugging.</p>
+      <div class="sponsor-points">
+        <span>Crashes &amp; ANRs</span>
+        <span>Session timelines</span>
+        <span>Performance traces</span>
+        <span>Open source</span>
+      </div>
+    </a>
+  </div>
+  <div class="inner partner-wall" aria-labelledby="partners-title">
+    <div class="partner-head">
+      <div>
+        <div class="kicker">Partners</div>
+        <h2 id="partners-title">Backed by the mobile community.</h2>
+      </div>
+      <p class="partner-intro">Paytm, Google for Developers, Flutter Mumbai, FlutterFlow Developer Group Mumbai, and Swift Mumbai support MAL's mobile community.</p>
+    </div>
+    <div class="partner-grid">
+      <a class="partner-card" href="https://paytm.com/" target="_blank" rel="noopener" aria-label="Visit Paytm">
+        <span class="partner-role">Venue partner</span>
+        <span class="partner-brand">
+          <svg class="partner-logo-wide" viewBox="0 0 220 64" role="img" aria-label="Paytm" xmlns="http://www.w3.org/2000/svg">
+            <text x="4" y="45" font-family="Inter, Arial, sans-serif" font-size="44" font-weight="800" letter-spacing="-1.8"><tspan fill="#002E6E">Pay</tspan><tspan fill="#00BAF2">tm</tspan></text>
+          </svg>
+        </span>
+        <span class="partner-note">Venue support for Lab 1 in Mumbai.</span>
+      </a>
+      <a class="partner-card" href="https://developers.google.com/" target="_blank" rel="noopener" aria-label="Visit Google for Developers">
+        <span class="partner-role">F&amp;B partner</span>
+        <img class="partner-logo-wide" src="logo/google-for-developers-logo-lockup.png" alt="Google for Developers logo" loading="lazy" />
+        <span class="partner-note">Developer ecosystem support for Lab 1.</span>
+      </a>
+      <a class="partner-card" href="https://flutter.dev/community" target="_blank" rel="noopener" aria-label="Visit Flutter community">
+        <span class="partner-role">Tech community partner</span>
+        <span class="partner-brand">
+          <img class="partner-logo-square" src="logo/flutter-mumbai.png" alt="Flutter Mumbai logo" loading="lazy" />
+          <span class="partner-name">Flutter Mumbai</span>
+        </span>
+        <span class="partner-note">Local Flutter builders and mentors.</span>
+      </a>
+      <a class="partner-card" href="https://flutterflow.io/" target="_blank" rel="noopener" aria-label="Visit FlutterFlow">
+        <span class="partner-role">Tech community partner</span>
+        <span class="partner-brand">
+          <span class="partner-logo-plaque">
+            <img src="logo/flutterflow-logo.svg" alt="FlutterFlow logo" loading="lazy" />
+          </span>
+          <span class="partner-name">FlutterFlow Developer Group Mumbai</span>
+        </span>
+        <span class="partner-note">Design-to-code and rapid app builders.</span>
+      </a>
+      <a class="partner-card" href="https://swiftmumbai.in/" target="_blank" rel="noopener" aria-label="Visit Swift Mumbai">
+        <span class="partner-role">Tech community partner</span>
+        <span class="partner-brand">
+          <span class="partner-icon swift" aria-hidden="true">S</span>
+          <span class="partner-name">Swift Mumbai</span>
+        </span>
+        <span class="partner-note">Mumbai's community for Swift and iOS builders.</span>
+      </a>
     </div>
   </div>
 </section>
@@ -200,11 +415,11 @@
 <section id="apply">
   <div class="glow" style="background:var(--swift);bottom:-160px;right:-120px;opacity:.2"></div>
   <div class="inner">
-    <div class="kicker">It starts here</div>
+    <div class="kicker">Previous lab · Lab 1</div>
     <h2>Lab 1 — <span class="grad">Flutter &amp; Foundations</span></h2>
     <div class="applywrap">
       <div>
-        <p class="lead" style="max-width:560px">This isn't an intro-to-Flutter meetup. In one focused 4-hour session you lay the architectural foundation of the product and leave with a working skeleton and your first decisions on paper.</p>
+        <p class="lead" style="max-width:560px">This isn't an intro-to-Flutter meetup. In one focused lab you lay the architectural foundation of the product and leave with a working skeleton and your first decisions on paper.</p>
         <ul class="leave">
           <li><span><b>A walking skeleton</b> of your app in Flutter</span></li>
           <li><span><b>Your first ADR</b> — a documented architecture decision</span></li>
@@ -212,26 +427,139 @@
           <li><span><b>A spot in the cohort</b>, if you keep shipping</span></li>
         </ul>
         <p style="margin-top:24px;color:var(--muted);font-size:14.5px"><b style="color:var(--ink)">Who should apply:</b> mid-to-senior mobile engineers, tech leads, and technical founders ready to commit to the full series. Some Flutter familiarity helps — the focus is architecture and decisions, not syntax. Not for absolute beginners.</p>
+        <div class="agenda" aria-labelledby="lab1-agenda-title">
+          <div class="agenda-head">
+            <div>
+              <div class="agenda-label">Today's agenda</div>
+              <h3 id="lab1-agenda-title">Lab 1 running order</h3>
+            </div>
+            <div class="agenda-date">Jul 11 · 11:00-3:30</div>
+          </div>
+          <ol class="agenda-list">
+            <li>
+              <div class="agenda-time">11:00-11:20</div>
+              <div class="agenda-copy"><b>Mobile Architecture Lab intro &amp; expectations</b></div>
+            </li>
+            <li>
+              <div class="agenda-time">11:20-11:30</div>
+              <div class="agenda-copy"><b>Transition</b></div>
+            </li>
+            <li>
+              <div class="agenda-time">11:30-12:15</div>
+              <div class="agenda-copy"><b>Accessibility as Architecture · Sourav</b></div>
+            </li>
+            <li>
+              <div class="agenda-time">12:15-1:00</div>
+              <div class="agenda-copy"><b>Product Thinking for Mobile Architects · Faiz</b></div>
+            </li>
+            <li>
+              <div class="agenda-time">1:00-1:20</div>
+              <div class="agenda-copy"><b>MAL activity</b></div>
+            </li>
+            <li>
+              <div class="agenda-time">1:20-1:45</div>
+              <div class="agenda-copy"><b>Lunch</b></div>
+            </li>
+            <li>
+              <div class="agenda-time">1:45-2:30</div>
+              <div class="agenda-copy"><b>Local AI in Mobile Products · Geeta</b></div>
+            </li>
+            <li>
+              <div class="agenda-time">2:30-3:15</div>
+              <div class="agenda-copy"><b>Security Foundations for Mobile Apps · Vishal</b></div>
+            </li>
+            <li>
+              <div class="agenda-time">3:15-3:30</div>
+              <div class="agenda-copy"><b>Wrap-up, photos, and next event announcement</b></div>
+            </li>
+          </ol>
+        </div>
       </div>
       <div class="panel">
-        <div class="when">11 July 2026</div>
-        <div class="where">Saturday · 4 hours</div>
-        <div class="detail"><span class="k">Venue</span><span class="v">Atlas, Mumbai</span></div>
+        <div class="when">July 11, 2026</div>
+        <div class="where">Saturday · 11:00 AM-3:30 PM</div>
+        <div class="detail"><span class="k">Venue</span><span class="v">Paytm, Mumbai</span></div>
+        <div class="detail"><span class="k">Check-in</span><span class="v">10:00 AM</span></div>
         <div class="detail"><span class="k">Entry</span><span class="v">Free · gated</span></div>
-        <div class="detail"><span class="k">Format</span><span class="v">Talks + live build</span></div>
+        <div class="detail"><span class="k">Title sponsor</span><span class="v"><a href="https://measure.sh/" target="_blank" rel="noopener">Measure</a></span></div>
+        <div class="detail"><span class="k">F&amp;B partner</span><span class="v">Google for Developers</span></div>
+        <div class="detail"><span class="k">Community</span><span class="v">Flutter Mumbai · FlutterFlow Developer Group Mumbai</span></div>
+        <div class="detail"><span class="k">Format</span><span class="v">Sessions + live build</span></div>
         <div class="detail"><span class="k">Seats</span><span class="v">Capped</span></div>
-        <a class="btn btn-primary" href="https://luma.com/iwn39kby" target="_blank" rel="noopener">Apply now →</a>
-        <div class="gated">Every application is reviewed to keep the room serious.</div>
+        <div class="next-callout">
+          <span class="next-label">Up next</span>
+          <strong>Lab 2 · Native iOS / Swift</strong>
+          <span>Upcoming · registration open</span>
+        </div>
+        <a class="btn btn-primary" href="https://luma.com/og3owi91" target="_blank" rel="noopener">Register for Lab 2 →</a>
+        <div class="gated">Join the upcoming Lab 2 cohort.</div>
       </div>
     </div>
   </div>
 </section>
 
+<aside class="project-popup" id="project-popup" aria-label="Project submission invitation">
+  <button class="close" type="button" aria-label="Dismiss project submission invitation">×</button>
+  <a href="https://forms.gle/zkQJA3qLgM1G3w5V7" target="_blank" rel="noopener" aria-label="Submit your MAL project">
+    <span class="label">Built something at MAL?</span>
+    <strong>Share your project with us.</strong>
+    <p>Tell us what you made and help the community see it.</p>
+    <span class="submit-link">Submit project →</span>
+  </a>
+</aside>
+
 <footer>
   <div style="font-family:'Sora';font-weight:800;letter-spacing:.05em;color:var(--ink);margin-bottom:8px">MAL</div>
-  Mumbai Mobile Architect Lab · Built by practitioners, for practitioners.<br/>
-  <a href="/sponsor">Sponsor MAL</a> &nbsp;·&nbsp; <a href="https://luma.com/iwn39kby" target="_blank" rel="noopener">Apply for Lab 1</a>
+  Mobile Architecture Lab · Built by practitioners, for practitioners.<br/>
+  Title Sponsor: <a href="https://measure.sh/" target="_blank" rel="noopener">Measure</a><br/>
+  Venue: Paytm, Mumbai<br/>
+  Partners: Google for Developers · Flutter Mumbai · FlutterFlow Developer Group Mumbai<br/>
+  <a href="/homework/">Lab 1 homework</a> &nbsp;·&nbsp; <a href="/sponsor">Sponsor MAL</a> &nbsp;·&nbsp; <a href="https://luma.com/og3owi91" target="_blank" rel="noopener">Register for Lab 2</a>
 </footer>
 
+<script>
+  (function(){
+    var toggle = document.querySelector('.theme-toggle');
+    var popup = document.querySelector('#project-popup');
+    var closePopup = popup && popup.querySelector('.close');
+
+    if (closePopup) {
+      closePopup.addEventListener('click', function(){
+        popup.remove();
+        try {
+          sessionStorage.setItem('mal-project-popup-dismissed', '1');
+        } catch (e) {}
+      });
+      try {
+        if (sessionStorage.getItem('mal-project-popup-dismissed') === '1') {
+          popup.remove();
+        }
+      } catch (e) {}
+    }
+
+    if (!toggle) return;
+
+    function syncLabel(){
+      var isLight = document.documentElement.dataset.theme === 'light';
+      toggle.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
+      toggle.setAttribute('aria-pressed', String(isLight));
+    }
+
+    toggle.addEventListener('click', function(){
+      var next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+      if (next === 'light') {
+        document.documentElement.dataset.theme = 'light';
+      } else {
+        delete document.documentElement.dataset.theme;
+      }
+      try {
+        localStorage.setItem('mal-theme', next);
+      } catch (e) {}
+      syncLabel();
+    });
+
+    syncLabel();
+  })();
+</script>
 </body>
 </html>

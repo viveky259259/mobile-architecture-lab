@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice MAL-2026-001 - Measure Inc</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #4b5563;
+      --faint: #9ca3af;
+      --border: #e5e7eb;
+      --bg: #ffffff;
+      --primary: #02569B; /* Flutter Blue */
+      --secondary: #F05138; /* Swift Orange */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: var(--ink);
+      background-color: var(--bg);
+      line-height: 1.4;
+      padding: 30px 20px;
+      font-size: 13px;
+    }
+
+    .invoice-container {
+      max-width: 800px;
+      margin: 0 auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Premium top gradient border representing the mobile ecosystem */
+    .invoice-container::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, var(--primary) 0%, #00F2FE 35%, #7F00FF 65%, var(--secondary) 100%);
+    }
+
+    header {
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-start;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+    }
+
+    .invoice-meta {
+      text-align: right;
+    }
+
+    .invoice-meta h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: auto auto;
+      gap: 3px 10px;
+      margin-top: 8px;
+      font-size: 11px;
+      text-align: left;
+    }
+
+    .meta-label {
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .meta-value {
+      font-weight: 600;
+      color: var(--ink);
+      text-align: right;
+    }
+
+    .address-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 24px;
+    }
+
+    .address-box h3 {
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--faint);
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .address-box p {
+      font-size: 12px;
+      color: var(--muted);
+      white-space: pre-line;
+    }
+
+    .address-box strong {
+      color: var(--ink);
+      font-size: 13px;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .invoice-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+    }
+
+    .invoice-table th {
+      background-color: #f9fafb;
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 700;
+      color: var(--muted);
+      padding: 8px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .invoice-table td {
+      padding: 12px;
+      font-size: 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    .invoice-table .desc {
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .invoice-table .desc span {
+      display: block;
+      font-weight: 400;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .invoice-table .num-col {
+      text-align: right;
+    }
+
+    .totals-section {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 24px;
+    }
+
+    .totals-table {
+      width: 250px;
+      font-size: 12px;
+    }
+
+    .totals-table tr td {
+      padding: 5px 0;
+    }
+
+    .totals-table tr.grand-total {
+      font-size: 15px;
+      font-weight: 700;
+      border-top: 2px solid var(--border);
+    }
+
+    .totals-table tr.grand-total td {
+      padding-top: 8px;
+      color: var(--ink);
+    }
+
+    .payment-details {
+      background-color: #f9fafb;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+
+    .payment-details h3 {
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ink);
+      margin-bottom: 8px;
+      font-weight: 700;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 4px;
+    }
+
+    .payment-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 20px;
+      font-size: 11.5px;
+    }
+
+    @media (max-width: 600px) {
+      .payment-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .payment-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .payment-label {
+      color: var(--muted);
+      font-size: 9.5px;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-bottom: 1px;
+    }
+
+    .payment-value {
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    footer {
+      text-align: center;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      color: var(--faint);
+      font-size: 10.5px;
+    }
+
+    /* Print Specific Overrides: Forces layout to comfortably fit on one page */
+    @media print {
+      @page {
+        size: A4;
+        margin: 1.2cm;
+      }
+      body {
+        padding: 0;
+        font-size: 11px;
+        background-color: #fff;
+      }
+      .invoice-container {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        border-radius: 0;
+      }
+      header {
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+      }
+      .invoice-meta h2 { font-size: 16px; }
+      .address-section {
+        margin-bottom: 15px;
+        gap: 15px;
+      }
+      .address-box p { font-size: 10.5px; }
+      .address-box strong { font-size: 11.5px; }
+      .invoice-table { margin-bottom: 15px; }
+      .invoice-table th { padding: 6px 10px; font-size: 9px; }
+      .invoice-table td { padding: 8px 10px; font-size: 10.5px; }
+      .invoice-table .desc span { font-size: 9.5px; margin-top: 2px; }
+      .totals-section { margin-bottom: 15px; }
+      .totals-table { font-size: 10.5px; width: 220px; }
+      .totals-table tr.grand-total { font-size: 13.5px; padding-top: 6px; }
+      .payment-details {
+        padding: 12px 14px;
+        margin-bottom: 15px;
+        border-radius: 4px;
+      }
+      .payment-details h3 { font-size: 10px; margin-bottom: 6px; }
+      .payment-grid { gap: 6px 15px; font-size: 10px; }
+      .payment-label { font-size: 8.5px; }
+      footer { padding-top: 12px; font-size: 9.5px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="invoice-container">
+    
+    <header>
+      <div class="invoice-meta">
+        <h2>Invoice</h2>
+        <div class="meta-grid">
+          <div class="meta-label">Invoice No:</div>
+          <div class="meta-value">MAL-2026-001</div>
+          
+          <div class="meta-label">Date of Issue:</div>
+          <div class="meta-value">June 24, 2026</div>
+          
+          <div class="meta-label">Due Date:</div>
+          <div class="meta-value">July 01, 2026</div>
+        </div>
+      </div>
+    </header>
+
+    <div class="address-section">
+      <div class="address-box">
+        <h3>Billed From</h3>
+        <strong>StringsWay Tech Private Limited</strong>
+        <p>
+          On behalf of Mobile Architecture Lab
+          Flat No. C-203, Chandresh Siddhi Shankeshwar Nagar,
+          Nallasopara East, Vasai, Maharashtra, India - 401209
+          Phone: +91 7021730766
+          Email: vivek.yadav@stringswaytech.com
+        </p>
+      </div>
+      <div class="address-box">
+        <h3>Billed To</h3>
+        <strong>Measure Inc</strong>
+        <p>
+          8 The Green, Ste A
+          Dover, DE 19901, USA
+          Tax ID/EIN: 301377744
+          Attention: accounts@measure.sh
+        </p>
+      </div>
+    </div>
+
+    <table class="invoice-table">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th class="num-col">Qty</th>
+          <th class="num-col">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="desc">
+            Title Sponsorship
+            <span>Sponsorship for the 5-part Mobile Architecture Lab (MAL) Series in Mumbai (July - September 2026). Season 1. Includes premium naming, integration in development syllabus, dynamic showcase jury placement, hiring access, and on-site brand visibility.</span>
+          </td>
+          <td class="num-col">1</td>
+          <td class="num-col" style="text-align: right;">₹50,000.00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="totals-section">
+      <table class="totals-table">
+        <tr>
+          <td>Subtotal:</td>
+          <td style="text-align: right; font-weight: 600;">₹50,000.00</td>
+        </tr>
+        <tr>
+          <td>GST/Tax (0% Export):</td>
+          <td style="text-align: right; font-weight: 600;">₹0.00</td>
+        </tr>
+        <tr class="grand-total">
+          <td>Total Due:</td>
+          <td style="text-align: right;">₹50,000.00</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="payment-details">
+      <h3>Payment Instructions (International Wire Transfer)</h3>
+      <div class="payment-grid">
+        <div class="payment-item">
+          <span class="payment-label">Beneficiary Name</span>
+          <span class="payment-value">StringsWay Tech Private Limited</span>
+        </div>
+        <div class="payment-item">
+          <span class="payment-label">Bank Name</span>
+          <span class="payment-value">IndusInd Bank</span>
+        </div>
+        <div class="payment-item">
+          <span class="payment-label">Account Number</span>
+          <span class="payment-value">201002595390</span>
+        </div>
+        <div class="payment-item">
+          <span class="payment-label">Account Type</span>
+          <span class="payment-value">Current Account</span>
+        </div>
+        <div class="payment-item">
+          <span class="payment-label">IFSC Code</span>
+          <span class="payment-value">INDB0001000</span>
+        </div>
+        <div class="payment-item">
+          <span class="payment-label">SWIFT Code</span>
+          <span class="payment-value">INDBINBBXXX</span>
+        </div>
+        <div class="payment-item" style="grid-column: span 2;">
+          <span class="payment-label">Branch Address</span>
+          <span class="payment-value">Ground Floor, Shalibhadra Classic, Vasai Nallasopara Link Road, Nallasopara East, Vasai, Maharashtra, India - 401209</span>
+        </div>
+        <div class="payment-item" style="grid-column: span 2;">
+          <span class="payment-label">Bank Routing Details & Remittance Purpose</span>
+          <span class="payment-value">For international wire transfers to India. Purpose: P1007 (Advertising, trade fair and market research services / Sponsorship). Mobile contact: +91 7021730766.</span>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>Thank you for partnering with the Mobile Architecture Lab to elevate Mumbai's engineering ecosystem!</p>
+      <p style="margin-top: 4px; font-size: 9px; color: var(--faint);">Mobile Architecture Lab · Mumbai, India · https://mobilearchitecturelab.netlify.app</p>
+    </footer>
+
+  </div>
+
+</body>
+</html>

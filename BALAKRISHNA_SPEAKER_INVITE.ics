@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Mobile Architecture Lab//Balakrishna Speaker Invite//EN
+CALSCALE:GREGORIAN
+METHOD:REQUEST
+BEGIN:VEVENT
+UID:mal-lab1-balakrishna-speaker-20260711@mobilearchitecturelab.netlify.app
+DTSTAMP:20260701T000000Z
+DTSTART;TZID=Asia/Kolkata:20260711T100000
+DTEND;TZID=Asia/Kolkata:20260711T152500
+SUMMARY:Speaker Session - MAL Lab 1: Flutter State, Layers & Boundaries
+LOCATION:Paytm, Mumbai
+DESCRIPTION:Speaker session for Mobile Architecture Lab (MAL) Lab 1: Flutter & Foundations. Topic: Flutter State, Layers & Boundaries. The session is part of a practical architecture lab for senior mobile engineers building the first walking skeleton for a hyperlocal marketplace with offline-first AI.
+STATUS:CONFIRMED
+SEQUENCE:0
+END:VEVENT
+END:VCALENDAR

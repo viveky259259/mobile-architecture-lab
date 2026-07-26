@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="627" viewBox="0 0 1200 627" role="img" aria-labelledby="title desc">
+  <title id="title">MAL Lab 1 LinkedIn event poster</title>
+  <desc id="desc">LinkedIn poster for MAL Lab 1 on 11 July 2026 in Mumbai during monsoon week.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07111F"/>
+      <stop offset="0.48" stop-color="#0B1530"/>
+      <stop offset="1" stop-color="#17233B"/>
+    </linearGradient>
+    <linearGradient id="rain" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8ECFFF" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#8ECFFF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="word" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#3DA8F5"/>
+      <stop offset="0.55" stop-color="#A77BFF"/>
+      <stop offset="1" stop-color="#FF7A5C"/>
+    </linearGradient>
+    <radialGradient id="glowBlue" cx="0.68" cy="0.12" r="0.6">
+      <stop offset="0" stop-color="#3DA8F5" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#3DA8F5" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowPurple" cx="0.12" cy="0.94" r="0.62">
+      <stop offset="0" stop-color="#A77BFF" stop-opacity="0.24"/>
+      <stop offset="1" stop-color="#A77BFF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="627" fill="url(#bg)"/>
+  <rect width="1200" height="627" fill="url(#glowBlue)"/>
+  <rect width="1200" height="627" fill="url(#glowPurple)"/>
+
+  <g opacity="0.34">
+    <path d="M48 -20 L-42 196" stroke="url(#rain)" stroke-width="3"/>
+    <path d="M136 -20 L46 196" stroke="url(#rain)" stroke-width="3"/>
+    <path d="M224 -20 L134 196" stroke="url(#rain)" stroke-width="3"/>
+    <path d="M312 -20 L222 196" stroke="url(#rain)" stroke-width="3"/>
+    <path d="M400 -20 L310 196" stroke="url(#rain)" stroke-width="3"/>
+    <path d="M488 -20 L398 196" stroke="url(#rain)" stroke-width="3"/>
+    <path d="M576 -20 L486 196" stroke="url(#rain)" stroke-width="3"/>
+    <path d="M664 -20 L574 196" stroke="url(#rain)" stroke-width="3"/>
+    <path d="M752 -20 L662 196" stroke="url(#rain)" stroke-width="3"/>
+    <path d="M840 -20 L750 196" stroke="url(#rain)" stroke-width="3"/>
+    <path d="M928 -20 L838 196" stroke="url(#rain)" stroke-width="3"/>
+    <path d="M1016 -20 L926 196" stroke="url(#rain)" stroke-width="3"/>
+    <path d="M1104 -20 L1014 196" stroke="url(#rain)" stroke-width="3"/>
+    <path d="M1192 -20 L1102 196" stroke="url(#rain)" stroke-width="3"/>
+    <path d="M1280 -20 L1190 196" stroke="url(#rain)" stroke-width="3"/>
+  </g>
+
+  <g opacity="0.18">
+    <path d="M0 480 C 88 458, 150 480, 232 458 C 300 440, 372 470, 455 448 C 546 424, 636 464, 728 446 C 832 426, 914 450, 1002 432 C 1086 416, 1150 428, 1200 418 L1200 627 L0 627 Z" fill="#000000"/>
+    <rect x="88" y="385" width="58" height="145" rx="4" fill="#B5C4DA"/>
+    <rect x="172" y="340" width="80" height="190" rx="4" fill="#B5C4DA"/>
+    <rect x="292" y="405" width="52" height="125" rx="4" fill="#B5C4DA"/>
+    <rect x="920" y="350" width="72" height="178" rx="4" fill="#B5C4DA"/>
+    <rect x="1030" y="390" width="58" height="138" rx="4" fill="#B5C4DA"/>
+  </g>
+
+  <text x="80" y="112" fill="#C7D0E2" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="4">MUMBAI ARCHITECTURE LAB</text>
+  <text x="80" y="163" fill="url(#word)" font-family="Sora, Arial, sans-serif" font-size="72" font-weight="800" letter-spacing="0">MAL Lab 1</text>
+  <text x="80" y="286" fill="#F3F7FF" font-family="Sora, Arial, sans-serif" font-size="64" font-weight="800" letter-spacing="0">Building through</text>
+  <text x="80" y="360" fill="#F3F7FF" font-family="Sora, Arial, sans-serif" font-size="64" font-weight="800" letter-spacing="0">the monsoon.</text>
+
+  <rect x="80" y="405" width="540" height="3" rx="1.5" fill="url(#word)"/>
+  <text x="80" y="462" fill="#C7D0E2" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700">11 July 2026  |  Paytm, Mumbai</text>
+  <text x="80" y="512" fill="#8FA2C0" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="600">Safety first. Clarity always. Build responsibly.</text>
+
+  <g transform="translate(805 116)">
+    <rect x="0" y="0" width="314" height="314" rx="36" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.14)"/>
+    <path d="M72 192 C 104 164, 128 128, 158 74 C 188 128, 212 164, 244 192" fill="none" stroke="#3DA8F5" stroke-width="16" stroke-linecap="round"/>
+    <path d="M158 74 C 188 128, 212 164, 244 192" fill="none" stroke="#FF7A5C" stroke-width="16" stroke-linecap="round"/>
+    <path d="M115 152 C 142 164, 174 164, 201 152" fill="none" stroke="#A77BFF" stroke-width="16" stroke-linecap="round"/>
+    <circle cx="158" cy="74" r="20" fill="#F3F7FF"/>
+    <circle cx="72" cy="192" r="18" fill="#3DA8F5"/>
+    <circle cx="244" cy="192" r="18" fill="#FF7A5C"/>
+    <text x="42" y="268" fill="#C7D0E2" font-family="Inter, Arial, sans-serif" font-size="19" font-weight="700">Flutter and Foundations</text>
+  </g>
+</svg>

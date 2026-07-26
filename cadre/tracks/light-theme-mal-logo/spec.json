@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "schema": "cadre.spec.v1",
+  "kind": "spec",
+  "track_id": "light-theme-mal-logo",
+  "title": "Generate light-theme MAL logo asset",
+  "description": "Create a light-theme version of the MAL logo/lockup that matches the existing Mobile Architecture Lab branding assets and can be used in the static site.",
+  "functional_requirements": [
+    {
+      "heading": "Light-theme logo asset",
+      "body": "Add a logo asset under the existing logo directory that is legible on light backgrounds and consistent with the current MAL visual identity."
+    },
+    {
+      "heading": "Site compatibility",
+      "body": "Use a browser-friendly asset format and preserve existing logo assets without breaking current pages."
+    }
+  ],
+  "non_functional_requirements": [
+    {
+      "heading": "Scoped visual change",
+      "body": "Keep the work limited to logo assets and any minimal references needed for discoverability."
+    }
+  ],
+  "acceptance_criteria": [
+    {
+      "heading": "Asset exists",
+      "body": "A light-theme MAL logo asset exists on disk in the repo with valid SVG or image structure."
+    },
+    {
+      "heading": "Visual validation",
+      "body": "The asset can be rendered locally and inspected for light-background contrast and correct framing."
+    }
+  ],
+  "out_of_scope": [
+    {
+      "heading": "No full redesign",
+      "body": "Do not redesign landing, sponsor deck, or invoice pages."
+    },
+    {
+      "heading": "No unrelated content changes",
+      "body": "Do not alter speaker, sponsor, or event copy."
+    }
+  ],
+  "updated_at": "2026-07-08T16:00:25Z"
+}

@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "schema": "cadre.tracks_index.v1",
+  "generated_at": "2026-07-08T16:12:08Z",
+  "counts": {
+    "new": 0,
+    "in_progress": 1,
+    "completed": 0,
+    "blocked": 0,
+    "skipped": 0
+  },
+  "tracks": [
+    {
+      "track_id": "light-theme-mal-logo",
+      "name": "light-theme-mal-logo",
+      "status": "in_progress",
+      "priority": "medium",
+      "owner": "viveky259259@gmail.com",
+      "reviewer": null,
+      "tags": [],
+      "review": null,
+      "metadata_path": "cadre/tracks/light-theme-mal-logo/metadata.json",
+      "spec_path": "cadre/tracks/light-theme-mal-logo/spec.json",
+      "plan_path": "cadre/tracks/light-theme-mal-logo/plan.json"
+    }
+  ]
+}

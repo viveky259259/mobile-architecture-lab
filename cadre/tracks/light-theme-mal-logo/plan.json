@@ -1,0 +1,206 @@
+{
+  "version": 1,
+  "schema": "cadre.plan.v1",
+  "track_id": "light-theme-mal-logo",
+  "title": "Plan: light-theme MAL logo",
+  "execution_mode": "sequential",
+  "files": [
+    "logo/"
+  ],
+  "test_expectations": [
+    "Render or inspect the generated logo asset for valid structure and visual fit."
+  ],
+  "phases": [
+    {
+      "phase_index": 1,
+      "title": "Create and validate asset",
+      "execution_mode": "sequential",
+      "depends_on": [],
+      "tasks": [
+        {
+          "task_index": 1,
+          "task_key": "inspect_brand_assets",
+          "title": "Inspect existing MAL brand assets and styling",
+          "status": "completed",
+          "files": [
+            "logo/",
+            "landing.html",
+            "favicon.svg"
+          ],
+          "depends_on": [],
+          "commit_shas": [],
+          "repo_shas": {},
+          "completion_evidence": {
+            "commit_sha": null,
+            "repo": null,
+            "working_root": null,
+            "coverage": null,
+            "recorded_at": "2026-07-08T16:12:13Z"
+          }
+        },
+        {
+          "task_index": 2,
+          "task_key": "generate_light_logo",
+          "title": "Generate light-theme MAL logo asset",
+          "status": "completed",
+          "files": [
+            "logo/"
+          ],
+          "depends_on": [
+            "inspect_brand_assets"
+          ],
+          "commit_shas": [],
+          "repo_shas": {},
+          "completion_evidence": {
+            "commit_sha": null,
+            "repo": null,
+            "working_root": null,
+            "coverage": null,
+            "recorded_at": "2026-07-08T16:12:19Z"
+          }
+        },
+        {
+          "task_index": 3,
+          "task_key": "validate_asset",
+          "title": "Validate generated asset renders correctly",
+          "status": "completed",
+          "files": [
+            "logo/"
+          ],
+          "depends_on": [
+            "generate_light_logo"
+          ],
+          "commit_shas": [],
+          "repo_shas": {},
+          "completion_evidence": {
+            "commit_sha": null,
+            "repo": null,
+            "working_root": null,
+            "coverage": null,
+            "recorded_at": "2026-07-08T16:12:25Z"
+          }
+        },
+        {
+          "task_index": 4,
+          "task_key": "phase1_manual_verification",
+          "title": "User Manual Verification",
+          "status": "pending",
+          "task_type": "user_manual_verification",
+          "files": [],
+          "depends_on": [
+            "inspect_brand_assets",
+            "generate_light_logo",
+            "validate_asset"
+          ],
+          "repo": null,
+          "annotations": {
+            "task-type": "user_manual_verification",
+            "manual-verification-scope": "phase"
+          },
+          "commit_shas": [],
+          "repo_shas": {},
+          "manual_verification": {
+            "scope": "phase",
+            "suggested_checks": [
+              {
+                "id": "phase1-check-1",
+                "heading": "Exercise changed behavior",
+                "body": "Manually exercise the behavior delivered by Create and validate asset: Inspect existing MAL brand assets and styling; Generate light-theme MAL logo asset; Validate generated asset renders correctly.",
+                "source": "phase"
+              },
+              {
+                "id": "phase1-check-2",
+                "heading": "Inspect affected surfaces",
+                "body": "Review the user-visible behavior around affected files: logo/, landing.html, favicon.svg.",
+                "source": "phase"
+              }
+            ]
+          },
+          "completion_evidence": {}
+        }
+      ],
+      "annotations": {}
+    },
+    {
+      "phase_index": 2,
+      "title": "Phase 2: User Manual Verification",
+      "execution_mode": "sequential",
+      "depends_on": [
+        "phase1"
+      ],
+      "annotations": {
+        "execution": "sequential",
+        "depends": "phase1"
+      },
+      "tasks": [
+        {
+          "task_index": 1,
+          "task_key": "track_manual_verification",
+          "title": "Track-Level User Manual Verification",
+          "status": "pending",
+          "task_type": "user_manual_verification",
+          "files": [],
+          "depends_on": [
+            "phase1_manual_verification"
+          ],
+          "repo": null,
+          "annotations": {
+            "task-type": "user_manual_verification",
+            "manual-verification-scope": "track"
+          },
+          "commit_shas": [],
+          "repo_shas": {},
+          "manual_verification": {
+            "scope": "track",
+            "suggested_checks": [
+              {
+                "id": "track-functional-requirements-1",
+                "heading": "Functional: Light-theme logo asset",
+                "body": "Add a logo asset under the existing logo directory that is legible on light backgrounds and consistent with the current MAL visual identity.",
+                "source": "functional_requirements"
+              },
+              {
+                "id": "track-functional-requirements-2",
+                "heading": "Functional: Site compatibility",
+                "body": "Use a browser-friendly asset format and preserve existing logo assets without breaking current pages.",
+                "source": "functional_requirements"
+              },
+              {
+                "id": "track-non-functional-requirements-1",
+                "heading": "Non-functional: Scoped visual change",
+                "body": "Keep the work limited to logo assets and any minimal references needed for discoverability.",
+                "source": "non_functional_requirements"
+              },
+              {
+                "id": "track-acceptance-criteria-1",
+                "heading": "Acceptance: Asset exists",
+                "body": "A light-theme MAL logo asset exists on disk in the repo with valid SVG or image structure.",
+                "source": "acceptance_criteria"
+              },
+              {
+                "id": "track-acceptance-criteria-2",
+                "heading": "Acceptance: Visual validation",
+                "body": "The asset can be rendered locally and inspected for light-background contrast and correct framing.",
+                "source": "acceptance_criteria"
+              },
+              {
+                "id": "track-out-of-scope-1",
+                "heading": "Out of scope guardrail: No full redesign",
+                "body": "Do not redesign landing, sponsor deck, or invoice pages.",
+                "source": "out_of_scope"
+              },
+              {
+                "id": "track-out-of-scope-2",
+                "heading": "Out of scope guardrail: No unrelated content changes",
+                "body": "Do not alter speaker, sponsor, or event copy.",
+                "source": "out_of_scope"
+              }
+            ]
+          },
+          "completion_evidence": {}
+        }
+      ]
+    }
+  ],
+  "updated_at": "2026-07-08T16:12:25Z"
+}

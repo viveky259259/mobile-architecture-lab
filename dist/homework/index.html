@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MAL Lab 1 Homework - Attendee Brief</title>
+<meta name="description" content="Two-week MAL Lab 1 homework brief for attendees building a hyperlocal, local-first marketplace app with accessibility, security, and local AI." />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="MAL Lab 1 Homework" />
+<meta property="og:description" content="Build the first local-first slice of the MAL hyperlocal marketplace in two weeks." />
+<meta property="og:image" content="https://mobilearchitecturelab.netlify.app/og-image.png" />
+<meta property="og:url" content="https://mobilearchitecturelab.netlify.app/homework/" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<script>
+  (function(){
+    try {
+      var stored = localStorage.getItem('mal-theme');
+      var prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      var isLight = stored === 'light' || (!stored && prefersLight);
+      if (isLight) document.documentElement.dataset.theme = 'light';
+    } catch (e) {}
+  })();
+</script>
+<style>
+  :root{
+    color-scheme:dark;
+    --flutter:#3DA8F5; --swift:#FF7A5C; --kotlin:#A77BFF; --react:#61DAFB; --green:#5EE6A8;
+    --bg:#070A12; --bg-2:#0B0F1A; --panel:#101727;
+    --ink:#F3F7FF; --muted:#A8B4CC; --faint:#6A7790;
+    --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.16);
+    --glass:rgba(255,255,255,.04); --glass-2:rgba(255,255,255,.07);
+    --grad:linear-gradient(110deg,var(--flutter),var(--kotlin) 50%,var(--swift));
+    --shadow:0 30px 80px -28px rgba(0,0,0,.72);
+    --nav-bg:rgba(7,10,18,.66);
+    --hero-bg:
+      radial-gradient(900px 520px at 78% -8%,rgba(61,168,245,.16),transparent 62%),
+      radial-gradient(720px 460px at 4% 18%,rgba(94,230,168,.10),transparent 58%),
+      var(--bg);
+  }
+  :root[data-theme="light"]{
+    color-scheme:light;
+    --bg:#F7FAFC; --bg-2:#EEF4F8; --panel:#FFFFFF;
+    --ink:#07111F; --muted:#42526A; --faint:#6B7A90;
+    --line:rgba(7,17,31,.10); --line-2:rgba(7,17,31,.16);
+    --glass:rgba(255,255,255,.68); --glass-2:rgba(255,255,255,.90);
+    --shadow:0 28px 70px -34px rgba(11,28,48,.42);
+    --nav-bg:rgba(247,250,252,.82);
+    --hero-bg:
+      radial-gradient(900px 520px at 78% -8%,rgba(61,168,245,.19),transparent 62%),
+      radial-gradient(720px 460px at 4% 18%,rgba(94,230,168,.16),transparent 58%),
+      var(--bg);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,sans-serif;line-height:1.56;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3,h4,.brand,.eyebrow,.kicker{font-family:"Sora",sans-serif}
+  .mono{font-family:"JetBrains Mono",monospace}
+  .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px 7vw;backdrop-filter:blur(14px);background:var(--nav-bg);border-bottom:1px solid var(--line)}
+  .brand{font-weight:800;letter-spacing:.04em;font-size:18px;display:flex;align-items:center;gap:11px;white-space:nowrap}
+  .brand .ico{width:34px;height:34px;border-radius:9px;display:block;background:url("/logo/mal-icon-dark.svg") center/contain no-repeat}
+  :root[data-theme="light"] .brand .ico{background-image:url("/favicon.svg")}
+  .brand span:last-child{color:var(--faint);font-weight:600;font-size:12px;letter-spacing:.18em;margin-left:8px}
+  .links{display:flex;gap:24px;align-items:center;font-size:14px;color:var(--muted)}
+  .links a:hover{color:var(--ink)}
+  .theme-toggle{width:38px;height:38px;border-radius:999px;border:1px solid var(--line-2);background:var(--glass);color:var(--ink);display:grid;place-items:center;cursor:pointer;font-size:17px;line-height:1;transition:.2s}
+  .theme-toggle:hover{border-color:var(--ink);transform:translateY(-1px)}
+  .theme-toggle::before{content:"LT"}
+  :root[data-theme="light"] .theme-toggle::before{content:"DK"}
+  .btn{min-height:48px;padding:14px 22px;border-radius:999px;font-weight:700;font-size:14.5px;font-family:"Sora";display:inline-flex;align-items:center;justify-content:center;gap:10px;transition:.2s;border:0}
+  .btn-primary{background:var(--grad);color:#04060c;box-shadow:0 16px 40px -18px rgba(61,168,245,.7)}
+  .btn-primary:hover{transform:translateY(-2px)}
+  .btn-ghost{border:1px solid var(--line-2);background:var(--glass);color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--ink)}
+  main{background:var(--hero-bg)}
+  section{position:relative;padding:96px 7vw}
+  .inner{max-width:1160px;margin:0 auto}
+  .hero{min-height:82vh;padding-top:150px;display:flex;align-items:center}
+  .hero-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(320px,.72fr);gap:48px;align-items:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding:7px 14px;border:1px solid var(--line-2);border-radius:999px;background:var(--glass)}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
+  h1{font-size:clamp(42px,6vw,76px);line-height:1.02;font-weight:800;letter-spacing:-.02em;margin:24px 0 20px}
+  .lead{color:var(--muted);font-size:19px;max-width:690px}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+  .chip{border:1px solid var(--line-2);background:var(--glass);color:var(--muted);border-radius:999px;padding:8px 12px;font-size:12.5px}
+  .brief-card{border:1px solid var(--line-2);border-radius:18px;background:linear-gradient(180deg,var(--glass-2),var(--glass));box-shadow:var(--shadow);padding:26px}
+  .brief-title{display:flex;justify-content:space-between;align-items:center;gap:18px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+  .brief-title h2{font-size:19px;margin:0}
+  .badge{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:#06101A;background:var(--green);border-radius:999px;padding:6px 10px;font-weight:700;white-space:nowrap}
+  .facts{display:grid;gap:14px;margin-top:20px}
+  .fact{display:flex;justify-content:space-between;gap:18px;font-size:14px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+  .fact span:first-child{color:var(--faint)}
+  .fact strong{color:var(--ink);text-align:right}
+  .section-head{display:flex;justify-content:space-between;align-items:end;gap:26px;margin-bottom:30px}
+  .kicker{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--flutter);font-weight:700}
+  h2{font-size:clamp(30px,4vw,46px);line-height:1.08;font-weight:750;letter-spacing:-.015em;margin:10px 0 0}
+  .section-note{max-width:460px;color:var(--muted);font-size:15px}
+  .grid{display:grid;gap:18px}
+  .g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .card{border:1px solid var(--line);border-radius:8px;background:var(--glass);padding:22px;min-width:0}
+  .card h3{font-size:18px;margin-bottom:8px}
+  .card p,.card li{color:var(--muted);font-size:14.5px}
+  code{font-family:"JetBrains Mono",monospace;font-size:.92em;color:var(--ink);background:var(--glass-2);border:1px solid var(--line);border-radius:5px;padding:1px 5px}
+  .card ul{list-style:none;display:grid;gap:9px;margin-top:12px}
+  .card li{padding-left:16px;position:relative}
+  .card li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--flutter);position:absolute;left:0;top:.65em}
+  .focus-card{background:linear-gradient(135deg,rgba(61,168,245,.10),rgba(167,123,255,.08));border-color:rgba(61,168,245,.25)}
+  .requirements{counter-reset:req}
+  .requirement{position:relative;padding-left:58px}
+  .requirement::before{counter-increment:req;content:counter(req, decimal-leading-zero);position:absolute;left:20px;top:22px;font-family:"JetBrains Mono";font-size:12px;color:var(--flutter)}
+  .timeline{display:grid;grid-template-columns:repeat(14,minmax(112px,1fr));gap:12px;overflow-x:auto;padding-bottom:8px}
+  .day{border:1px solid var(--line);background:var(--glass);border-radius:8px;padding:16px;min-height:158px}
+  .day .num{font-family:"JetBrains Mono";font-size:11px;color:var(--faint);letter-spacing:.1em;text-transform:uppercase}
+  .day h3{font-size:14.5px;margin:9px 0 8px;line-height:1.25}
+  .day p{font-size:13px;color:var(--muted);line-height:1.45}
+  .metrics-table,.score-table{width:100%;border-collapse:collapse;border:1px solid var(--line);border-radius:8px;overflow:hidden;display:table;background:var(--glass)}
+  th,td{text-align:left;vertical-align:top;padding:14px 15px;border-bottom:1px solid var(--line);font-size:14px}
+  th{font-family:"Sora";font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);background:var(--glass-2)}
+  td{color:var(--muted)}
+  td strong{color:var(--ink)}
+  tr:last-child td{border-bottom:0}
+  .split{display:grid;grid-template-columns:.85fr 1.15fr;gap:20px;align-items:start}
+  .checklist{display:grid;gap:10px}
+  .check{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);background:var(--glass);border-radius:8px;padding:13px 14px;color:var(--muted);font-size:14.5px}
+  .check::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--green);margin-top:.42em;flex:0 0 auto}
+  .warning{border-color:rgba(255,122,92,.32);background:linear-gradient(135deg,rgba(255,122,92,.10),var(--glass))}
+  .warning .check::before{background:var(--swift)}
+  .judge-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+  .step{border:1px solid var(--line);border-radius:8px;background:var(--glass);padding:18px}
+  .step .num{font-family:"JetBrains Mono";font-size:11px;color:var(--green);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+  .step h3{font-size:16px;margin-bottom:8px}
+  .step p{font-size:13.5px;color:var(--muted)}
+  .cta-band{padding:56px 7vw;background:linear-gradient(120deg,rgba(94,230,168,.12),rgba(61,168,245,.10));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .cta-inner{max-width:1160px;margin:0 auto;display:flex;justify-content:space-between;gap:28px;align-items:center}
+  .cta-inner h2{font-size:clamp(25px,3vw,36px)}
+  footer{padding:44px 7vw;text-align:center;color:var(--faint);font-size:13.5px;border-top:1px solid var(--line);background:var(--bg)}
+  footer a{color:var(--muted)}
+  footer a:hover{color:var(--ink)}
+  @media(max-width:980px){
+    .hero-grid,.split{grid-template-columns:1fr}
+    .g2,.g3,.judge-steps{grid-template-columns:1fr}
+    .section-head,.cta-inner{display:block}
+    .section-note,.cta-inner .btn{margin-top:18px}
+    .links a:not(.keep){display:none}
+  }
+  @media(max-width:620px){
+    .nav{padding:13px 5vw}
+    .brand span:last-child{display:none}
+    section{padding:72px 5vw}
+    .hero{padding-top:124px}
+    .brief-title,.fact{display:block}
+    .badge{display:inline-block;margin-top:10px}
+    .fact strong{display:block;text-align:left;margin-top:4px}
+    th,td{padding:12px 10px;font-size:13px}
+    .metrics-table,.score-table{display:block;overflow-x:auto}
+  }
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="/" aria-label="MAL home"><span class="ico" role="img" aria-label="MAL logo"></span>MAL<span>MOBILE ARCHITECTURE LAB</span></a>
+  <div class="links">
+    <a href="#requirements">Requirements</a>
+    <a href="#plan">Build plan</a>
+    <a href="#submit">Share</a>
+    <a class="keep" href="/">Main site</a>
+    <button class="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false"></button>
+  </div>
+</nav>
+
+<main>
+  <section class="hero" id="top">
+    <div class="inner hero-grid">
+      <div>
+        <span class="eyebrow"><span class="dot"></span> Lab 1 homework - due July 25</span>
+        <h1>Build the first slice of your <span class="grad">hyperlocal system.</span></h1>
+        <p class="lead">Use the next two weeks to turn the MAL product brief into a runnable local-first app. Your stack is your choice. The review focuses on product clarity, architecture, accessibility, security, local AI, and delivery.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#plan">Start the build plan</a>
+          <a class="btn btn-ghost" href="#judge">See review criteria</a>
+        </div>
+        <div class="meta-row" aria-label="Homework summary">
+          <span class="chip">Web, Android, iOS, desktop, or any stack</span>
+          <span class="chip">Local-first marketplace</span>
+          <span class="chip">Local AI with fallback</span>
+        </div>
+      </div>
+      <aside class="brief-card" aria-labelledby="brief-title">
+        <div class="brief-title">
+          <h2 id="brief-title">Attendee Brief</h2>
+          <span class="badge">Reviewable</span>
+        </div>
+        <div class="facts">
+          <div class="fact"><span>Start</span><strong>July 12, 2026</strong></div>
+          <div class="fact"><span>Due</span><strong>July 25, before Lab 2</strong></div>
+          <div class="fact"><span>Product</span><strong>MAL Local</strong></div>
+          <div class="fact"><span>Share</span><strong>Repo or packaged project</strong></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="overview" style="background:var(--bg-2)">
+    <div class="inner">
+      <div class="section-head">
+        <div>
+          <div class="kicker">Outcome</div>
+          <h2>A small app with serious architectural signals.</h2>
+        </div>
+        <p class="section-note">Payments, delivery, chat, KYC, moderation dashboards, and backend infrastructure are intentionally out of scope. The first useful local loop is the priority.</p>
+      </div>
+      <div class="grid g3">
+        <article class="card focus-card">
+          <h3>What you are building</h3>
+          <p>A local-first listing board for one neighborhood where a resident can find, create, save, contact, or close listings and requests.</p>
+        </article>
+        <article class="card">
+          <h3>Who it serves</h3>
+          <p>A resident of a Mumbai neighborhood who wants a lightweight way to discover, request, lend, sell, or share nearby goods and services.</p>
+        </article>
+        <article class="card">
+          <h3>How it is reviewed</h3>
+          <p>Organizers review a runnable project, useful docs, a three-minute demo, and evidence that Lab 1 learnings shaped the implementation.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="requirements">
+    <div class="inner">
+      <div class="section-head">
+        <div>
+          <div class="kicker">Required implementation</div>
+          <h2>Six parts to make visible.</h2>
+        </div>
+        <p class="section-note">Choose your own stack, but keep boundaries visible. Reviewers should be able to see what belongs to product, storage, UI, security, accessibility, and local AI.</p>
+      </div>
+      <div class="grid g2 requirements">
+        <article class="card requirement">
+          <h3>Product loop</h3>
+          <ul>
+            <li>View listings or requests for one neighborhood.</li>
+            <li>Create a listing with title, category, description, approximate area, and contact preference.</li>
+            <li>Open listing details and mark a listing saved, contacted, or closed.</li>
+            <li>Add one small product feature from your own product angle.</li>
+          </ul>
+        </article>
+        <article class="card requirement">
+          <h3>Accessibility</h3>
+          <ul>
+            <li>Clear labels for tappable controls.</li>
+            <li>Readable listing cards for screen readers or platform accessibility tooling.</li>
+            <li>Visible form errors, not only color changes.</li>
+            <li>Usable tap targets and text scaling.</li>
+          </ul>
+        </article>
+        <article class="card requirement">
+          <h3>Security and privacy</h3>
+          <ul>
+            <li>Keep secrets and API keys out of the shared project.</li>
+            <li>Avoid exact home addresses and precise live location.</li>
+            <li>Input validation before saving listings.</li>
+            <li>Data reset or deletion for local app data.</li>
+          </ul>
+        </article>
+        <article class="card requirement">
+          <h3>Local AI</h3>
+          <ul>
+            <li>Choose listing helper, search helper, or safety helper.</li>
+            <li>Put AI behavior behind a <code>LocalAiService</code> or equivalent boundary.</li>
+            <li>Provide deterministic fallback that works without a model.</li>
+            <li>Use a local model or deterministic fallback for the expected AI flow.</li>
+          </ul>
+        </article>
+        <article class="card requirement">
+          <h3>Architecture</h3>
+          <ul>
+            <li>Write <code>docs/adr/0001-local-first-marketplace-slice.md</code>.</li>
+            <li>Explain local-first choice, storage boundary, product logic, AI isolation, and future change points.</li>
+            <li>Keep local storage behind a repository or data source interface.</li>
+          </ul>
+        </article>
+        <article class="card requirement">
+          <h3>Documentation</h3>
+          <ul>
+            <li><code>docs/product-slice.md</code></li>
+            <li><code>docs/success-metrics.md</code></li>
+            <li><code>docs/accessibility-check.md</code></li>
+            <li><code>docs/security-baseline.md</code> and <code>docs/local-ai-note.md</code></li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="metrics" style="background:var(--bg-2)">
+    <div class="inner">
+      <div class="section-head">
+        <div>
+          <div class="kicker">Success metrics</div>
+          <h2>Define success before you build too much.</h2>
+        </div>
+        <p class="section-note">Create <code>docs/success-metrics.md</code> on Day 1. Each metric should be testable during review without real users or production deployment.</p>
+      </div>
+      <table class="metrics-table">
+        <thead>
+          <tr><th>Area</th><th>Metric</th><th>Example target</th><th>How reviewers check</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Product</strong></td><td>Main workflow completion</td><td>Create and find a listing in under 3 minutes</td><td>Run the demo script</td></tr>
+          <tr><td><strong>Activation</strong></td><td>First useful action</td><td>Create first listing without help</td><td>Manual demo or usability check</td></tr>
+          <tr><td><strong>Local-first</strong></td><td>Offline/local persistence</td><td>Listing survives refresh, restart, or relaunch</td><td>Create, close, reopen</td></tr>
+          <tr><td><strong>Accessibility</strong></td><td>Core flow accessibility</td><td>Feed and create form work with accessibility tooling</td><td>Review accessibility notes and UI</td></tr>
+          <tr><td><strong>Security</strong></td><td>Data minimization</td><td>Avoids exact address, precise location, secrets, and hosted AI keys</td><td>Review data model and repo</td></tr>
+          <tr><td><strong>Local AI</strong></td><td>Helpful action with fallback</td><td>Editable AI output works without network access</td><td>Disable network or model path</td></tr>
+          <tr><td><strong>Architecture</strong></td><td>Clear boundaries</td><td>UI, storage, product logic, and AI can change independently</td><td>Review ADR and code structure</td></tr>
+          <tr><td><strong>Reliability</strong></td><td>Main flow stability</td><td>No crash across feed, create, persist, reopen, details</td><td>Run demo twice</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="plan">
+    <div class="inner">
+      <div class="section-head">
+        <div>
+          <div class="kicker">Two-week plan</div>
+          <h2>One hour per day. No heroic scope.</h2>
+        </div>
+        <p class="section-note">The sequence is intentionally narrow: define, build the core local loop, apply Lab 1 themes, then harden the demo.</p>
+      </div>
+      <div class="timeline" aria-label="14 day homework plan">
+        <article class="day"><div class="num">Day 01</div><h3>Product slice</h3><p>Define workflow, categories, out-of-scope items, and success metrics.</p></article>
+        <article class="day"><div class="num">Day 02</div><h3>App skeleton</h3><p>Set up chosen stack, first screen, theme, and run instructions.</p></article>
+        <article class="day"><div class="num">Day 03</div><h3>Domain model</h3><p>Add neighborhood, listing, category, status, and contact preference.</p></article>
+        <article class="day"><div class="num">Day 04</div><h3>Listing feed</h3><p>Show neighborhood listings with readable cards and empty state.</p></article>
+        <article class="day"><div class="num">Day 05</div><h3>Details</h3><p>Open listing details and update saved, contacted, or closed state.</p></article>
+        <article class="day"><div class="num">Day 06</div><h3>Create form</h3><p>Add form fields, validation, visible errors, and keyboard flow.</p></article>
+        <article class="day"><div class="num">Day 07</div><h3>Persistence</h3><p>Save locally through a repository or data source boundary.</p></article>
+        <article class="day"><div class="num">Day 08</div><h3>Accessibility</h3><p>Audit core screens, fix labels, focus order, tap targets, and errors.</p></article>
+        <article class="day"><div class="num">Day 09</div><h3>Security</h3><p>Document data, tighten validation, avoid precise location, add reset.</p></article>
+        <article class="day"><div class="num">Day 10</div><h3>AI boundary</h3><p>Create local AI interface and deterministic fallback checks.</p></article>
+        <article class="day"><div class="num">Day 11</div><h3>AI workflow</h3><p>Integrate AI helper into listing, search, or safety review.</p></article>
+        <article class="day"><div class="num">Day 12</div><h3>ADR</h3><p>Write the local-first architecture decision and future change points.</p></article>
+        <article class="day"><div class="num">Day 13</div><h3>Demo hardening</h3><p>Polish seed data, states, and three-minute manual test script.</p></article>
+        <article class="day"><div class="num">Day 14</div><h3>Final review</h3><p>Package the project, list known gaps, and verify fresh-run instructions.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="submit" style="background:var(--bg-2)">
+    <div class="inner split">
+      <div>
+        <div class="kicker">Sharing</div>
+        <h2>What to share.</h2>
+        <p class="lead" style="font-size:17px;margin-top:16px">Share one project repository or packaged project folder. The project does not need to be publicly deployed, but it should run locally or on your target platform from the instructions you provide.</p>
+      </div>
+      <div class="checklist">
+        <div class="check">A project folder or repository that contains the app.</div>
+        <div class="check"><code>README.md</code> with setup, run, and demo instructions.</div>
+        <div class="check">Language, framework, and local storage approach documented.</div>
+        <div class="check">Product, success metrics, accessibility, security, local AI, and ADR docs included.</div>
+        <div class="check">Shared project keeps secrets, dependency folders, and generated build outputs out.</div>
+        <div class="check">Listing feed, create listing, local persistence, and AI fallback work.</div>
+        <div class="check">Three-minute demo script or recording ready.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="repo-ready">
+    <div class="inner">
+      <div class="section-head">
+        <div>
+          <div class="kicker">GitHub readiness</div>
+          <h2>Make the project understandable from the repo home page.</h2>
+        </div>
+        <p class="section-note">Organizers should be able to open the repository, understand the stack, run the app, and find the evidence documents without needing private context.</p>
+      </div>
+      <div class="grid g2">
+        <article class="card">
+          <h3>A helpful README includes</h3>
+          <ul>
+            <li>Project name and one-sentence product summary.</li>
+            <li>Platform, language, framework, and local storage choice.</li>
+            <li>Setup command, run command, and test command if available.</li>
+            <li>Three-minute demo script and known gaps.</li>
+            <li>Links to all required files in <code>docs/</code>.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Keep out of the shared project</h3>
+          <ul>
+            <li>API keys, tokens, secrets, or personal contact details.</li>
+            <li>Dependency folders such as <code>node_modules</code>.</li>
+            <li>Generated build folders, simulator artifacts, or dependency caches.</li>
+            <li>Large model files unless they are essential, license-safe, and documented.</li>
+            <li>Real personal data or exact addresses.</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="judge">
+    <div class="inner">
+      <div class="section-head">
+        <div>
+          <div class="kicker">Organizer review</div>
+          <h2>How organizers can review.</h2>
+        </div>
+        <p class="section-note">Each review can take 10-15 minutes. The review recognizes a working, explainable slice that applies Lab 1 themes, not the largest feature set.</p>
+      </div>
+      <div class="judge-steps">
+        <article class="step"><div class="num">Step 01</div><h3>Review readiness</h3><p>Check that the project opens, run instructions exist, platform is documented, useful docs exist, repo hygiene is clean, and known gaps are listed.</p></article>
+        <article class="step"><div class="num">Step 02</div><h3>Demo validation</h3><p>Run or watch the demo: first screen, neighborhood, feed, create flow, persistence, status, AI helper, accessibility, and security decisions.</p></article>
+        <article class="step"><div class="num">Step 03</div><h3>Evidence check</h3><p>Review docs and code boundaries for product, success metrics, accessibility, security, local AI, and ADR claims.</p></article>
+        <article class="step"><div class="num">Step 04</div><h3>Risk checks</h3><p>Call out backend-dependent core flow, hosted AI API use, precise location, committed secrets, no persistence, or missing ADR.</p></article>
+      </div>
+      <div style="margin-top:28px">
+        <table class="score-table">
+          <thead><tr><th>Area</th><th>Points</th><th>What good looks like</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Product</strong></td><td>3</td><td>Clear user, problem, scoped workflow, and one small personal product addition.</td></tr>
+            <tr><td><strong>Core workflow</strong></td><td>4</td><td>Feed, create listing/request, details/status, and local persistence work.</td></tr>
+            <tr><td><strong>Accessibility</strong></td><td>3</td><td>Implemented in UI, not only documented.</td></tr>
+            <tr><td><strong>Security</strong></td><td>3</td><td>Data minimization and local storage risks are addressed.</td></tr>
+            <tr><td><strong>Local AI</strong></td><td>3</td><td>AI feature has a fallback and does not require hosted APIs.</td></tr>
+            <tr><td><strong>Architecture</strong></td><td>2</td><td>Feature boundaries are visible, storage and AI are isolated, ADR is clear.</td></tr>
+            <tr><td><strong>Metrics</strong></td><td>1</td><td>Metrics are testable and include one project-specific metric.</td></tr>
+            <tr><td><strong>Delivery</strong></td><td>1</td><td>Runs from a fresh checkout or copy and demos in three minutes.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="cta-inner">
+      <div>
+        <div class="kicker">Keep scope sharp</div>
+        <h2>Complete the core loop first. Stretch only after it works.</h2>
+      </div>
+      <a class="btn btn-primary" href="#top">Back to top</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div style="font-family:'Sora';font-weight:800;letter-spacing:.05em;color:var(--ink);margin-bottom:8px">MAL</div>
+  Mobile Architecture Lab - Lab 1 homework for attendees<br/>
+  <a href="/">Main site</a> &nbsp;-&nbsp; <a href="/MAL_LAB1_HOMEWORK.md">Markdown brief</a>
+</footer>
+
+<script>
+  (function(){
+    var toggle = document.querySelector('.theme-toggle');
+    if (!toggle) return;
+
+    function syncLabel(){
+      var isLight = document.documentElement.dataset.theme === 'light';
+      toggle.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
+      toggle.setAttribute('aria-pressed', String(isLight));
+    }
+
+    toggle.addEventListener('click', function(){
+      var next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+      if (next === 'light') document.documentElement.dataset.theme = 'light';
+      else delete document.documentElement.dataset.theme;
+      try { localStorage.setItem('mal-theme', next); } catch (e) {}
+      syncLabel();
+    });
+
+    syncLabel();
+  })();
+</script>
+</body>
+</html>

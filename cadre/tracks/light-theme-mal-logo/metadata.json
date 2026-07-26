@@ -1,0 +1,23 @@
+{
+  "track_id": "light-theme-mal-logo",
+  "type": "feature",
+  "status": "in_progress",
+  "priority": "medium",
+  "depends_on": [],
+  "description": "light-theme-mal-logo",
+  "owner": "viveky259259@gmail.com",
+  "reviewer": null,
+  "git_branch": "track/light-theme-mal-logo",
+  "worktree_path": ".worktrees/cadre/tracks/light-theme-mal-logo/integrate/root",
+  "updated_at": "2026-07-08T16:08:35Z",
+  "last_task_result": {
+    "phase_index": 1,
+    "task_index": 3,
+    "task_key": "validate_asset",
+    "status": "completed",
+    "commit_sha": null,
+    "repo": null,
+    "working_root": null,
+    "recorded_at": "2026-07-08T16:12:25Z"
+  }
+}
