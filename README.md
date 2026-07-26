@@ -32,7 +32,7 @@ gradient palette across Flutter / Swift / Kotlin / React Native accents). Deploy
 ## The arc
 
 1. **July 11, 2026 — Flutter & Foundations** — architecture skeleton + first on-device AI feature
-2. **July 25, 2026 — Native iOS / Swift** — concurrency, performance, release pipeline
+2. **August 1, 2026 — Native iOS / Swift** — concurrency, performance, release pipeline
 3. **August 22, 2026 — Native Android / Kotlin** — modularization, CI/CD, crash analytics
 4. **September 5, 2026 — React Native** — deep links, multi-env, growth & attribution
 5. **September 26, 2026 — Synthesis & Scale** — observability, resilience, architecture defense
