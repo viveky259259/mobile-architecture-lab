@@ -10,6 +10,8 @@ Please submit your project here:
 
 **[Submit your MAL project](https://forms.gle/zkQJA3qLgM1G3w5V7)**
 
+**Deadline: Wednesday, July 29, 2026.**
+
 Please include:
 
 - Your project repository or packaged project link.
@@ -36,4 +38,3 @@ We are looking forward to seeing the decisions behind your builds—not just the
 Thanks,
 
 Vivek and the MAL team
-

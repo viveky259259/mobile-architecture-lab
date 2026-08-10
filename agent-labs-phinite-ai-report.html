@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Agent Labs by Phinite AI Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #101828;
+    --muted: #526173;
+    --faint: #7b8797;
+    --line: #d9e0ea;
+    --paper: #ffffff;
+    --mist: #f6f8fb;
+    --blue: #1865d8;
+    --cyan: #0f9bb4;
+    --orange: #f26f3f;
+    --green: #168a62;
+    --shadow: 0 24px 70px -34px rgba(16, 24, 40, 0.4);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #e9eef5; color: var(--ink); font-family: "Inter", Arial, sans-serif; }
+  body { padding: 28px; }
+  .page {
+    width: 8.5in;
+    min-height: 11in;
+    margin: 0 auto 24px;
+    background: var(--paper);
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 11px;
+    background: linear-gradient(90deg, var(--blue), var(--cyan), var(--green), var(--orange));
+  }
+
+  .inner { padding: 72px 72px 64px; position: relative; z-index: 1; }
+  .cover {
+    min-height: 11in;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--blue);
+    font: 600 11px/1 "JetBrains Mono", monospace;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .kicker::before { content: ""; width: 8px; height: 8px; border-radius: 2px; background: var(--orange); }
+  h1, h2, h3 { font-family: "Sora", Arial, sans-serif; letter-spacing: 0; margin: 0; }
+  h1 { font-size: 52px; line-height: 1.02; max-width: 660px; }
+  .subtitle { margin-top: 16px; color: var(--muted); font-size: 21px; font-weight: 600; }
+  .meta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
+  .pill {
+    border: 1px solid var(--line);
+    background: var(--mist);
+    border-radius: 8px;
+    padding: 11px 14px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .pill b { color: var(--ink); }
+  .overview {
+    margin-top: 48px;
+    padding: 26px 28px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: linear-gradient(180deg, #ffffff, #f8fafc);
+  }
+  .overview h2 { font-size: 21px; margin-bottom: 12px; }
+  p { color: var(--muted); font-size: 15px; line-height: 1.62; margin: 0 0 13px; }
+  p:last-child { margin-bottom: 0; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 34px; }
+  .stat { border-top: 4px solid var(--blue); padding: 16px 16px 15px; background: var(--mist); border-radius: 8px; }
+  .stat:nth-child(2) { border-top-color: var(--green); }
+  .stat:nth-child(3) { border-top-color: var(--orange); }
+  .stat strong { display: block; font-family: "Sora"; font-size: 28px; line-height: 1; }
+  .stat span { display: block; margin-top: 8px; color: var(--muted); font-size: 12px; font-weight: 700; line-height: 1.35; }
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    color: var(--faint);
+    font: 600 10px/1.4 "JetBrains Mono", monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 44px;
+  }
+
+  .section-title { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
+  .section-title h2 { font-size: 32px; line-height: 1.08; }
+  .section-title .tag { color: var(--faint); font: 600 11px/1 "JetBrains Mono", monospace; letter-spacing: 0.12em; text-transform: uppercase; white-space: nowrap; }
+  .insights { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .insight {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 22px;
+    min-height: 256px;
+  }
+  .insight .num { color: var(--blue); font: 700 13px/1 "JetBrains Mono", monospace; letter-spacing: 0.1em; margin-bottom: 12px; }
+  .insight:nth-child(2) .num { color: var(--cyan); }
+  .insight:nth-child(3) .num { color: var(--green); }
+  .insight:nth-child(4) .num { color: var(--orange); }
+  .insight h3 { font-size: 18px; line-height: 1.25; margin-bottom: 14px; }
+  ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  li { color: var(--muted); font-size: 13px; line-height: 1.5; padding-left: 18px; position: relative; }
+  li::before { content: ""; position: absolute; left: 0; top: 8px; width: 7px; height: 7px; border-radius: 2px; background: var(--orange); }
+  li b { color: var(--ink); }
+
+  .leaders { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 34px 0 30px; }
+  .leader { border: 1px solid var(--line); border-radius: 8px; padding: 22px; background: var(--mist); }
+  .leader h3 { font-size: 19px; margin-bottom: 8px; }
+  .leader .role { color: var(--blue); font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+  .conclusion {
+    border-left: 5px solid var(--green);
+    padding: 18px 0 18px 22px;
+    margin-top: 18px;
+  }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .page { margin: 0; box-shadow: none; width: 8.5in; min-height: 11in; page-break-after: always; }
+    .page:last-child { page-break-after: auto; }
+    @page { size: letter; margin: 0; }
+  }
+</style>
+</head>
+<body>
+  <main>
+    <section class="page">
+      <div class="inner cover">
+        <div>
+          <div class="kicker">Event Report</div>
+          <h1>Agent Labs by Phinite AI</h1>
+          <div class="subtitle">Infrastructure for the Agent Economy</div>
+          <div class="meta-row">
+            <div class="pill"><b>Date:</b> June 28, 2026</div>
+            <div class="pill"><b>Venue:</b> ATLAS SkillTech University, BKC</div>
+            <div class="pill"><b>Format:</b> Hands-on build session</div>
+          </div>
+          <div class="overview">
+            <h2>Overview</h2>
+            <p>The Agent Labs build session, facilitated by Phinite AI, brought together over 150 developers, students, and enterprise innovators at ATLAS SkillTech University to focus on the infrastructure challenges of deploying autonomous agents at scale.</p>
+            <p>Moving beyond simple sandboxes, the event provided a hands-on environment for participants to design, deploy, and observe multi-agent systems using the Phinite platform. The session helped builders move from theoretical AI interest to production-ready, enterprise-grade agentic solutions.</p>
+          </div>
+          <div class="stats">
+            <div class="stat"><strong>150+</strong><span>Developers, students, and enterprise innovators</span></div>
+            <div class="stat"><strong>4</strong><span>Strategic insight areas from the build session</span></div>
+            <div class="stat"><strong>1/2 day</strong><span>Idea-to-agent prototyping window</span></div>
+          </div>
+        </div>
+        <div class="footer">
+          <span>Phinite AI x ATLAS ISDI</span>
+          <span>Agent Economy Infrastructure</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="page">
+      <div class="inner">
+        <div class="section-title">
+          <h2>Key Learnings and Strategic Insights</h2>
+          <div class="tag">Build Session Outcomes</div>
+        </div>
+        <div class="insights">
+          <article class="insight">
+            <div class="num">01</div>
+            <h3>Architectural Foundations for Multi-Agent Systems</h3>
+            <ul>
+              <li><b>Production gap:</b> Teams repeatedly rebuild identity, skill sets, lifecycle management, and governance from scratch.</li>
+              <li><b>Unified infrastructure:</b> Phinite provides a centralized stack to design, deploy, observe, and scale multi-agentic systems.</li>
+            </ul>
+          </article>
+          <article class="insight">
+            <div class="num">02</div>
+            <h3>Live Agent Registry and A2A Communication</h3>
+            <ul>
+              <li><b>Agent identity:</b> Participants walked through Agent Registry and Agent-to-Agent communication protocols.</li>
+              <li><b>Lifecycle management:</b> Build blocks mapped the path from registry and skill attachment to production deployment and observation.</li>
+              <li><b>Curricular adaptation:</b> The format gives ATLAS ISDI a blueprint for future multi-agent labs.</li>
+            </ul>
+          </article>
+          <article class="insight">
+            <div class="num">03</div>
+            <h3>Enterprise-Relevant Solution Building</h3>
+            <ul>
+              <li><b>Practical applicability:</b> Participants built support agents, product specification writers, and automated legal advisory systems.</li>
+              <li><b>Ease of deployment:</b> The right abstraction layers let developers prototype complex agentic workflows with minimal friction.</li>
+            </ul>
+          </article>
+          <article class="insight">
+            <div class="num">04</div>
+            <h3>Scaling Agentic Innovation</h3>
+            <ul>
+              <li><b>Developer energy:</b> Strong turnout highlighted a shift toward professionalizing agent development.</li>
+              <li><b>Frictionless innovation:</b> Free accounts, credits, and expert guidance helped participants move quickly.</li>
+              <li><b>Ecosystem hub:</b> ATLAS ISDI served as a convergence zone for Mumbai's AI builder community.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="page">
+      <div class="inner">
+        <div class="section-title">
+          <h2>Speakers and Community Leaders</h2>
+          <div class="tag">Session Leadership</div>
+        </div>
+        <div class="leaders">
+          <article class="leader">
+            <h3>Shashank Somal</h3>
+            <div class="role">Founder and CEO, Phinite AI</div>
+            <p>Opened the session with a keynote on the necessity of robust infrastructure for the agent economy.</p>
+          </article>
+          <article class="leader">
+            <h3>Ashish Deekonda</h3>
+            <div class="role">Head of Product, Phinite AI</div>
+            <p>Led the technical deep dive into the Phinite platform stack and supervised the hands-on build blocks.</p>
+          </article>
+        </div>
+        <div class="section-title" style="margin-top: 54px; margin-bottom: 16px;">
+          <h2>Conclusion</h2>
+          <div class="tag">Reusable Blueprint</div>
+        </div>
+        <div class="conclusion">
+          <p>The Agent Labs event at ATLAS SkillTech University demonstrated that the barrier to building the Agent Economy is quickly dissolving as developers gain access to production-grade infrastructure.</p>
+          <p>By providing the physical and technical space for this collaboration, ATLAS ISDI fostered a high-energy environment where complex multi-agentic systems were built with ease. The event established a reusable blueprint for ATLAS ISDI to continue acting as a hub for developers who are ready to move beyond the demo stage and deliver high-value, AI-powered applications to the enterprise.</p>
+        </div>
+        <div class="footer" style="position: absolute; left: 72px; right: 72px; bottom: 58px;">
+          <span>Generated from source event report</span>
+          <span>June 28, 2026</span>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

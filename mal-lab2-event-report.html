@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MAL Lab 2 Event Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #101828;
+    --muted: #526173;
+    --faint: #7b8797;
+    --line: #d9e0ea;
+    --paper: #ffffff;
+    --mist: #f6f8fb;
+    --swift: #f05138;
+    --blue: #1865d8;
+    --cyan: #0f9bb4;
+    --green: #168a62;
+    --violet: #7559c7;
+    --shadow: 0 24px 70px -34px rgba(16, 24, 40, 0.4);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #e9eef5; color: var(--ink); font-family: "Inter", Arial, sans-serif; }
+  body { padding: 28px; }
+  .page {
+    width: 8.5in;
+    min-height: 11in;
+    margin: 0 auto 24px;
+    background: var(--paper);
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 11px;
+    background: linear-gradient(90deg, var(--swift), var(--blue), var(--cyan), var(--green));
+  }
+
+  .inner { padding: 72px 72px 64px; position: relative; z-index: 1; }
+  .cover {
+    min-height: 11in;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--swift);
+    font: 600 11px/1 "JetBrains Mono", monospace;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .kicker::before { content: ""; width: 8px; height: 8px; border-radius: 2px; background: var(--blue); }
+  h1, h2, h3 { font-family: "Sora", Arial, sans-serif; letter-spacing: 0; margin: 0; }
+  h1 { font-size: 50px; line-height: 1.02; max-width: 690px; }
+  .subtitle { margin-top: 16px; color: var(--muted); font-size: 21px; font-weight: 600; max-width: 680px; }
+  .meta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
+  .pill {
+    border: 1px solid var(--line);
+    background: var(--mist);
+    border-radius: 8px;
+    padding: 11px 14px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .pill b { color: var(--ink); }
+  .overview {
+    margin-top: 48px;
+    padding: 26px 28px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: linear-gradient(180deg, #ffffff, #f8fafc);
+  }
+  .overview h2 { font-size: 21px; margin-bottom: 12px; }
+  p { color: var(--muted); font-size: 15px; line-height: 1.62; margin: 0 0 13px; }
+  p:last-child { margin-bottom: 0; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 34px; }
+  .stat { border-top: 4px solid var(--swift); padding: 16px 16px 15px; background: var(--mist); border-radius: 8px; }
+  .stat:nth-child(2) { border-top-color: var(--blue); }
+  .stat:nth-child(3) { border-top-color: var(--green); }
+  .stat strong { display: block; font-family: "Sora"; font-size: 28px; line-height: 1; }
+  .stat span { display: block; margin-top: 8px; color: var(--muted); font-size: 12px; font-weight: 700; line-height: 1.35; }
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    color: var(--faint);
+    font: 600 10px/1.4 "JetBrains Mono", monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 44px;
+  }
+
+  .section-title { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
+  .section-title h2 { font-size: 32px; line-height: 1.08; }
+  .section-title .tag { color: var(--faint); font: 600 11px/1 "JetBrains Mono", monospace; letter-spacing: 0.12em; text-transform: uppercase; white-space: nowrap; }
+  .insights { display: grid; grid-template-columns: 1fr; gap: 18px; }
+  .insight {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 22px;
+    display: grid;
+    grid-template-columns: 170px 1fr;
+    gap: 22px;
+    min-height: 176px;
+  }
+  .insight .num { color: var(--swift); font: 700 13px/1 "JetBrains Mono", monospace; letter-spacing: 0.1em; margin-bottom: 12px; }
+  .insight:nth-child(2) .num { color: var(--blue); }
+  .insight:nth-child(3) .num { color: var(--green); }
+  .insight h3 { font-size: 18px; line-height: 1.25; margin-bottom: 8px; }
+  .speaker { color: var(--faint); font-size: 11px; font-weight: 800; letter-spacing: 0.1em; line-height: 1.4; text-transform: uppercase; }
+  ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  li { color: var(--muted); font-size: 13px; line-height: 1.5; padding-left: 18px; position: relative; }
+  li::before { content: ""; position: absolute; left: 0; top: 8px; width: 7px; height: 7px; border-radius: 2px; background: var(--swift); }
+  .insight:nth-child(2) li::before { background: var(--blue); }
+  .insight:nth-child(3) li::before { background: var(--green); }
+  li b { color: var(--ink); }
+
+  .leaders { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 28px 0 30px; }
+  .leader { border: 1px solid var(--line); border-radius: 8px; padding: 18px 20px; background: var(--mist); display: grid; grid-template-columns: 178px 1fr; gap: 18px; }
+  .leader h3 { font-size: 18px; margin-bottom: 7px; }
+  .leader .role { color: var(--blue); font-size: 11px; font-weight: 800; letter-spacing: 0.1em; line-height: 1.4; text-transform: uppercase; }
+  .conclusion {
+    border-left: 5px solid var(--swift);
+    padding: 18px 0 18px 22px;
+    margin-top: 18px;
+  }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .page { margin: 0; box-shadow: none; width: 8.5in; min-height: 11in; page-break-after: always; }
+    .page:last-child { page-break-after: auto; }
+    @page { size: letter; margin: 0; }
+  }
+</style>
+</head>
+<body>
+  <main>
+    <section class="page">
+      <div class="inner cover">
+        <div>
+          <div class="kicker">Event Report</div>
+          <h1>MAL Lab 2: Native iOS / Swift</h1>
+          <div class="subtitle">Concurrency, Modular SwiftUI, and On-Device AI for production mobile architecture</div>
+          <div class="meta-row">
+            <div class="pill"><b>Date:</b> August 1, 2026</div>
+            <div class="pill"><b>Program:</b> Mobile Architecture Lab</div>
+            <div class="pill"><b>Format:</b> Expert-led technical lab</div>
+          </div>
+          <div class="overview">
+            <h2>Overview</h2>
+            <p>The second Mobile Architecture Lab focused on Native iOS and Swift. The session moved the cohort deeper into production-grade mobile architecture through three connected themes: Swift concurrency, modular SwiftUI app structure, and local AI on Apple devices.</p>
+            <p>The lab was led by three practitioners from the iOS ecosystem. Satya Prem framed concurrency through the practical realities of Swift development, Aman Gupta showed how modular SwiftUI helps teams build scalable iOS applications, and Raj Raval demonstrated how on-device LLM models can be integrated into Apple-device workflows.</p>
+          </div>
+          <div class="stats">
+            <div class="stat"><strong>3</strong><span>Expert-led iOS architecture sessions</span></div>
+            <div class="stat"><strong>Swift</strong><span>Native iOS focus for Lab 2</span></div>
+            <div class="stat"><strong>AI</strong><span>On-device LLM workflows on Apple devices</span></div>
+          </div>
+        </div>
+        <div class="footer">
+          <span>MAL Lab 2</span>
+          <span>Concurrency - Modularity - Local AI</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="page">
+      <div class="inner">
+        <div class="section-title">
+          <h2>Key Learnings and Strategic Insights</h2>
+          <div class="tag">Session Outcomes</div>
+        </div>
+        <div class="insights">
+          <article class="insight">
+            <div>
+              <div class="num">01</div>
+              <h3>Swift Concurrency as a Production Concern</h3>
+              <div class="speaker">Satya Prem<br />Senior iOS Engineer, FloBiz</div>
+            </div>
+            <ul>
+              <li><b>Unavoidable complexity:</b> Modern apps coordinate network calls, local state, UI updates, and user-driven cancellation.</li>
+              <li><b>Swift lens:</b> The session covered what concurrency is, why it exists, and the bugs it introduces when ordering and ownership are unclear.</li>
+              <li><b>Architecture responsibility:</b> Concurrency was framed as a correctness concern, not only a syntax feature.</li>
+            </ul>
+          </article>
+          <article class="insight">
+            <div>
+              <div class="num">02</div>
+              <h3>Modular SwiftUI for Scalable iOS Apps</h3>
+              <div class="speaker">Aman Gupta<br />iOS, Web3, and AI systems</div>
+            </div>
+            <ul>
+              <li><b>Scalable structure:</b> Modular SwiftUI helps iOS apps grow beyond early prototypes without collapsing into tightly coupled screens.</li>
+              <li><b>Clear boundaries:</b> The session emphasized feature modules, replaceable services, and separation between UI, domain, data, and platform code.</li>
+              <li><b>Lab 2 bridge:</b> The topic mapped directly to building two client surfaces with shared contracts and explicit module ownership.</li>
+            </ul>
+          </article>
+          <article class="insight">
+            <div>
+              <div class="num">03</div>
+              <h3>On-Device LLM Integration on Apple Devices</h3>
+              <div class="speaker">Raj Raval<br />iOS Engineer, Loco</div>
+            </div>
+            <ul>
+              <li><b>Local AI capability:</b> The session introduced useful LLM-assisted flows that run close to the user on Apple devices.</li>
+              <li><b>Product and architecture decision:</b> Teams need fallback paths, safe output handling, and clear boundaries around model access.</li>
+              <li><b>Privacy and responsiveness:</b> On-device AI connects mobile architecture to AI-native experiences while keeping sensitive flows local-first.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="page">
+      <div class="inner">
+        <div class="section-title">
+          <h2>Speakers and Community Leaders</h2>
+          <div class="tag">Lab Faculty</div>
+        </div>
+        <div class="leaders">
+          <article class="leader">
+            <div>
+              <h3>Satya Prem</h3>
+              <div class="role">Senior iOS Engineer, FloBiz</div>
+            </div>
+            <p>Builds products for Indian SMBs and led the session on concurrency from the perspective of Swift engineering and production bugs.</p>
+          </article>
+          <article class="leader">
+            <div>
+              <h3>Aman Gupta</h3>
+              <div class="role">Entrepreneur, iOS / Web3 / AI systems</div>
+            </div>
+            <p>Works across iOS, Web3, and AI systems with teams and collaborators globally, and led the session on Modular SwiftUI for scalable iOS apps.</p>
+          </article>
+          <article class="leader">
+            <div>
+              <h3>Raj Raval</h3>
+              <div class="role">iOS Engineer, Loco</div>
+            </div>
+            <p>Apple-recognized Community Leader who led the session on integrating on-device LLM models on Apple devices.</p>
+          </article>
+        </div>
+        <div class="section-title" style="margin-top: 44px; margin-bottom: 16px;">
+          <h2>Conclusion</h2>
+          <div class="tag">Assignment Bridge</div>
+        </div>
+        <div class="conclusion">
+          <p>Lab 2 extended Mobile Architecture Lab from app foundations into production iOS architecture. By combining concurrency, modular SwiftUI, and on-device AI, the session helped attendees connect implementation choices to long-term maintainability, correctness, and product capability.</p>
+          <p>The event established a strong bridge into the Lab 2 assignment: participants are expected to build mobile experiences with concurrent workflows, modular boundaries, local LLM capability, and operational signals through Measure.</p>
+        </div>
+        <div class="footer" style="position: absolute; left: 72px; right: 72px; bottom: 58px;">
+          <span>Generated from organizer event notes</span>
+          <span>August 1, 2026</span>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

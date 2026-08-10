@@ -17,7 +17,11 @@ app, a documented set of architecture decisions, and a portfolio.
 |------|-------------|
 | `landing.html` | Public landing page (root of the live site) |
 | `homework.html` | Lab 1 attendee homework page |
+| `assignment-2.html` | Lab 2 assignment page: two clients, concurrency, modularity, local LLM, and Measure |
+| `lab3.html` | Lab 3 event page: date, venue, and agenda status |
+| `security-adr-handout.html` | Print-friendly Lab 1 security ADR handout |
 | `MAL_LAB1_HOMEWORK.md` | Shareable Lab 1 homework brief and judge rubric |
+| `MAL_LAB2_HOMEWORK.md` | Shareable Lab 2 assignment brief and judge rubric |
 | `sponsor-deck.html` | Sponsorship deck (served at `/sponsor`) |
 | `sponsor-deck.pdf` / `sponsor-deck-light.pdf` | Deck exports (dark / light) |
 | `dist/` | Built site as deployed (Netlify) |
@@ -32,8 +36,8 @@ gradient palette across Flutter / Swift / Kotlin / React Native accents). Deploy
 ## The arc
 
 1. **July 11, 2026 — Flutter & Foundations** — architecture skeleton + first on-device AI feature
-2. **August 1, 2026 — Native iOS / Swift** — concurrency, performance, release pipeline
-3. **August 22, 2026 — Native Android / Kotlin** — modularization, CI/CD, crash analytics
+2. **August 1, 2026 — Native iOS / Swift** — concurrency, modular client design, local LLM, and mobile observability with Measure
+3. **August 29, 2026 — Native Android / Kotlin** — modularization, CI/CD, crash analytics
 4. **September 5, 2026 — React Native** — deep links, multi-env, growth & attribution
 5. **September 26, 2026 — Synthesis & Scale** — observability, resilience, architecture defense
 
