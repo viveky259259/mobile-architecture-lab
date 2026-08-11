@@ -16,6 +16,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@annotorious/annotorious@3.8.8/dist/annotorious.css">
+<script src="https://cdn.jsdelivr.net/npm/@annotorious/annotorious@3.8.8/dist/annotorious.js" defer></script>
 <script>
   (function(){
     try {
@@ -70,6 +72,48 @@
   .mono{font-family:"JetBrains Mono",monospace}
   .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
+  /* ---------- motion system ---------- */
+  :root{--motion-fast:160ms;--motion-base:240ms;--motion-reveal:620ms;--ease-out:cubic-bezier(.22,1,.36,1)}
+  .nav .links a,.header-handout,.cta,.btn,.hero-sponsor,.card,.lab,.product,.sponsor-panel,.partner-card,.pill{--interactive-lift:0px}
+  .nav .links a:focus-visible,.header-handout:focus-visible,.cta:focus-visible,.btn:focus-visible,.hero-sponsor:focus-visible,.card:focus-visible,.lab-cta:focus-visible,.sponsor-panel:focus-visible,.partner-card:focus-visible,.theme-toggle:focus-visible{outline:2px solid var(--green);outline-offset:4px}
+  .nav .links a:not(.cta):not(.header-handout){position:relative;transition:color var(--motion-fast) ease}
+  .nav .links a:not(.cta):not(.header-handout)::after{content:"";position:absolute;right:0;bottom:-6px;left:0;height:2px;border-radius:999px;background:var(--grad);transform:scaleX(0);transform-origin:right;transition:transform var(--motion-base) var(--ease-out)}
+  .nav .links a:not(.cta):not(.header-handout):hover::after,.nav .links a:not(.cta):not(.header-handout):focus-visible::after{transform:scaleX(1);transform-origin:left}
+  .cta,.btn,.hero-sponsor,.card,.lab,.product,.sponsor-panel,.partner-card,.pill{transition:transform var(--motion-base) var(--ease-out),border-color var(--motion-base) ease,background var(--motion-base) ease,box-shadow var(--motion-base) ease}
+  .cta:hover,.cta:focus-visible,.btn:hover,.btn:focus-visible,.hero-sponsor:hover,.hero-sponsor:focus-visible,.card:hover,.card:focus-visible,.lab:hover,.product:hover,.sponsor-panel:hover,.sponsor-panel:focus-visible,.partner-card:hover,.partner-card:focus-visible,.pill:hover{--interactive-lift:-3px}
+  .cta,.btn,.hero-sponsor,.card,.lab,.product,.sponsor-panel,.partner-card,.pill{transform:translate3d(0,var(--interactive-lift),0)}
+  .lab{transition:transform var(--motion-base) var(--ease-out),border-color var(--motion-base) ease,background var(--motion-base) ease,box-shadow var(--motion-base) ease}
+  .lab:hover{border-color:var(--line-2);background:var(--glass-2);box-shadow:0 16px 36px -28px rgba(61,168,245,.7)}
+  .product:hover{border-color:var(--line-2);box-shadow:0 20px 50px -38px rgba(61,168,245,.65)}
+  .pill:hover{border-color:var(--flutter);color:var(--ink)}
+  .sponsor-panel:hover,.sponsor-panel:focus-visible{border-color:rgba(94,230,168,.52);box-shadow:0 34px 78px -40px rgba(94,230,168,.45)}
+  .hero-orbit{position:absolute;top:calc(var(--announce-h) + 9%);right:-110px;width:min(44vw,500px);aspect-ratio:1;border:1px solid rgba(61,168,245,.22);border-radius:50%;pointer-events:none;opacity:.62;z-index:0}
+  .hero-orbit::before,.hero-orbit::after{content:"";position:absolute;border-radius:50%;inset:12%;border:1px dashed rgba(167,123,255,.34)}
+  .hero-orbit::after{inset:31%;border-style:solid;border-color:rgba(94,230,168,.34) transparent transparent transparent}
+  .cursor-halo{position:fixed;top:0;left:0;z-index:100;width:34px;aspect-ratio:1;pointer-events:none;opacity:0;transform:translate3d(-100px,-100px,0);transition:opacity var(--motion-fast) ease;will-change:transform}
+  .cursor-halo.is-visible{opacity:.9}.cursor-halo.is-interactive{--cursor-scale:1.42}
+  .cursor-halo__ring{width:100%;height:100%;border:1px solid rgba(94,230,168,.82);border-radius:50%;box-shadow:0 0 24px rgba(61,168,245,.42),inset 0 0 16px rgba(167,123,255,.2);transform:scale(var(--cursor-scale,1));transition:transform var(--motion-base) var(--ease-out)}
+  .cursor-halo__ring::before{content:"";position:absolute;top:-4px;left:50%;width:7px;height:7px;border-radius:50%;background:var(--swift);box-shadow:0 0 12px var(--swift);transform:translateX(-50%)}
+  @keyframes glow-drift{0%{transform:translate3d(-2%,0,0) scale(.96)}50%{transform:translate3d(4%,-5%,0) scale(1.08)}100%{transform:translate3d(-1%,4%,0) scale(1)}}
+  @keyframes hero-orbit{to{transform:rotate(360deg)}}
+  @keyframes cursor-orbit{to{transform:scale(var(--cursor-scale,1)) rotate(360deg)}}
+  @media(prefers-reduced-motion:no-preference){
+    html.motion-ready [data-reveal]{opacity:0;--reveal-offset:22px;transform:translate3d(0,calc(var(--reveal-offset) + var(--interactive-lift,0px)),0);transition:opacity var(--motion-reveal) var(--ease-out) var(--reveal-delay,0ms),transform var(--motion-reveal) var(--ease-out) var(--reveal-delay,0ms),border-color var(--motion-base) ease,background var(--motion-base) ease,box-shadow var(--motion-base) ease;will-change:opacity,transform}
+    html.motion-ready [data-reveal].is-visible{opacity:1;--reveal-offset:0px}
+    html.motion-ready [data-reveal].motion-settled{transition:transform var(--motion-base) var(--ease-out),border-color var(--motion-base) ease,background var(--motion-base) ease,box-shadow var(--motion-base) ease;will-change:auto}
+    html.motion-ready #hero [data-reveal]{--reveal-offset:16px}
+  }
+  @media(prefers-reduced-motion:no-preference) and (pointer:fine){
+    .glow{animation:glow-drift 22s ease-in-out infinite alternate;will-change:transform}
+    section:nth-of-type(2) .glow{animation-duration:27s;animation-delay:-8s}
+    section:nth-of-type(3) .glow{animation-duration:19s;animation-delay:-11s}
+    .hero-orbit{animation:hero-orbit 22s linear infinite}
+    .cursor-halo__ring{animation:cursor-orbit 4s linear infinite}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  }
+
   /* ---------- announcement carousel ---------- */
   .announcement-carousel{position:fixed;top:0;left:0;right:0;z-index:70;height:var(--announce-h);display:flex;align-items:center;overflow:hidden;
     background:linear-gradient(90deg,rgba(255,122,92,.96),rgba(167,123,255,.96) 48%,rgba(61,168,245,.96));color:#04060c;border-bottom:1px solid rgba(255,255,255,.2)}
@@ -117,12 +161,12 @@
   .hero-cta{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-top:40px}
   .btn{padding:15px 30px;border-radius:999px;font-weight:700;font-size:15.5px;font-family:"Sora";transition:.2s;display:inline-flex;align-items:center;gap:10px}
   .btn-primary{background:var(--grad);color:#04060c;box-shadow:0 16px 40px -16px rgba(61,168,245,.6)}
-  .btn-primary:hover{transform:translateY(-2px)}
+  .btn-primary:hover{transform:translate3d(0,var(--interactive-lift),0)}
   .btn-ghost{border:1px solid var(--line-2);color:var(--ink);background:var(--glass)}
   .btn-ghost:hover{border-color:var(--ink)}
   .hero-sponsor{display:inline-flex;align-items:center;gap:15px;margin-top:32px;padding:14px 18px;border:1px solid var(--line-2);
     border-radius:18px;background:var(--glass);box-shadow:0 20px 60px -36px rgba(61,168,245,.7);transition:.2s}
-  .hero-sponsor:hover{border-color:rgba(61,168,245,.45);background:var(--glass-2);transform:translateY(-2px)}
+  .hero-sponsor:hover{border-color:rgba(61,168,245,.45);background:var(--glass-2)}
   .hero-sponsor img{width:48px;height:48px;object-fit:contain;flex:0 0 auto}
   .hero-sponsor span{display:block}
   .hero-sponsor .label{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
@@ -142,7 +186,7 @@
   .g2{grid-template-columns:repeat(2,1fr)}
   @media(max-width:860px){.g3,.g2{grid-template-columns:1fr}}
   .card{padding:26px 24px;border:1px solid var(--line);border-radius:18px;background:var(--glass);transition:.2s}
-  .card:hover{border-color:var(--line-2);background:var(--glass-2);transform:translateY(-3px)}
+  .card:hover{border-color:var(--line-2);background:var(--glass-2)}
   .card .ic{font-size:24px;margin-bottom:14px}
   .card h3{font-size:18.5px;font-weight:600;margin-bottom:8px}
   .card p{color:var(--muted);font-size:14.5px}
@@ -199,7 +243,7 @@
   .partner-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
   .partner-card{min-height:142px;border:1px solid var(--line);border-radius:18px;background:var(--glass);
     padding:22px;display:flex;flex-direction:column;justify-content:space-between;gap:18px;transition:.2s}
-  .partner-card:hover{border-color:var(--line-2);background:var(--glass-2);transform:translateY(-2px)}
+  .partner-card:hover{border-color:var(--line-2);background:var(--glass-2)}
   .partner-role{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
   .partner-logo-wide{display:block;width:100%;max-width:360px;height:42px;object-fit:contain;object-position:left center}
   .partner-brand{display:flex;align-items:center;gap:14px}
@@ -219,29 +263,55 @@
   @media(max-width:900px){.partner-head{display:block}.partner-intro{margin-top:10px}.partner-grid{grid-template-columns:1fr}}
   @media(max-width:560px){.partner-card{min-height:128px}.partner-logo-wide{height:34px}.partner-name{font-size:18px}}
 
-  /* ---------- project submission popup ---------- */
-  .project-popup{position:fixed;right:24px;bottom:24px;z-index:45;width:min(360px,calc(100vw - 32px));
+  /* ---------- assessment submission popup ---------- */
+  .assessment-popup{position:fixed;right:24px;bottom:24px;z-index:45;width:min(360px,calc(100vw - 32px));
     padding:18px 48px 18px 20px;border:1px solid rgba(61,168,245,.48);border-radius:18px;
     background:linear-gradient(135deg,rgba(61,168,245,.18),rgba(167,123,255,.16) 52%,rgba(255,122,92,.16));
     box-shadow:0 22px 70px -28px rgba(0,0,0,.8);backdrop-filter:blur(18px);
     animation:popup-in .55s cubic-bezier(.2,.8,.2,1) both}
-  .project-popup::before{content:"";position:absolute;left:20px;top:-4px;width:42px;height:4px;border-radius:999px;background:var(--grad);box-shadow:0 0 18px rgba(61,168,245,.7)}
-  .project-popup a{display:block}
-  .project-popup .label{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--flutter);font-weight:600}
-  .project-popup strong{display:block;font-family:"Sora";font-size:17px;line-height:1.25;margin-top:5px}
-  .project-popup p{font-size:13px;line-height:1.45;color:var(--muted);margin-top:5px}
-  .project-popup .submit-link{display:inline-block;margin-top:11px;color:var(--ink);font-family:"Sora";font-size:12.5px;font-weight:700}
-  .project-popup a:focus-visible{outline:2px solid var(--ink);outline-offset:4px;border-radius:5px}
-  .project-popup .close{position:absolute;top:10px;right:10px;width:28px;height:28px;border:1px solid var(--line-2);border-radius:50%;
+  .assessment-popup::before{content:"";position:absolute;left:20px;top:-4px;width:42px;height:4px;border-radius:999px;background:var(--grad);box-shadow:0 0 18px rgba(61,168,245,.7)}
+  .assessment-popup a{display:block}
+  .assessment-popup .label{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--flutter);font-weight:600}
+  .assessment-popup strong{display:block;font-family:"Sora";font-size:17px;line-height:1.25;margin-top:5px}
+  .assessment-popup p{font-size:13px;line-height:1.45;color:var(--muted);margin-top:5px}
+  .assessment-popup .submit-link{display:inline-block;margin-top:11px;color:var(--ink);font-family:"Sora";font-size:12.5px;font-weight:700}
+  .assessment-popup a:focus-visible{outline:2px solid var(--ink);outline-offset:4px;border-radius:5px}
+  .assessment-popup .close{position:absolute;top:10px;right:10px;width:28px;height:28px;border:1px solid var(--line-2);border-radius:50%;
     background:var(--glass);color:var(--muted);font-size:18px;line-height:1;cursor:pointer;display:grid;place-items:center}
-  .project-popup .close:hover{color:var(--ink);border-color:var(--ink)}
-  .project-popup .close:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .assessment-popup .close:hover{color:var(--ink);border-color:var(--ink)}
+  .assessment-popup .close:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   @keyframes popup-in{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
-  @media(max-width:560px){.project-popup{right:16px;bottom:16px}}
-  @media(prefers-reduced-motion:reduce){.project-popup{animation:none}}
+  @media(max-width:560px){.assessment-popup{right:16px;bottom:16px}}
+  @media(prefers-reduced-motion:reduce){.assessment-popup{animation:none}}
 
   footer{padding:50px 7vw;border-top:1px solid var(--line);text-align:center;color:var(--faint);font-size:13.5px}
   footer a{color:var(--muted)} footer a:hover{color:var(--ink)}
+
+  /* ---------- same-tab image viewer + notes ---------- */
+  .image-preview-trigger{cursor:zoom-in}
+  .image-preview-trigger:focus-visible{outline:3px solid var(--green);outline-offset:5px;border-radius:8px}
+  body.image-dialog-open{overflow:hidden}
+  .image-dialog{width:100vw;max-width:none;height:100vh;max-height:none;margin:0;padding:0;border:0;background:var(--bg);color:var(--ink)}
+  .image-dialog::backdrop{background:rgba(2,5,12,.88);backdrop-filter:blur(10px)}
+  .image-dialog__top{height:66px;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line);background:var(--nav-bg)}
+  .image-dialog__title{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:"Sora";font-size:14px;font-weight:700}
+  .image-dialog__actions{display:flex;align-items:center;gap:10px}
+  .image-dialog__close,.image-dialog__save,.image-dialog__delete{border:1px solid var(--line-2);border-radius:999px;padding:9px 14px;background:var(--glass);color:var(--ink);font:600 12px "Sora";cursor:pointer}
+  .image-dialog__close:hover,.image-dialog__save:hover,.image-dialog__delete:hover{border-color:var(--ink)}
+  .image-dialog__close{font-size:18px;line-height:1;padding:7px 11px}
+  .image-dialog__body{height:calc(100vh - 66px);display:grid;grid-template-columns:minmax(0,1fr) 310px;min-height:0}
+  .image-dialog__stage{min-width:0;min-height:0;display:flex;align-items:center;justify-content:center;padding:24px;overflow:auto;background:radial-gradient(900px 560px at 50% 45%,rgba(61,168,245,.10),transparent 70%)}
+  .image-dialog__stage img{max-width:100%;max-height:calc(100vh - 114px);object-fit:contain}
+  .image-dialog__stage .a9s-annotationlayer{max-width:100%;max-height:calc(100vh - 114px)}
+  .image-dialog__notes{min-width:0;padding:24px 20px;border-left:1px solid var(--line);background:var(--bg-2);overflow:auto}
+  .image-dialog__notes h2{font:700 18px "Sora";margin-bottom:8px}.image-dialog__notes p{color:var(--muted);font-size:13px;line-height:1.5}
+  .image-dialog__notes label{display:block;margin:24px 0 8px;color:var(--faint);font:600 11px "JetBrains Mono";letter-spacing:.1em;text-transform:uppercase}
+  .image-dialog__notes textarea{width:100%;min-height:120px;resize:vertical;padding:12px;border:1px solid var(--line-2);border-radius:12px;background:var(--glass);color:var(--ink);font:14px/1.5 Inter,sans-serif}
+  .image-dialog__notes textarea:disabled{opacity:.55}.image-dialog__notes textarea:focus{outline:2px solid var(--green);outline-offset:2px}
+  .image-dialog__note-actions{display:flex;gap:8px;margin-top:10px}.image-dialog__save{background:var(--grad);color:#04060c;border:0}.image-dialog__delete{color:#ff9f9f}
+  .image-dialog__status{min-height:22px;margin-top:14px;color:var(--green);font-size:12px}.image-dialog__list{display:grid;gap:8px;margin-top:12px}.image-dialog__list button{width:100%;padding:11px;text-align:left;border:1px solid var(--line);border-radius:10px;background:var(--glass);color:var(--muted);cursor:pointer;font:13px/1.35 Inter,sans-serif}.image-dialog__list button:hover{border-color:var(--green);color:var(--ink)}
+  @media(max-width:760px){.image-dialog__body{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto}.image-dialog__stage{padding:14px}.image-dialog__stage img{max-height:calc(100vh - 310px)}.image-dialog__notes{max-height:245px;border-left:0;border-top:1px solid var(--line);padding:16px 18px}.image-dialog__notes label{margin-top:14px}.image-dialog__notes textarea{min-height:72px}.image-dialog__list{display:none}}
+  @media(prefers-reduced-motion:reduce){.image-dialog::backdrop{backdrop-filter:none}}
 </style>
 </head>
 <body>
@@ -260,13 +330,13 @@
   <div class="brand"><span class="ico" role="img" aria-label="MAL logo"></span>MAL<span>MOBILE ARCHITECTURE LAB</span></div>
   <div class="links">
     <a href="#how">How it works</a>
-    <a href="/lab3/">Lab 3</a>
-    <a href="/assignment-2/">Lab 2 homework</a>
+    <a href="lab3.html">Lab 3</a>
+    <a href="assignment-2.html">Lab 2 homework</a>
     <a href="#sponsor">Sponsors</a>
-    <a href="/organizers/">Organizers</a>
+    <a href="organizers.html">Organizers</a>
     <a class="header-handout" href="security-adr-handout.html" target="_blank" rel="noopener" aria-label="Open Security ADR handout">Security ADR ↗</a>
     <button class="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false"></button>
-    <a class="cta" href="/lab3/">View Lab 3 →</a>
+    <a class="cta" href="lab3.html">View Lab 3 →</a>
   </div>
 </nav>
 
@@ -274,13 +344,14 @@
 <section id="hero">
   <div class="glow" style="background:var(--flutter);top:-160px;right:-120px"></div>
   <div class="glow" style="background:var(--kotlin);bottom:-200px;left:-160px;opacity:.2"></div>
+  <div class="hero-orbit" aria-hidden="true"></div>
   <div class="inner">
     <span class="eyebrow"><span class="dot"></span> 5 labs · 3 months · Mumbai</span>
     <h1>Become a <span class="grad">mobile architect.</span><br/>Not just a mobile developer.</h1>
     <p class="lead">MAL is an application-only engineering lab for senior mobile engineers. Over five sessions you build one real, production-grade product — and walk out <b style="color:var(--ink)">T-shaped</b>: deep in one stack, fluent across the rest, grounded in the fundamentals that actually get you hired.</p>
     <div class="hero-cta">
-      <a class="btn btn-primary" href="/lab3/">View Lab 3 details →</a>
-      <a class="btn btn-ghost" href="/assignment-2/">Open Lab 2 homework</a>
+      <a class="btn btn-primary" href="lab3.html">View Lab 3 details →</a>
+      <a class="btn btn-ghost" href="assignment-2.html">Open Lab 2 homework</a>
     </div>
     <a class="hero-sponsor" href="https://measure.sh/?utm_source=mobilearchitecturelab&amp;utm_medium=website&amp;utm_campaign=mal_website" target="_blank" rel="noopener" aria-label="Visit Measure, MAL title sponsor">
       <img src="logo/measure-logo-color.png" alt="Measure logo" />
@@ -332,8 +403,8 @@
     <div class="kicker" style="margin-top:64px">The arc</div>
     <div class="labs">
       <div class="lab past"><span class="tag">Previous</span><div class="num">LAB 01 · JUL 11</div><div class="bar" style="background:var(--flutter)"></div><h4>Flutter &amp; Foundations</h4><p>Architecture skeleton + your first on-device AI feature.</p></div>
-      <div class="lab past"><span class="tag">Completed</span><div class="num">LAB 02 · AUG 01</div><div class="bar" style="background:var(--swift)"></div><h4>Native iOS / Swift</h4><p>Concurrency, modular clients, local LLM, and mobile observability.</p><a class="lab-cta" href="/assignment-2/">Open Lab 2 homework →</a><a class="lab-cta" href="/MAL_LAB2_HOMEWORK.md">Markdown brief →</a></div>
-      <div class="lab"><span class="tag">Upcoming</span><div class="num">LAB 03 · AUG 29</div><div class="bar" style="background:var(--kotlin)"></div><h4>Native Android / Kotlin</h4><p>Agenda TBD. Venue: ATLAS SkillTech University.</p><a class="lab-cta" href="/lab3/">View Lab 3 details →</a></div>
+      <div class="lab past"><span class="tag">Completed</span><div class="num">LAB 02 · AUG 01</div><div class="bar" style="background:var(--swift)"></div><h4>Native iOS / Swift</h4><p>Concurrency, modular clients, local LLM, and mobile observability.</p><a class="lab-cta" href="assignment-2.html">Open Lab 2 homework →</a><a class="lab-cta" href="MAL_LAB2_HOMEWORK.md">Markdown brief →</a></div>
+      <div class="lab"><span class="tag">Upcoming</span><div class="num">LAB 03 · AUG 29</div><div class="bar" style="background:var(--kotlin)"></div><h4>Native Android / Kotlin</h4><p>Agenda TBD. Venue: ATLAS SkillTech University.</p><a class="lab-cta" href="lab3.html">View Lab 3 details →</a></div>
       <div class="lab"><span class="tag">Sep 5</span><div class="num">LAB 04</div><div class="bar" style="background:var(--react)"></div><h4>React Native</h4><p>Deep links, multi-env, growth &amp; attribution.</p></div>
       <div class="lab"><span class="tag">Sep 26</span><div class="num">LAB 05</div><div class="bar" style="background:var(--green)"></div><h4>Synthesis &amp; Scale</h4><p>Observability, resilience, architecture defense.</p></div>
     </div>
@@ -444,15 +515,42 @@
   </div>
 </section>
 
-<aside class="project-popup" id="project-popup" aria-label="Project submission invitation">
-  <button class="close" type="button" aria-label="Dismiss project submission invitation">×</button>
-  <a href="https://forms.gle/zkQJA3qLgM1G3w5V7?utm_source=mobilearchitecturelab&amp;utm_medium=website&amp;utm_campaign=mal_website" target="_blank" rel="noopener" aria-label="Submit your MAL project">
-    <span class="label">Built something at MAL?</span>
-    <strong>Share your project with us.</strong>
-    <p>Submit by <b style="color:var(--ink)">Wednesday, July 29, 2026</b>. Tell us what you made and help the community see it.</p>
-    <span class="submit-link">Submit project →</span>
+<aside class="assessment-popup" id="assessment-popup" aria-label="Event 02 assessment submission">
+  <button class="close" type="button" aria-label="Dismiss assessment submission reminder">×</button>
+  <a href="https://forms.gle/4sGL4wB9PhiaShq38" target="_blank" rel="noopener" aria-label="Submit your Event 02 assessment">
+    <span class="label">Event 02 assessment</span>
+    <strong>Complete your assessment submission.</strong>
+    <p>Attended our second event? Submit your assessment and share your experience with us.</p>
+    <span class="submit-link">Submit assessment →</span>
   </a>
 </aside>
+
+<dialog class="image-dialog" id="image-dialog" aria-labelledby="image-dialog-title">
+  <div class="image-dialog__top">
+    <div class="image-dialog__title" id="image-dialog-title">Image preview</div>
+    <div class="image-dialog__actions">
+      <span class="image-dialog__status" id="image-dialog-status" role="status" aria-live="polite"></span>
+      <button class="image-dialog__close" id="image-dialog-close" type="button" aria-label="Close image preview">×</button>
+    </div>
+  </div>
+  <div class="image-dialog__body">
+    <div class="image-dialog__stage" id="image-dialog-stage">
+      <img id="image-dialog-image" alt="" />
+    </div>
+    <aside class="image-dialog__notes" aria-label="Image notes">
+      <h2>Annotate image</h2>
+      <p>Drag over an area to add a note. Select an existing highlight to edit it. Notes are saved in this browser.</p>
+      <label for="image-dialog-note">Selected note</label>
+      <textarea id="image-dialog-note" placeholder="Write a note about this area…" disabled></textarea>
+      <div class="image-dialog__note-actions">
+        <button class="image-dialog__save" id="image-dialog-save" type="button" disabled>Save note</button>
+        <button class="image-dialog__delete" id="image-dialog-delete" type="button" disabled>Delete</button>
+      </div>
+      <div class="image-dialog__list" id="image-dialog-list" aria-label="Saved annotations"></div>
+      <p style="margin-top:18px;font-size:11px;color:var(--faint)">Powered by <a href="https://annotorious.dev/?utm_source=mobilearchitecturelab&amp;utm_medium=website&amp;utm_campaign=mal_website" target="_blank" rel="noopener">Annotorious</a>, an open-source image annotation library.</p>
+    </aside>
+  </div>
+</dialog>
 
 <footer>
   <div style="font-family:'Sora';font-weight:800;letter-spacing:.05em;color:var(--ink);margin-bottom:8px">MAL</div>
@@ -460,24 +558,112 @@
   Title Sponsor: <a href="https://measure.sh/?utm_source=mobilearchitecturelab&amp;utm_medium=website&amp;utm_campaign=mal_website" target="_blank" rel="noopener">Measure</a><br/>
   Venue: Paytm, Mumbai<br/>
   Partners: Google for Developers · Flutter Mumbai · FlutterFlow Developer Group Mumbai<br/>
-  <a href="/lab3/">Lab 3 details</a> &nbsp;·&nbsp; <a href="/homework/">Lab 1 homework</a> &nbsp;·&nbsp; <a href="/assignment-2/">Lab 2 homework</a> &nbsp;·&nbsp; <a href="/MAL_LAB2_HOMEWORK.md">Lab 2 Markdown brief</a> &nbsp;·&nbsp; <a href="/sponsor">Sponsor MAL</a>
+  <a href="lab3.html">Lab 3 details</a> &nbsp;·&nbsp; <a href="homework.html">Lab 1 homework</a> &nbsp;·&nbsp; <a href="assignment-2.html">Lab 2 homework</a> &nbsp;·&nbsp; <a href="MAL_LAB2_HOMEWORK.md">Lab 2 Markdown brief</a> &nbsp;·&nbsp; <a href="/sponsor">Sponsor MAL</a>
 </footer>
 
 <script>
   (function(){
+    var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) return;
+
+    var targets = [
+      '.nav',
+      '#hero .inner > *',
+      '#how .inner > .kicker, #how .inner > h2, #how .inner > .lead, #how .product, #how .grid > *, #how .labs > *',
+      '#sponsor .sponsor-copy > *, #sponsor .sponsor-panel, #sponsor .partner-head > *, #sponsor .partner-card',
+      '#organizers .inner > .kicker, #organizers .inner > h2, #organizers .inner > .lead, #organizers .organizer-card',
+      'footer'
+    ];
+    var revealed = [];
+    var seen = [];
+
+    targets.forEach(function(selector){
+      document.querySelectorAll(selector).forEach(function(element){
+        if (seen.indexOf(element) !== -1) return;
+        seen.push(element);
+        element.setAttribute('data-reveal', '');
+        element.style.setProperty('--reveal-delay', Math.min(revealed.length % 6, 5) * 70 + 'ms');
+        revealed.push(element);
+      });
+    });
+
+    if (!revealed.length) return;
+    document.documentElement.classList.add('motion-ready');
+
+    if (!('IntersectionObserver' in window)) {
+      revealed.forEach(function(element){ element.classList.add('is-visible'); });
+      return;
+    }
+
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        window.setTimeout(function(){ entry.target.classList.add('motion-settled'); }, 1000);
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.14, rootMargin: '0px 0px -8% 0px' });
+
+    revealed.forEach(function(element){ observer.observe(element); });
+  })();
+</script>
+<script>
+  (function(){
+    var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var finePointer = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
+    if (reducedMotion || !finePointer || !window.PointerEvent) return;
+
+    var halo = document.createElement('div');
+    halo.className = 'cursor-halo';
+    halo.setAttribute('aria-hidden', 'true');
+    halo.innerHTML = '<div class="cursor-halo__ring"></div>';
+    document.body.appendChild(halo);
+
+    var targetX = -100;
+    var targetY = -100;
+    var currentX = targetX;
+    var currentY = targetY;
+    var frame = 0;
+
+    function render(){
+      currentX += (targetX - currentX) * .24;
+      currentY += (targetY - currentY) * .24;
+      halo.style.transform = 'translate3d(' + (currentX - 17) + 'px,' + (currentY - 17) + 'px,0)';
+      if (Math.abs(targetX - currentX) > .1 || Math.abs(targetY - currentY) > .1) {
+        frame = window.requestAnimationFrame(render);
+      } else {
+        frame = 0;
+      }
+    }
+
+    document.addEventListener('pointermove', function(event){
+      targetX = event.clientX;
+      targetY = event.clientY;
+      halo.classList.add('is-visible');
+      if (!frame) frame = window.requestAnimationFrame(render);
+    }, { passive: true });
+
+    document.addEventListener('pointerover', function(event){
+      halo.classList.toggle('is-interactive', Boolean(event.target.closest('a, button, input, textarea, select, [role="button"]')));
+    });
+    window.addEventListener('blur', function(){ halo.classList.remove('is-visible'); });
+  })();
+</script>
+<script>
+  (function(){
     var toggle = document.querySelector('.theme-toggle');
-    var popup = document.querySelector('#project-popup');
+    var popup = document.querySelector('#assessment-popup');
     var closePopup = popup && popup.querySelector('.close');
 
     if (closePopup) {
       closePopup.addEventListener('click', function(){
         popup.remove();
         try {
-          sessionStorage.setItem('mal-project-popup-dismissed', '1');
+          sessionStorage.setItem('mal-assessment-popup-dismissed', '1');
         } catch (e) {}
       });
       try {
-        if (sessionStorage.getItem('mal-project-popup-dismissed') === '1') {
+        if (sessionStorage.getItem('mal-assessment-popup-dismissed') === '1') {
           popup.remove();
         }
       } catch (e) {}
@@ -505,6 +691,191 @@
     });
 
     syncLabel();
+  })();
+</script>
+<script>
+  (function(){
+    var dialog = document.getElementById('image-dialog');
+    var dialogImage = document.getElementById('image-dialog-image');
+    var dialogTitle = document.getElementById('image-dialog-title');
+    var dialogStatus = document.getElementById('image-dialog-status');
+    var noteInput = document.getElementById('image-dialog-note');
+    var saveButton = document.getElementById('image-dialog-save');
+    var deleteButton = document.getElementById('image-dialog-delete');
+    var annotationList = document.getElementById('image-dialog-list');
+    var closeButton = document.getElementById('image-dialog-close');
+    var annotator = null;
+    var selectedId = null;
+    var activeSource = '';
+    var activeTrigger = null;
+
+    if (!dialog || !dialogImage) return;
+
+    function storageKey(){
+      return 'mal-image-annotations:' + location.pathname + ':' + activeSource;
+    }
+
+    function readAnnotations(){
+      try {
+        var saved = localStorage.getItem(storageKey());
+        return saved ? JSON.parse(saved) : [];
+      } catch (e) { return []; }
+    }
+
+    function writeAnnotations(){
+      if (!annotator) return;
+      try { localStorage.setItem(storageKey(), JSON.stringify(annotator.getAnnotations())); } catch (e) {}
+    }
+
+    function noteFor(annotation){
+      var body = (annotation.bodies || []).find(function(item){ return item.purpose === 'commenting'; });
+      return body ? (body.value || '') : '';
+    }
+
+    function setStatus(message){ dialogStatus.textContent = message || ''; }
+
+    function renderList(){
+      annotationList.innerHTML = '';
+      if (!annotator) return;
+      var annotations = annotator.getAnnotations();
+      annotations.forEach(function(annotation, index){
+        var button = document.createElement('button');
+        button.type = 'button';
+        button.textContent = noteFor(annotation) || 'Untitled note ' + (index + 1);
+        button.addEventListener('click', function(){
+          annotator.setSelected(annotation.id, false);
+          selectAnnotation(annotation);
+        });
+        annotationList.appendChild(button);
+      });
+    }
+
+    function selectAnnotation(annotation){
+      selectedId = annotation ? annotation.id : null;
+      noteInput.disabled = !annotation;
+      saveButton.disabled = !annotation;
+      deleteButton.disabled = !annotation;
+      noteInput.value = annotation ? noteFor(annotation) : '';
+      if (annotation) noteInput.focus();
+    }
+
+    function setupAnnotator(){
+      if (annotator || !dialog.open || !dialogImage.src) return;
+      if (!window.Annotorious) {
+        setStatus('Annotation tool unavailable; image viewing still works.');
+        window.setTimeout(setupAnnotator, 250);
+        return;
+      }
+      try {
+        annotator = window.Annotorious.createImageAnnotator(dialogImage, {
+          drawingMode: 'drag',
+          style: { fill: '#5EE6A8', fillOpacity: 0.22, stroke: '#5EE6A8', strokeOpacity: 1 }
+        });
+        annotator.setAnnotations(readAnnotations());
+        annotator.on('createAnnotation', function(annotation){
+          annotator.setSelected(annotation.id, false);
+          selectAnnotation(annotation);
+          renderList();
+          setStatus('New note area created.');
+          writeAnnotations();
+        });
+        annotator.on('selectionChanged', function(annotations){
+          selectAnnotation(annotations[0] || null);
+        });
+        annotator.on('updateAnnotation', function(annotation){
+          if (selectedId === annotation.id) selectAnnotation(annotation);
+          renderList();
+          writeAnnotations();
+        });
+        annotator.on('deleteAnnotation', function(annotation){
+          if (selectedId === annotation.id) selectAnnotation(null);
+          renderList();
+          writeAnnotations();
+        });
+        renderList();
+        setStatus('Drag on the image to add a note.');
+      } catch (error) {
+        annotator = null;
+        setStatus('Annotations could not be loaded; image viewing still works.');
+      }
+    }
+
+    function openImage(trigger){
+      var stage = document.getElementById('image-dialog-stage');
+      if (annotator) {
+        writeAnnotations();
+        annotator.destroy();
+        annotator = null;
+      }
+      stage.innerHTML = '';
+      dialogImage = document.createElement('img');
+      dialogImage.id = 'image-dialog-image';
+      stage.appendChild(dialogImage);
+      activeTrigger = trigger;
+      activeSource = trigger.currentSrc || trigger.src;
+      dialogTitle.textContent = trigger.alt || 'Image preview';
+      dialogImage.alt = trigger.alt || 'Image preview';
+      dialogImage.src = activeSource;
+      setStatus('Loading annotation tools…');
+      document.body.classList.add('image-dialog-open');
+      dialog.showModal();
+      dialogImage.addEventListener('load', setupAnnotator, { once: true });
+      if (dialogImage.complete) setupAnnotator();
+    }
+
+    function closeImage(){
+      writeAnnotations();
+      if (annotator) annotator.destroy();
+      annotator = null;
+      selectedId = null;
+      dialogImage.removeAttribute('src');
+      dialog.close();
+      document.body.classList.remove('image-dialog-open');
+      if (activeTrigger) activeTrigger.focus();
+      activeTrigger = null;
+    }
+
+    document.querySelectorAll('img').forEach(function(image){
+      image.classList.add('image-preview-trigger');
+      image.tabIndex = 0;
+      image.setAttribute('role', 'button');
+      image.setAttribute('aria-label', 'Open ' + (image.alt || 'image') + ' full screen');
+      image.addEventListener('click', function(event){
+        event.preventDefault();
+        event.stopPropagation();
+        openImage(image);
+      });
+      image.addEventListener('keydown', function(event){
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          event.stopPropagation();
+          openImage(image);
+        }
+      });
+    });
+
+    saveButton.addEventListener('click', function(){
+      if (!annotator || !selectedId) return;
+      var current = annotator.getAnnotationById(selectedId);
+      if (!current) return;
+      var value = noteInput.value.trim();
+      var bodies = (current.bodies || []).filter(function(body){ return body.purpose !== 'commenting'; });
+      if (value) bodies.push({ purpose: 'commenting', value: value });
+      annotator.updateAnnotation(Object.assign({}, current, { bodies: bodies }));
+      setStatus('Note saved in this browser.');
+    });
+
+    deleteButton.addEventListener('click', function(){
+      if (!annotator || !selectedId) return;
+      annotator.removeAnnotation(selectedId);
+      setStatus('Annotation deleted.');
+    });
+
+    closeButton.addEventListener('click', closeImage);
+    dialog.addEventListener('cancel', function(event){ event.preventDefault(); closeImage(); });
+    dialog.addEventListener('click', function(event){
+      if (event.target === dialog) closeImage();
+    });
   })();
 </script>
 </body>
