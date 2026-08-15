@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security ADR — The Walking Skeleton Has No Skin</title>
+<meta name="description" content="A print-friendly Mobile Architecture Lab security architecture decision record handout." />
+<link rel="canonical" href="https://mobilearchitecturelab.com/security-adr-handout.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EEF1EF;
+    --sheet:#F7F9F7;
+    --ink:#131A18;
+    --graphite:#5A6663;
+    --teal:#0C6E5B;
+    --amber:#C46A1B;
+    --rule:#C9D2CE;
+    --rule-soft:#DDE4E1;
+    --fill:#ffffff;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,sans-serif;
+    line-height:1.45;
+    -webkit-font-smoothing:antialiased;
+    padding:32px 16px 64px;
+  }
+
+  /* ---- screen-only toolbar ---- */
+  .toolbar{
+    max-width:820px;margin:0 auto 20px;
+    display:flex;justify-content:space-between;align-items:center;gap:16px;
+    font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--graphite);
+  }
+  .toolbar .note{max-width:520px;}
+  .printbtn{
+    font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;
+    letter-spacing:.04em;text-transform:uppercase;
+    background:var(--ink);color:var(--sheet);border:none;cursor:pointer;
+    padding:10px 16px;border-radius:2px;white-space:nowrap;
+  }
+  .printbtn:hover{background:var(--teal);}
+  .printbtn:focus-visible{outline:2px solid var(--amber);outline-offset:2px;}
+
+  /* ---- the sheet ---- */
+  .sheet{
+    max-width:820px;margin:0 auto;background:var(--sheet);
+    border:1px solid var(--rule);
+    padding:44px 46px 40px;
+    box-shadow:0 1px 0 var(--rule), 0 24px 60px -40px rgba(19,26,24,.5);
+  }
+
+  /* ---- masthead ---- */
+  .masthead{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;border-bottom:2px solid var(--ink);padding-bottom:18px;}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--teal);margin:0 0 6px;}
+  .doctitle{font-family:"Archivo",sans-serif;font-weight:800;font-size:34px;line-height:1.02;letter-spacing:-.02em;margin:0;max-width:14ch;}
+  .tag{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;letter-spacing:.08em;text-align:right;color:var(--graphite);white-space:nowrap;line-height:1.7;flex-shrink:0;}
+  .tag b{display:block;color:var(--ink);font-size:13px;letter-spacing:.14em;}
+
+  /* ---- metadata strip ---- */
+  .meta{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--rule);border-top:none;}
+  .meta .cell{padding:9px 12px;border-right:1px solid var(--rule-soft);}
+  .meta .cell:last-child{border-right:none;}
+  .meta .k{font-family:"IBM Plex Mono",monospace;font-size:9.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--graphite);}
+  .meta .line{border-bottom:1px solid var(--rule);height:16px;margin-top:4px;}
+  .status{display:flex;gap:12px;flex-wrap:wrap;margin-top:5px;font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--ink);}
+  .status span{display:inline-flex;align-items:center;gap:4px;}
+  .dot{width:9px;height:9px;border:1.5px solid var(--ink);border-radius:50%;display:inline-block;}
+
+  /* ---- section header ---- */
+  .sec{margin-top:26px;}
+  .sec-h{display:flex;align-items:baseline;gap:10px;margin:0 0 10px;}
+  .sec-n{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;color:var(--amber);letter-spacing:.1em;}
+  .sec-t{font-family:"Archivo",sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;margin:0;}
+  .sec-sub{font-size:12px;color:var(--graphite);margin:-4px 0 12px;}
+
+  .writeline{border-bottom:1px solid var(--rule);height:20px;}
+  .writeline + .writeline{margin-top:9px;}
+
+  /* ---- decisions ---- */
+  .decision{border:1px solid var(--rule);border-radius:2px;padding:14px 16px 16px;margin-bottom:12px;background:var(--fill);}
+  .d-top{display:flex;align-items:flex-start;gap:12px;}
+  .d-num{font-family:"Archivo",sans-serif;font-weight:800;font-size:20px;color:var(--teal);line-height:1;min-width:34px;}
+  .d-q{font-family:"Archivo",sans-serif;font-weight:700;font-size:15px;letter-spacing:-.01em;margin:1px 0 0;}
+  .d-defaults{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:11px 0 0;padding-left:46px;}
+  .def{border-left:2px solid var(--rule);padding:2px 0 2px 10px;}
+  .def.bad{border-left-color:var(--amber);}
+  .def.good{border-left-color:var(--teal);}
+  .def .lab{font-family:"IBM Plex Mono",monospace;font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--graphite);display:block;margin-bottom:2px;}
+  .def.bad .lab{color:var(--amber);}
+  .def.good .lab{color:var(--teal);}
+  .def p{margin:0;font-size:12px;line-height:1.4;}
+
+  /* ---- the signature: reversal meter ---- */
+  .meter-wrap{padding-left:46px;margin-top:13px;}
+  .meter-cap{font-family:"IBM Plex Mono",monospace;font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--graphite);margin-bottom:5px;}
+  .meter{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--ink);height:26px;position:relative;}
+  .meter i{border-right:1px solid var(--rule);position:relative;}
+  .meter i:last-child{border-right:none;}
+  .meter i.mark::after{
+    content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:13px;height:13px;border-radius:50%;background:var(--teal);
+    box-shadow:0 0 0 3px var(--sheet), 0 0 0 4px var(--teal);
+  }
+  .meter-ends{display:flex;justify-content:space-between;font-family:"IBM Plex Mono",monospace;font-size:9px;font-weight:600;letter-spacing:.08em;color:var(--ink);margin-top:4px;}
+  .meter-ends .amberend{color:var(--amber);}
+  .suggest{font-family:"IBM Plex Mono",monospace;font-size:9px;color:var(--graphite);margin-top:3px;}
+  .suggest b{color:var(--teal);}
+  .d-call{padding-left:46px;margin-top:11px;}
+  .d-call .k{font-family:"IBM Plex Mono",monospace;font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--graphite);}
+  .d-call .line{border-bottom:1px solid var(--rule);height:18px;margin-top:4px;}
+
+  /* ---- two-up fill sections ---- */
+  .twoup{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:26px;}
+
+  /* ---- never defer ---- */
+  .never{margin-top:26px;border:2px solid var(--amber);border-radius:2px;padding:14px 18px;display:flex;gap:14px;align-items:flex-start;background:linear-gradient(0deg,rgba(196,106,27,.05),rgba(196,106,27,.05));}
+  .never .bang{font-family:"Archivo",sans-serif;font-weight:800;font-size:26px;color:var(--amber);line-height:1;}
+  .never h3{font-family:"Archivo",sans-serif;font-weight:800;font-size:14px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 3px;color:var(--amber);}
+  .never p{margin:0;font-size:12.5px;line-height:1.45;}
+
+  /* ---- footer ---- */
+  .foot{margin-top:28px;padding-top:12px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--graphite);letter-spacing:.04em;}
+
+  @media(max-width:640px){
+    body{padding:16px 8px 40px;}
+    .sheet{padding:26px 20px 30px;}
+    .doctitle{font-size:26px;}
+    .meta{grid-template-columns:repeat(2,1fr);}
+    .meta .cell:nth-child(2){border-right:none;}
+    .meta .cell:nth-child(1),.meta .cell:nth-child(2){border-bottom:1px solid var(--rule-soft);}
+    .d-defaults,.twoup{grid-template-columns:1fr;}
+    .masthead{flex-direction:column;}
+    .tag{text-align:left;}
+  }
+
+  @media print{
+    @page{margin:12mm;}
+    body{background:#fff;padding:0;}
+    .toolbar{display:none;}
+    .sheet{box-shadow:none;border:none;max-width:none;padding:0;background:#fff;}
+    .decision,.never{break-inside:avoid;}
+    .sec{break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <div class="note">One page in, one page out. Print it, circle where each decision lands on the meter, and staple it to your first ADR before Lab 2.</div>
+    <button class="printbtn" onclick="window.print()">Print / Save PDF</button>
+  </div>
+
+  <main class="sheet">
+
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">Architecture Decision Record · Security</p>
+        <h1 class="doctitle">The Walking Skeleton Has No Skin</h1>
+      </div>
+      <div class="tag">
+        <b>MAL</b>
+        Lab 01 · Flutter<br>& Foundations<br>Atlas, Mumbai<br>11 Jul 2026
+      </div>
+    </header>
+
+    <section class="meta">
+      <div class="cell"><span class="k">ADR №</span><div class="line"></div></div>
+      <div class="cell"><span class="k">Date</span><div class="line"></div></div>
+      <div class="cell"><span class="k">Architect</span><div class="line"></div></div>
+      <div class="cell">
+        <span class="k">Status</span>
+        <div class="status">
+          <span><i class="dot"></i>Draft</span>
+          <span><i class="dot"></i>Accepted</span>
+          <span><i class="dot"></i>Superseded</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-h"><span class="sec-n">§1</span><h2 class="sec-t">Context</h2></div>
+      <p class="sec-sub">What are you building, and which secrets or sensitive data must exist on the device? (e.g. offline-first marketplace; payment tokens and a local catalogue live on-device.)</p>
+      <div class="writeline"></div>
+      <div class="writeline"></div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-h"><span class="sec-n">§2</span><h2 class="sec-t">The Five Skeleton-Stage Decisions</h2></div>
+      <p class="sec-sub">For each: mark where your choice lands on the reversal meter — cheap to change later, or effectively permanent. Spend your attention on the right end.</p>
+
+      <!-- 01 -->
+      <div class="decision">
+        <div class="d-top"><span class="d-num">01</span><h3 class="d-q">Where do your secrets live?</h3></div>
+        <div class="d-defaults">
+          <div class="def bad"><span class="lab">Wrong default</span><p>Hardcoded in a Dart constant, a bundled <code>.env</code>, or a config file shipped in the binary.</p></div>
+          <div class="def good"><span class="lab">Secure default</span><p>On-device secrets in Keychain / Keystore (via secure storage). Powerful secrets stay server-side.</p></div>
+        </div>
+        <div class="meter-wrap">
+          <div class="meter-cap">Cost to reverse after launch</div>
+          <div class="meter"><i></i><i></i><i></i><i></i><i class="mark"></i></div>
+          <div class="meter-ends"><span>Cheap</span><span class="amberend">Permanent</span></div>
+          <div class="suggest">Suggested: <b>Permanent</b> — a shipped secret must be rotated and treated as already leaked.</div>
+        </div>
+        <div class="d-call"><span class="k">Our call &amp; why</span><div class="line"></div></div>
+      </div>
+
+      <!-- 02 -->
+      <div class="decision">
+        <div class="d-top"><span class="d-num">02</span><h3 class="d-q">Where is the client / server trust boundary?</h3></div>
+        <div class="d-defaults">
+          <div class="def bad"><span class="lab">Wrong default</span><p>Pricing, discounts, eligibility and feature gates decided on the client "because it's faster."</p></div>
+          <div class="def good"><span class="lab">Secure default</span><p>Treat the client as hostile. Anything that must be true — price, permission, payment — is enforced server-side.</p></div>
+        </div>
+        <div class="meter-wrap">
+          <div class="meter-cap">Cost to reverse after launch</div>
+          <div class="meter"><i></i><i></i><i></i><i class="mark"></i><i></i></div>
+          <div class="meter-ends"><span>Cheap</span><span class="amberend">Permanent</span></div>
+          <div class="suggest">Suggested: <b>High</b> — moving logic server-side later means an API redesign.</div>
+        </div>
+        <div class="d-call"><span class="k">Our call &amp; why</span><div class="line"></div></div>
+      </div>
+
+      <!-- 03 -->
+      <div class="decision">
+        <div class="d-top"><span class="d-num">03</span><h3 class="d-q">Is data-at-rest encrypted — and where's the key?</h3></div>
+        <div class="d-defaults">
+          <div class="def bad"><span class="lab">Wrong default</span><p>Plaintext local database. Or encrypted, but with the key as a string literal three lines above.</p></div>
+          <div class="def good"><span class="lab">Secure default</span><p>Encrypted store (e.g. SQLCipher). Key lives in Keychain / Keystore — never in the source.</p></div>
+        </div>
+        <div class="meter-wrap">
+          <div class="meter-cap">Cost to reverse after launch</div>
+          <div class="meter"><i></i><i></i><i></i><i class="mark"></i><i></i></div>
+          <div class="meter-ends"><span>Cheap</span><span class="amberend">Permanent</span></div>
+          <div class="suggest">Suggested: <b>High</b> — retrofitting encryption means migrating live user data. Decide while the DB is empty.</div>
+        </div>
+        <div class="d-call"><span class="k">Our call &amp; why</span><div class="line"></div></div>
+      </div>
+
+      <!-- 04 -->
+      <div class="decision">
+        <div class="d-top"><span class="d-num">04</span><h3 class="d-q">What is your certificate-pinning stance?</h3></div>
+        <div class="d-defaults">
+          <div class="def bad"><span class="lab">Wrong default</span><p>"It's HTTPS, we're fine." A user with a proxy and their own cert can map your whole private API.</p></div>
+          <div class="def good"><span class="lab">Secure default</span><p>Pin the cert/key you trust — <em>and</em> own a rotation plan so you can't brick clients in the field.</p></div>
+        </div>
+        <div class="meter-wrap">
+          <div class="meter-cap">Cost to reverse after launch</div>
+          <div class="meter"><i class="mark"></i><i></i><i></i><i></i><i></i></div>
+          <div class="meter-ends"><span>Cheap</span><span class="amberend">Permanent</span></div>
+          <div class="suggest">Suggested: <b>Cheap</b> — the one you're allowed to defer, <em>if</em> you write down that you did.</div>
+        </div>
+        <div class="d-call"><span class="k">Our call &amp; why</span><div class="line"></div></div>
+      </div>
+
+      <!-- 05 -->
+      <div class="decision">
+        <div class="d-top"><span class="d-num">05</span><h3 class="d-q">What telemetry leaves the device?</h3></div>
+        <div class="d-defaults">
+          <div class="def bad"><span class="lab">Wrong default</span><p>Capture everything, sort out privacy later. PII rides out in request bodies, traces and screenshots.</p></div>
+          <div class="def good"><span class="lab">Secure default</span><p>Allow-list what may leave. Mask screenshots, hash identifiers. Decide before you capture.</p></div>
+        </div>
+        <div class="meter-wrap">
+          <div class="meter-cap">Cost to reverse after launch</div>
+          <div class="meter"><i></i><i></i><i class="mark"></i><i></i><i></i></div>
+          <div class="meter-ends"><span>Cheap</span><span class="amberend">Permanent</span></div>
+          <div class="suggest">Suggested: <b>Medium</b> — by the time you spot PII in logs, it's in backups and your vendor too.</div>
+        </div>
+        <div class="d-call"><span class="k">Our call &amp; why</span><div class="line"></div></div>
+      </div>
+    </section>
+
+    <div class="twoup">
+      <section class="sec" style="margin-top:0;">
+        <div class="sec-h"><span class="sec-n">§3</span><h2 class="sec-t">Decision</h2></div>
+        <p class="sec-sub">The stance you're taking, in one or two lines.</p>
+        <div class="writeline"></div>
+        <div class="writeline"></div>
+        <div class="writeline"></div>
+      </section>
+      <section class="sec" style="margin-top:0;">
+        <div class="sec-h"><span class="sec-n">§4</span><h2 class="sec-t">Consequences we accept</h2></div>
+        <p class="sec-sub">The trade-offs and deferrals you're consciously taking on.</p>
+        <div class="writeline"></div>
+        <div class="writeline"></div>
+        <div class="writeline"></div>
+      </section>
+    </div>
+
+    <section class="never">
+      <span class="bang">!</span>
+      <div>
+        <h3>Never defer</h3>
+        <p>There is exactly one decision on this page you never postpone: <strong>no long-lived secret ships inside the binary.</strong> Everything else can wait a lab — this cannot. Anything in the compiled app is readable, obfuscated or not.</p>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <span>OWASP Mobile Top 10 2024 · M1 Credentials · M2 Supply Chain · MASVS v2.1.0</span>
+      <span>MAL Lab 01 · Security-ADR v1</span>
+    </footer>
+
+  </main>
+
+</body>
+</html>

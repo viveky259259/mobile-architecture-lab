@@ -8,30 +8,43 @@ Across five labs over three months, each participant builds one real product —
 **hyperlocal marketplace with offline-first, on-device AI** — and leaves with a working
 app, a documented set of architecture decisions, and a portfolio.
 
-🔗 **Live site:** https://mobilearchitecturelab.netlify.app
+🔗 **Live site:** https://mobilearchitecturelab.com
 🎟️ **Lab 1 — Flutter & Foundations:** July 11, 2026 · Paytm, Mumbai · [Apply on Luma](https://luma.com/iwn39kby)
 
-## What's in this repo
+## Project structure
 
 | Path | Description |
 |------|-------------|
-| `landing.html` | Public landing page (root of the live site) |
-| `homework.html` | Lab 1 attendee homework page |
-| `assignment-2.html` | Lab 2 assignment page: two clients, concurrency, modularity, local LLM, and Measure |
-| `lab3.html` | Lab 3 event page: date, venue, and agenda status |
-| `security-adr-handout.html` | Print-friendly Lab 1 security ADR handout |
-| `MAL_LAB1_HOMEWORK.md` | Shareable Lab 1 homework brief and judge rubric |
-| `MAL_LAB2_HOMEWORK.md` | Shareable Lab 2 assignment brief and judge rubric |
-| `sponsor-deck.html` | Sponsorship deck (served at `/sponsor`) |
-| `sponsor-deck.pdf` / `sponsor-deck-light.pdf` | Deck exports (dark / light) |
-| `dist/` | Built site as deployed (Netlify) |
-| `logo/` | Logo marks, mobile icon, diagram-A, and wordmark lockups (PNG) |
-| `favicon.svg`, `apple-touch-icon.png`, `icon-512.png`, `og-image.png` | Site icons & social card |
+| `src/site/pages/` | Source HTML for public pages. `landing.html` becomes both `/` and `/landing.html`. |
+| `src/site/pages/` | Canonical source for both `.html` and extension-free public routes. |
+| `src/site/assets/` | Public assets grouped by `icons/`, `images/`, `styles/`, `scripts/`, and `logo/`. |
+| `src/content/` | Lab briefs, communications, calendar invites, and reports. |
+| `src/print/` | Sponsorship template/deck HTML sources and PDF exports. |
+| `src/marketing/` | Social copy and promotional artwork. |
+| `src/legacy/` | Retained old-site redirect source. |
+| `scripts/` | Repeatable project tooling, including the static build and PDF generator. |
+| `dist/` | Generated deployable site; never edit it directly. |
 
 ## Stack
 
-Static HTML/CSS, no build step. Hand-rolled brand system (Sora + Inter + JetBrains Mono;
-gradient palette across Flutter / Swift / Kotlin / React Native accents). Deployed on Netlify.
+Static HTML/CSS with a small, dependency-free build script. The hand-rolled brand system
+uses Sora, Inter, and JetBrains Mono with a gradient palette across Flutter, Swift, Kotlin,
+and React Native accents. The site is deployed on Netlify.
+
+## Local workflow
+
+```bash
+bash scripts/build-site.sh
+```
+
+The build recreates `dist/` from `src/site/` and preserves every currently published page
+and extension-free route. Netlify runs this command automatically and publishes `dist/`.
+
+To refresh print exports on macOS with Google Chrome installed:
+
+```bash
+python3 scripts/generate_pdfs.py
+```
 
 ## The arc
 

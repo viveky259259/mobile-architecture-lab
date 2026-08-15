@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MAL — Mobile Architecture Lab</title>
+<meta name="description" content="A 5-part engineering lab that turns senior mobile engineers into T-shaped architects. Build a real offline-first, AI-powered product across 5 labs. Lab 1: July 11, 2026, Paytm, Mumbai." />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="canonical" href="https://mobilearchitecturelab.com/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="MAL — Mobile Architecture Lab" />
+<meta property="og:description" content="A 5-lab series that turns senior engineers into T-shaped mobile architects. Lab 1: July 11, 2026, Paytm, Mumbai." />
+<meta property="og:image" content="https://mobilearchitecturelab.com/og-image.png" />
+<meta property="og:url" content="https://mobilearchitecturelab.com/" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@annotorious/annotorious@3.8.8/dist/annotorious.css">
+<script src="https://cdn.jsdelivr.net/npm/@annotorious/annotorious@3.8.8/dist/annotorious.js" defer></script>
+<script>
+  (function(){
+    try {
+      var stored = localStorage.getItem('mal-theme');
+      var prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      var isLight = stored === 'light' || (!stored && prefersLight);
+      if (isLight) {
+        document.documentElement.dataset.theme = 'light';
+      }
+    } catch (e) {}
+  })();
+</script>
+<style>
+  :root{
+    color-scheme:dark;
+    --flutter:#3DA8F5; --swift:#FF7A5C; --kotlin:#A77BFF; --react:#61DAFB; --green:#5EE6A8;
+    --bg:#070A12; --bg-2:#0B0F1A;
+    --ink:#F3F7FF; --muted:#A8B4CC; --faint:#6A7790;
+    --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.14);
+    --glass:rgba(255,255,255,.035); --glass-2:rgba(255,255,255,.06);
+    --grad:linear-gradient(110deg,var(--flutter),var(--kotlin) 50%,var(--swift));
+    --shadow:0 30px 80px -24px rgba(0,0,0,.7);
+    --nav-bg:rgba(7,10,18,.55);
+    --announce-h:42px;
+    --hero-bg:radial-gradient(1200px 600px at 70% -5%,rgba(61,168,245,.10),transparent 60%);
+    --apply-bg:radial-gradient(1000px 520px at 30% 110%,rgba(255,122,92,.10),transparent 60%);
+    --product-bg:linear-gradient(120deg,rgba(167,123,255,.08),rgba(61,168,245,.06));
+    --sponsor-bg:linear-gradient(130deg,rgba(94,230,168,.09),rgba(61,168,245,.06));
+    --lab-current-bg:linear-gradient(180deg,rgba(61,168,245,.10),var(--glass));
+  }
+  :root[data-theme="light"]{
+    color-scheme:light;
+    --bg:#F7FAFC; --bg-2:#EEF4F8;
+    --ink:#07111F; --muted:#42526A; --faint:#6B7A90;
+    --line:rgba(7,17,31,.10); --line-2:rgba(7,17,31,.16);
+    --glass:rgba(255,255,255,.66); --glass-2:rgba(255,255,255,.86);
+    --shadow:0 28px 70px -34px rgba(11,28,48,.42);
+    --nav-bg:rgba(247,250,252,.78);
+    --hero-bg:radial-gradient(1000px 560px at 72% -6%,rgba(61,168,245,.18),transparent 64%);
+    --apply-bg:radial-gradient(900px 500px at 28% 110%,rgba(255,122,92,.16),transparent 62%);
+    --product-bg:linear-gradient(120deg,rgba(167,123,255,.12),rgba(61,168,245,.10));
+    --sponsor-bg:linear-gradient(130deg,rgba(94,230,168,.16),rgba(61,168,245,.10));
+    --lab-current-bg:linear-gradient(180deg,rgba(61,168,245,.16),var(--glass));
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.55;letter-spacing:-.005em;overflow-x:hidden}
+  h1,h2,h3,.eyebrow,.kicker{font-family:"Sora",sans-serif}
+  a{color:inherit;text-decoration:none}
+  .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .mono{font-family:"JetBrains Mono",monospace}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+  /* ---------- motion system ---------- */
+  :root{--motion-fast:160ms;--motion-base:240ms;--motion-reveal:620ms;--ease-out:cubic-bezier(.22,1,.36,1)}
+  .nav .links a,.header-handout,.cta,.btn,.hero-sponsor,.card,.lab,.product,.sponsor-panel,.partner-card,.pill{--interactive-lift:0px}
+  .nav .links a:focus-visible,.header-handout:focus-visible,.cta:focus-visible,.btn:focus-visible,.hero-sponsor:focus-visible,.card:focus-visible,.lab-cta:focus-visible,.sponsor-panel:focus-visible,.partner-card:focus-visible,.theme-toggle:focus-visible{outline:2px solid var(--green);outline-offset:4px}
+  .nav .links a:not(.cta):not(.header-handout){position:relative;transition:color var(--motion-fast) ease}
+  .nav .links a:not(.cta):not(.header-handout)::after{content:"";position:absolute;right:0;bottom:-6px;left:0;height:2px;border-radius:999px;background:var(--grad);transform:scaleX(0);transform-origin:right;transition:transform var(--motion-base) var(--ease-out)}
+  .nav .links a:not(.cta):not(.header-handout):hover::after,.nav .links a:not(.cta):not(.header-handout):focus-visible::after{transform:scaleX(1);transform-origin:left}
+  .cta,.btn,.hero-sponsor,.card,.lab,.product,.sponsor-panel,.partner-card,.pill{transition:transform var(--motion-base) var(--ease-out),border-color var(--motion-base) ease,background var(--motion-base) ease,box-shadow var(--motion-base) ease}
+  .cta:hover,.cta:focus-visible,.btn:hover,.btn:focus-visible,.hero-sponsor:hover,.hero-sponsor:focus-visible,.card:hover,.card:focus-visible,.lab:hover,.product:hover,.sponsor-panel:hover,.sponsor-panel:focus-visible,.partner-card:hover,.partner-card:focus-visible,.pill:hover{--interactive-lift:-3px}
+  .cta,.btn,.hero-sponsor,.card,.lab,.product,.sponsor-panel,.partner-card,.pill{transform:translate3d(0,var(--interactive-lift),0)}
+  .lab{transition:transform var(--motion-base) var(--ease-out),border-color var(--motion-base) ease,background var(--motion-base) ease,box-shadow var(--motion-base) ease}
+  .lab:hover{border-color:var(--line-2);background:var(--glass-2);box-shadow:0 16px 36px -28px rgba(61,168,245,.7)}
+  .product:hover{border-color:var(--line-2);box-shadow:0 20px 50px -38px rgba(61,168,245,.65)}
+  .pill:hover{border-color:var(--flutter);color:var(--ink)}
+  .sponsor-panel:hover,.sponsor-panel:focus-visible{border-color:rgba(94,230,168,.52);box-shadow:0 34px 78px -40px rgba(94,230,168,.45)}
+  .hero-orbit{position:absolute;top:calc(var(--announce-h) + 9%);right:-110px;width:min(44vw,500px);aspect-ratio:1;border:1px solid rgba(61,168,245,.22);border-radius:50%;pointer-events:none;opacity:.62;z-index:0}
+  .hero-orbit::before,.hero-orbit::after{content:"";position:absolute;border-radius:50%;inset:12%;border:1px dashed rgba(167,123,255,.34)}
+  .hero-orbit::after{inset:31%;border-style:solid;border-color:rgba(94,230,168,.34) transparent transparent transparent}
+  .cursor-halo{position:fixed;top:0;left:0;z-index:100;width:34px;aspect-ratio:1;pointer-events:none;opacity:0;transform:translate3d(-100px,-100px,0);transition:opacity var(--motion-fast) ease;will-change:transform}
+  .cursor-halo.is-visible{opacity:.9}.cursor-halo.is-interactive{--cursor-scale:1.42}
+  .cursor-halo__ring{width:100%;height:100%;border:1px solid rgba(94,230,168,.82);border-radius:50%;box-shadow:0 0 24px rgba(61,168,245,.42),inset 0 0 16px rgba(167,123,255,.2);transform:scale(var(--cursor-scale,1));transition:transform var(--motion-base) var(--ease-out)}
+  .cursor-halo__ring::before{content:"";position:absolute;top:-4px;left:50%;width:7px;height:7px;border-radius:50%;background:var(--swift);box-shadow:0 0 12px var(--swift);transform:translateX(-50%)}
+  @keyframes glow-drift{0%{transform:translate3d(-2%,0,0) scale(.96)}50%{transform:translate3d(4%,-5%,0) scale(1.08)}100%{transform:translate3d(-1%,4%,0) scale(1)}}
+  @keyframes hero-orbit{to{transform:rotate(360deg)}}
+  @keyframes cursor-orbit{to{transform:scale(var(--cursor-scale,1)) rotate(360deg)}}
+  @media(prefers-reduced-motion:no-preference){
+    html.motion-ready [data-reveal]{opacity:0;--reveal-offset:22px;transform:translate3d(0,calc(var(--reveal-offset) + var(--interactive-lift,0px)),0);transition:opacity var(--motion-reveal) var(--ease-out) var(--reveal-delay,0ms),transform var(--motion-reveal) var(--ease-out) var(--reveal-delay,0ms),border-color var(--motion-base) ease,background var(--motion-base) ease,box-shadow var(--motion-base) ease;will-change:opacity,transform}
+    html.motion-ready [data-reveal].is-visible{opacity:1;--reveal-offset:0px}
+    html.motion-ready [data-reveal].motion-settled{transition:transform var(--motion-base) var(--ease-out),border-color var(--motion-base) ease,background var(--motion-base) ease,box-shadow var(--motion-base) ease;will-change:auto}
+    html.motion-ready #hero [data-reveal]{--reveal-offset:16px}
+  }
+  @media(prefers-reduced-motion:no-preference) and (pointer:fine){
+    .glow{animation:glow-drift 22s ease-in-out infinite alternate;will-change:transform}
+    section:nth-of-type(2) .glow{animation-duration:27s;animation-delay:-8s}
+    section:nth-of-type(3) .glow{animation-duration:19s;animation-delay:-11s}
+    .hero-orbit{animation:hero-orbit 22s linear infinite}
+    .cursor-halo__ring{animation:cursor-orbit 4s linear infinite}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  }
+
+  /* ---------- announcement carousel ---------- */
+  .announcement-carousel{position:fixed;top:0;left:0;right:0;z-index:70;height:var(--announce-h);display:flex;align-items:center;overflow:hidden;
+    background:linear-gradient(90deg,rgba(255,122,92,.96),rgba(167,123,255,.96) 48%,rgba(61,168,245,.96));color:#04060c;border-bottom:1px solid rgba(255,255,255,.2)}
+  .announcement-carousel__track{display:flex;align-items:center;width:max-content;animation:announcement-scroll 28s linear infinite}
+  .announcement-carousel__item{display:inline-flex;align-items:center;gap:12px;padding:0 28px;white-space:nowrap;font:700 12px "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase}
+  .announcement-carousel__item b{font-family:"Sora";font-size:13px;letter-spacing:.02em}
+  .announcement-carousel__item a{color:#04060c;text-decoration:underline;text-underline-offset:3px}
+  .announcement-carousel__sep{opacity:.58}
+  @keyframes announcement-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media(prefers-reduced-motion:reduce){.announcement-carousel__track{animation:none}}
+
+  /* ---------- nav ---------- */
+  .nav{position:fixed;top:var(--announce-h);left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:18px 7vw;backdrop-filter:blur(14px);background:var(--nav-bg);border-bottom:1px solid var(--line)}
+  .nav .brand{font-family:"Sora";font-weight:800;letter-spacing:.04em;font-size:18px;display:flex;align-items:center;gap:11px}
+  .nav .brand .ico{width:34px;height:34px;border-radius:9px;display:block;background:url("/logo/mal-icon-dark.svg") center/contain no-repeat}
+  :root[data-theme="light"] .nav .brand .ico{background-image:url("/favicon.svg")}
+  .nav .brand span{color:var(--faint);font-weight:600;font-size:12px;letter-spacing:.18em;margin-left:8px}
+  .nav .links{display:flex;gap:28px;align-items:center;font-size:14px;color:var(--muted)}
+  .nav .links a:hover{color:var(--ink)}
+  .nav .header-handout{padding:8px 13px;border:1px solid rgba(94,230,168,.45);border-radius:999px;color:var(--green);font-family:"Sora";font-size:12px;font-weight:700;white-space:nowrap}
+  .nav .header-handout:hover{border-color:var(--green);background:rgba(94,230,168,.10);color:var(--green)}
+  .nav .cta{padding:9px 18px;border-radius:999px;background:var(--grad);color:#04060c;font-weight:700;font-size:13.5px}
+  .theme-toggle{width:38px;height:38px;border-radius:999px;border:1px solid var(--line-2);background:var(--glass);
+    color:var(--ink);display:grid;place-items:center;cursor:pointer;font-size:17px;line-height:1;transition:.2s}
+  .theme-toggle:hover{border-color:var(--ink);transform:translateY(-1px)}
+  .theme-toggle::before{content:"☀"}
+  :root[data-theme="light"] .theme-toggle::before{content:"☾"}
+  @media(max-width:760px){:root{--announce-h:48px}.announcement-carousel__item{padding:0 18px;font-size:11px}.nav .links a:not(.cta):not(.header-handout){display:none}.nav{padding:14px 6vw}.nav .links{gap:8px}.nav .header-handout{font-size:0;padding:8px 10px}.nav .header-handout::before{content:"ADR";font-size:11px}.nav .cta{padding:8px 10px;font-size:11px}.theme-toggle{width:36px;height:36px}}
+
+  /* ---------- section shell ---------- */
+  section{position:relative;padding:130px 7vw 110px;overflow:hidden}
+  .glow{position:absolute;width:560px;height:560px;border-radius:50%;filter:blur(130px);opacity:.28;pointer-events:none;z-index:0}
+  .inner{position:relative;z-index:1;max-width:1120px;margin:0 auto}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+    padding:7px 14px;border:1px solid var(--line-2);border-radius:999px;background:var(--glass)}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
+  .lead{color:var(--muted);font-size:19px;max-width:620px;line-height:1.6}
+
+  /* ---------- hero ---------- */
+  #hero{min-height:100vh;display:flex;align-items:center;
+    background:var(--hero-bg)}
+  #hero h1{font-size:clamp(40px,6.4vw,80px);line-height:1.02;font-weight:800;letter-spacing:-.02em;margin:26px 0 22px}
+  #hero .lead{font-size:21px;max-width:640px}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-top:40px}
+  .btn{padding:15px 30px;border-radius:999px;font-weight:700;font-size:15.5px;font-family:"Sora";transition:.2s;display:inline-flex;align-items:center;gap:10px}
+  .btn-primary{background:var(--grad);color:#04060c;box-shadow:0 16px 40px -16px rgba(61,168,245,.6)}
+  .btn-primary:hover{transform:translate3d(0,var(--interactive-lift),0)}
+  .btn-ghost{border:1px solid var(--line-2);color:var(--ink);background:var(--glass)}
+  .btn-ghost:hover{border-color:var(--ink)}
+  .hero-sponsor{display:inline-flex;align-items:center;gap:15px;margin-top:32px;padding:14px 18px;border:1px solid var(--line-2);
+    border-radius:18px;background:var(--glass);box-shadow:0 20px 60px -36px rgba(61,168,245,.7);transition:.2s}
+  .hero-sponsor:hover{border-color:rgba(61,168,245,.45);background:var(--glass-2)}
+  .hero-sponsor img{width:48px;height:48px;object-fit:contain;flex:0 0 auto}
+  .hero-sponsor span{display:block}
+  .hero-sponsor .label{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+  .hero-sponsor strong{display:block;margin-top:2px;font-family:"Sora";font-size:19px;color:var(--ink);line-height:1.15}
+  .hero-sponsor .note{margin-top:2px;color:var(--muted);font-size:13px}
+  .herometa{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:46px;font-size:14px;color:var(--muted)}
+  .herometa b{color:var(--ink);font-weight:600}
+  .stats{display:flex;gap:46px;flex-wrap:wrap;margin-top:54px;padding-top:34px;border-top:1px solid var(--line)}
+  .stat .n{font-family:"Sora";font-weight:800;font-size:38px;line-height:1}
+  .stat .l{font-size:13.5px;color:var(--faint);margin-top:8px;max-width:170px}
+
+  /* ---------- cards / grids ---------- */
+  .kicker{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--flutter);font-weight:600}
+  h2{font-size:clamp(30px,4.2vw,46px);line-height:1.08;font-weight:700;letter-spacing:-.015em;margin:14px 0 18px}
+  .grid{display:grid;gap:18px;margin-top:46px}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  @media(max-width:860px){.g3,.g2{grid-template-columns:1fr}}
+  .card{padding:26px 24px;border:1px solid var(--line);border-radius:18px;background:var(--glass);transition:.2s}
+  .card:hover{border-color:var(--line-2);background:var(--glass-2)}
+  .card .ic{font-size:24px;margin-bottom:14px}
+  .card h3{font-size:18.5px;font-weight:600;margin-bottom:8px}
+  .card p{color:var(--muted);font-size:14.5px}
+  .organizer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:42px}
+  @media(max-width:860px){.organizer-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:520px){.organizer-grid{grid-template-columns:1fr}}
+  .organizer-card{padding:22px 20px;display:flex;flex-direction:column;align-items:flex-start}
+  .organizer-card:hover{color:var(--ink)}
+  .organizer-avatar{width:68px;height:68px;border-radius:50%;object-fit:cover;object-position:center;margin-bottom:18px;border:2px solid var(--line-2);background:var(--glass-2)}
+  .organizer-card p{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+  .organizer-link{margin-top:14px;font-family:"Sora",sans-serif;font-size:12px;font-weight:700;color:var(--flutter)}
+
+  /* ---------- timeline ---------- */
+  .labs{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:46px}
+  @media(max-width:860px){.labs{grid-template-columns:1fr}}
+  .lab{padding:22px 18px;border:1px solid var(--line);border-radius:16px;background:var(--glass);position:relative}
+  .lab .num{font-family:"JetBrains Mono";font-size:12px;color:var(--faint)}
+  .lab .bar{height:3px;width:38px;border-radius:3px;margin:14px 0 12px}
+  .lab h4{font-family:"Sora";font-size:15px;font-weight:600;margin-bottom:6px}
+  .lab p{font-size:12.5px;color:var(--muted);line-height:1.5}
+  .lab.past{opacity:.82}
+  .lab.cur{background:var(--lab-current-bg);border-color:rgba(61,168,245,.4)}
+  .lab .tag{position:absolute;top:-9px;right:14px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+    background:var(--flutter);color:#04060c;font-weight:700;padding:3px 9px;border-radius:999px}
+  .lab.past .tag{background:var(--faint);color:var(--bg)}
+  .lab.cur .tag{background:var(--green)}
+  .lab-cta{display:inline-flex;margin-top:13px;color:var(--ink);font-family:"Sora";font-size:11.5px;font-weight:700}
+  .lab-cta:hover{color:var(--flutter)}
+
+  /* ---------- product callout ---------- */
+  .product{margin-top:30px;padding:28px 30px;border:1px solid var(--line-2);border-radius:20px;
+    background:var(--product-bg);display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+  .product .big{font-family:"Sora";font-weight:700;font-size:22px;flex:1;min-width:260px}
+  .product .tags{display:flex;gap:8px;flex-wrap:wrap}
+  .pill{font-size:12.5px;padding:7px 13px;border-radius:999px;border:1px solid var(--line-2);background:var(--glass);color:var(--muted)}
+
+  /* ---------- sponsor ---------- */
+  .sponsorwrap{display:grid;grid-template-columns:1.05fr .95fr;gap:42px;align-items:center}
+  @media(max-width:900px){.sponsorwrap{grid-template-columns:1fr}}
+  .sponsor-copy .lead{max-width:600px}
+  .sponsor-panel{border:1px solid var(--line-2);background:var(--sponsor-bg);
+    border-radius:22px;padding:32px;box-shadow:var(--shadow)}
+  .measure-brand{display:flex;align-items:center;gap:18px}
+  .measure-logo{width:86px;height:86px;object-fit:contain;flex:0 0 auto}
+  .measure-name{font-family:"Sora";font-size:32px;font-weight:800;letter-spacing:0;color:var(--ink)}
+  .sponsor-panel p{color:var(--muted);font-size:15px;margin-top:16px}
+  .sponsor-points{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:24px}
+  @media(max-width:560px){.sponsor-points{grid-template-columns:1fr}.measure-logo{width:72px;height:72px}.measure-name{font-size:28px}}
+  .sponsor-points span{font-size:12.5px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:8px 12px;background:var(--glass)}
+  .partner-wall{max-width:1120px;margin:42px auto 0;padding-top:34px;border-top:1px solid var(--line)}
+  .partner-head{display:flex;justify-content:space-between;gap:28px;align-items:end;margin-bottom:22px}
+  .partner-head h2{font-size:clamp(25px,3vw,34px);margin-bottom:0}
+  .partner-intro{max-width:430px;color:var(--muted);font-size:15px}
+  .partner-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+  .partner-card{min-height:142px;border:1px solid var(--line);border-radius:18px;background:var(--glass);
+    padding:22px;display:flex;flex-direction:column;justify-content:space-between;gap:18px;transition:.2s}
+  .partner-card:hover{border-color:var(--line-2);background:var(--glass-2)}
+  .partner-role{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+  .partner-logo-wide{display:block;width:100%;max-width:360px;height:42px;object-fit:contain;object-position:left center}
+  .partner-brand{display:flex;align-items:center;gap:14px}
+  .partner-icon{width:42px;height:42px;border-radius:12px;border:1px solid var(--line-2);background:rgba(61,168,245,.10);
+    color:var(--flutter);display:grid;place-items:center;flex:0 0 auto}
+  .partner-icon svg{width:25px;height:25px;fill:currentColor}
+  .partner-icon.flutterflow{background:linear-gradient(135deg,rgba(61,168,245,.18),rgba(167,123,255,.18));color:var(--kotlin)}
+  .partner-icon.flutterflow span{font-family:"Sora";font-size:15px;font-weight:800;letter-spacing:0;color:var(--ink)}
+  .partner-icon.atlas{background:linear-gradient(135deg,rgba(167,123,255,.20),rgba(94,230,168,.16));color:var(--green);font-family:"Sora";font-size:18px;font-weight:800}
+  .partner-icon.swift{background:linear-gradient(135deg,rgba(255,122,92,.18),rgba(255,190,120,.16));color:var(--swift);font-family:"Sora";font-size:18px;font-weight:800}
+  .partner-logo-square{width:56px;height:56px;object-fit:contain;flex:0 0 auto}
+  .partner-logo-plaque{width:56px;height:56px;border-radius:14px;background:#070A12;border:1px solid rgba(255,255,255,.12);
+    display:grid;place-items:center;flex:0 0 auto;padding:8px}
+  .partner-logo-plaque img{width:100%;height:100%;object-fit:contain}
+  .partner-name{font-family:"Sora";font-size:20px;font-weight:700;line-height:1.15}
+  .partner-note{color:var(--muted);font-size:13.5px}
+  @media(max-width:900px){.partner-head{display:block}.partner-intro{margin-top:10px}.partner-grid{grid-template-columns:1fr}}
+  @media(max-width:560px){.partner-card{min-height:128px}.partner-logo-wide{height:34px}.partner-name{font-size:18px}}
+
+  /* ---------- assessment submission popup ---------- */
+  .assessment-popup{position:fixed;right:24px;bottom:24px;z-index:45;width:min(360px,calc(100vw - 32px));
+    padding:18px 48px 18px 20px;border:1px solid rgba(61,168,245,.48);border-radius:18px;
+    background:linear-gradient(135deg,rgba(61,168,245,.18),rgba(167,123,255,.16) 52%,rgba(255,122,92,.16));
+    box-shadow:0 22px 70px -28px rgba(0,0,0,.8);backdrop-filter:blur(18px);
+    animation:popup-in .55s cubic-bezier(.2,.8,.2,1) both}
+  .assessment-popup::before{content:"";position:absolute;left:20px;top:-4px;width:42px;height:4px;border-radius:999px;background:var(--grad);box-shadow:0 0 18px rgba(61,168,245,.7)}
+  .assessment-popup a{display:block}
+  .assessment-popup .label{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--flutter);font-weight:600}
+  .assessment-popup strong{display:block;font-family:"Sora";font-size:17px;line-height:1.25;margin-top:5px}
+  .assessment-popup p{font-size:13px;line-height:1.45;color:var(--muted);margin-top:5px}
+  .assessment-popup .submit-link{display:inline-block;margin-top:11px;color:var(--ink);font-family:"Sora";font-size:12.5px;font-weight:700}
+  .assessment-popup a:focus-visible{outline:2px solid var(--ink);outline-offset:4px;border-radius:5px}
+  .assessment-popup .close{position:absolute;top:10px;right:10px;width:28px;height:28px;border:1px solid var(--line-2);border-radius:50%;
+    background:var(--glass);color:var(--muted);font-size:18px;line-height:1;cursor:pointer;display:grid;place-items:center}
+  .assessment-popup .close:hover{color:var(--ink);border-color:var(--ink)}
+  .assessment-popup .close:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  @keyframes popup-in{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
+  @media(max-width:560px){.assessment-popup{right:16px;bottom:16px}}
+  @media(prefers-reduced-motion:reduce){.assessment-popup{animation:none}}
+
+  footer{padding:50px 7vw;border-top:1px solid var(--line);text-align:center;color:var(--faint);font-size:13.5px}
+  footer a{color:var(--muted)} footer a:hover{color:var(--ink)}
+
+  /* ---------- same-tab image viewer + notes ---------- */
+  .image-preview-trigger{cursor:zoom-in}
+  .image-preview-trigger:focus-visible{outline:3px solid var(--green);outline-offset:5px;border-radius:8px}
+  body.image-dialog-open{overflow:hidden}
+  .image-dialog{width:100vw;max-width:none;height:100vh;max-height:none;margin:0;padding:0;border:0;background:var(--bg);color:var(--ink)}
+  .image-dialog::backdrop{background:rgba(2,5,12,.88);backdrop-filter:blur(10px)}
+  .image-dialog__top{height:66px;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line);background:var(--nav-bg)}
+  .image-dialog__title{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:"Sora";font-size:14px;font-weight:700}
+  .image-dialog__actions{display:flex;align-items:center;gap:10px}
+  .image-dialog__close,.image-dialog__save,.image-dialog__delete{border:1px solid var(--line-2);border-radius:999px;padding:9px 14px;background:var(--glass);color:var(--ink);font:600 12px "Sora";cursor:pointer}
+  .image-dialog__close:hover,.image-dialog__save:hover,.image-dialog__delete:hover{border-color:var(--ink)}
+  .image-dialog__close{font-size:18px;line-height:1;padding:7px 11px}
+  .image-dialog__body{height:calc(100vh - 66px);display:grid;grid-template-columns:minmax(0,1fr) 310px;min-height:0}
+  .image-dialog__stage{min-width:0;min-height:0;display:flex;align-items:center;justify-content:center;padding:24px;overflow:auto;background:radial-gradient(900px 560px at 50% 45%,rgba(61,168,245,.10),transparent 70%)}
+  .image-dialog__stage img{max-width:100%;max-height:calc(100vh - 114px);object-fit:contain}
+  .image-dialog__stage .a9s-annotationlayer{max-width:100%;max-height:calc(100vh - 114px)}
+  .image-dialog__notes{min-width:0;padding:24px 20px;border-left:1px solid var(--line);background:var(--bg-2);overflow:auto}
+  .image-dialog__notes h2{font:700 18px "Sora";margin-bottom:8px}.image-dialog__notes p{color:var(--muted);font-size:13px;line-height:1.5}
+  .image-dialog__notes label{display:block;margin:24px 0 8px;color:var(--faint);font:600 11px "JetBrains Mono";letter-spacing:.1em;text-transform:uppercase}
+  .image-dialog__notes textarea{width:100%;min-height:120px;resize:vertical;padding:12px;border:1px solid var(--line-2);border-radius:12px;background:var(--glass);color:var(--ink);font:14px/1.5 Inter,sans-serif}
+  .image-dialog__notes textarea:disabled{opacity:.55}.image-dialog__notes textarea:focus{outline:2px solid var(--green);outline-offset:2px}
+  .image-dialog__note-actions{display:flex;gap:8px;margin-top:10px}.image-dialog__save{background:var(--grad);color:#04060c;border:0}.image-dialog__delete{color:#ff9f9f}
+  .image-dialog__status{min-height:22px;margin-top:14px;color:var(--green);font-size:12px}.image-dialog__list{display:grid;gap:8px;margin-top:12px}.image-dialog__list button{width:100%;padding:11px;text-align:left;border:1px solid var(--line);border-radius:10px;background:var(--glass);color:var(--muted);cursor:pointer;font:13px/1.35 Inter,sans-serif}.image-dialog__list button:hover{border-color:var(--green);color:var(--ink)}
+  @media(max-width:760px){.image-dialog__body{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto}.image-dialog__stage{padding:14px}.image-dialog__stage img{max-height:calc(100vh - 310px)}.image-dialog__notes{max-height:245px;border-left:0;border-top:1px solid var(--line);padding:16px 18px}.image-dialog__notes label{margin-top:14px}.image-dialog__notes textarea{min-height:72px}.image-dialog__list{display:none}}
+  @media(prefers-reduced-motion:reduce){.image-dialog::backdrop{backdrop-filter:none}}
+</style>
+</head>
+<body>
+
+<div class="announcement-carousel" role="status" aria-label="Lab 3 announcement">
+  <div class="announcement-carousel__track" aria-hidden="true">
+    <span class="announcement-carousel__item"><b>Lab 3 is on August 29.</b><span>Native Android / Kotlin.</span><span>Stay tuned.</span><span class="announcement-carousel__sep">|</span><span>For more info, reach out to human@mobilearchitecturelab.com</span></span>
+    <span class="announcement-carousel__item"><b>Lab 3 is on August 29.</b><span>Native Android / Kotlin.</span><span>Stay tuned.</span><span class="announcement-carousel__sep">|</span><span>For more info, reach out to human@mobilearchitecturelab.com</span></span>
+    <span class="announcement-carousel__item"><b>Lab 3 is on August 29.</b><span>Native Android / Kotlin.</span><span>Stay tuned.</span><span class="announcement-carousel__sep">|</span><span>For more info, reach out to human@mobilearchitecturelab.com</span></span>
+    <span class="announcement-carousel__item"><b>Lab 3 is on August 29.</b><span>Native Android / Kotlin.</span><span>Stay tuned.</span><span class="announcement-carousel__sep">|</span><span>For more info, reach out to human@mobilearchitecturelab.com</span></span>
+  </div>
+  <span class="sr-only">Lab 3 is on August 29. Native Android and Kotlin. Stay tuned. For more info, reach out to human@mobilearchitecturelab.com.</span>
+</div>
+
+<nav class="nav">
+  <div class="brand"><span class="ico" role="img" aria-label="MAL logo"></span>MAL<span>MOBILE ARCHITECTURE LAB</span></div>
+  <div class="links">
+    <a href="#how">How it works</a>
+    <a href="/lab3/">Lab 3</a>
+    <a href="/assignment-2/">Lab 2 homework</a>
+    <a href="#sponsor">Sponsors</a>
+    <a href="/organizers/">Organizers</a>
+    <a class="header-handout" href="/security-adr-handout.html" target="_blank" rel="noopener" aria-label="Open Security ADR handout">Security ADR ↗</a>
+    <button class="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false"></button>
+    <a class="cta" href="/lab3/">View Lab 3 →</a>
+  </div>
+</nav>
+
+<!-- ===================== 1 · HERO ===================== -->
+<section id="hero">
+  <div class="glow" style="background:var(--flutter);top:-160px;right:-120px"></div>
+  <div class="glow" style="background:var(--kotlin);bottom:-200px;left:-160px;opacity:.2"></div>
+  <div class="hero-orbit" aria-hidden="true"></div>
+  <div class="inner">
+    <span class="eyebrow"><span class="dot"></span> 5 labs · 3 months · Mumbai</span>
+    <h1>Become a <span class="grad">mobile architect.</span><br/>Not just a mobile developer.</h1>
+    <p class="lead">MAL is an application-only engineering lab for senior mobile engineers. Over five sessions you build one real, production-grade product — and walk out <b style="color:var(--ink)">T-shaped</b>: deep in one stack, fluent across the rest, grounded in the fundamentals that actually get you hired.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="/lab3/">View Lab 3 details →</a>
+      <a class="btn btn-ghost" href="/assignment-2/">Open Lab 2 homework</a>
+    </div>
+    <a class="hero-sponsor" href="https://measure.sh/?utm_source=mobilearchitecturelab&amp;utm_medium=website&amp;utm_campaign=mal_website" target="_blank" rel="noopener" aria-label="Visit Measure, MAL title sponsor">
+      <img src="/logo/measure-logo-color.png" alt="Measure logo" />
+      <span>
+        <span class="label">Title sponsor</span>
+        <strong>Measure</strong>
+        <span class="note">Production monitoring for mobile teams</span>
+      </span>
+    </a>
+    <div class="herometa">
+      <span>🗓️ <b>Lab 1 · July 11, 2026</b></span>
+      <span>📍 <b>Paytm, Mumbai</b></span>
+      <span>🎟️ <b>Free · application-gated</b></span>
+      <span>🏷️ <b>Title Sponsor · <a href="https://measure.sh/?utm_source=mobilearchitecturelab&amp;utm_medium=website&amp;utm_campaign=mal_website" target="_blank" rel="noopener">Measure</a></b></span>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="n grad">80–120</div><div class="l">senior engineers in the room each lab</div></div>
+      <div class="stat"><div class="n grad">15–20</div><div class="l">graduate as certified mobile architects</div></div>
+      <div class="stat"><div class="n grad">1</div><div class="l">real product you build end-to-end</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 2 · HOW IT WORKS ===================== -->
+<section id="how" style="background:var(--bg-2)">
+  <div class="glow" style="background:var(--green);top:10%;left:-180px;opacity:.14"></div>
+  <div class="inner">
+    <div class="kicker">How it works</div>
+    <h2>You don't attend MAL.<br/>You <span class="grad">build through it.</span></h2>
+    <p class="lead">Speakers teach the <i>decision</i>, not the feature. Each architect builds their own app and levels it up every lab — learning the gaps, defending the trade-offs, shipping real code.</p>
+
+    <div class="product">
+      <div class="big">Everyone builds the same brief:<br/><span class="grad">a hyperlocal marketplace with offline-first AI.</span></div>
+      <div class="tags">
+        <span class="pill">Offline-first sync</span>
+        <span class="pill">On-device AI</span>
+        <span class="pill">Deep links</span>
+        <span class="pill">Observability</span>
+        <span class="pill">Scale</span>
+      </div>
+    </div>
+
+    <div class="grid g3">
+      <div class="card"><div class="ic">🧱</div><h3>Deep, then broad</h3><p>Go deep in your primary stack, fluent across the others — exactly the T-shape the market hires for.</p></div>
+      <div class="card"><div class="ic">🏛️</div><h3>Decisions, not just code</h3><p>Every lab you write an Architecture Decision Record. Reasoning is the artifact that separates an architect from a coder.</p></div>
+      <div class="card"><div class="ic">👥</div><h3>Pods + mentors</h3><p>You build individually but review in pods of 4–5 with a mentor architect — never stuck, never coasting.</p></div>
+    </div>
+
+    <div class="kicker" style="margin-top:64px">The arc</div>
+    <div class="labs">
+      <div class="lab past"><span class="tag">Previous</span><div class="num">LAB 01 · JUL 11</div><div class="bar" style="background:var(--flutter)"></div><h4>Flutter &amp; Foundations</h4><p>Architecture skeleton + your first on-device AI feature.</p></div>
+      <div class="lab past"><span class="tag">Completed</span><div class="num">LAB 02 · AUG 01</div><div class="bar" style="background:var(--swift)"></div><h4>Native iOS / Swift</h4><p>Concurrency, modular clients, local LLM, and mobile observability.</p><a class="lab-cta" href="/assignment-2/">Open Lab 2 homework →</a><a class="lab-cta" href="/MAL_LAB2_HOMEWORK.md">Markdown brief →</a></div>
+      <div class="lab"><span class="tag">Upcoming</span><div class="num">LAB 03 · AUG 29</div><div class="bar" style="background:var(--kotlin)"></div><h4>Native Android / Kotlin</h4><p>Agenda TBD. Venue: ATLAS SkillTech University.</p><a class="lab-cta" href="/lab3/">View Lab 3 details →</a></div>
+      <div class="lab"><span class="tag">Sep 5</span><div class="num">LAB 04</div><div class="bar" style="background:var(--react)"></div><h4>React Native</h4><p>Deep links, multi-env, growth &amp; attribution.</p></div>
+      <div class="lab"><span class="tag">Sep 26</span><div class="num">LAB 05</div><div class="bar" style="background:var(--green)"></div><h4>Synthesis &amp; Scale</h4><p>Observability, resilience, architecture defense.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 3 · TITLE SPONSOR ===================== -->
+<section id="sponsor" style="background:var(--bg)">
+  <div class="glow" style="background:var(--green);top:18%;right:-200px;opacity:.12"></div>
+  <div class="inner sponsorwrap">
+    <div class="sponsor-copy">
+      <div class="kicker">Title sponsor</div>
+      <h2>Measure backs the production-readiness layer of MAL.</h2>
+      <p class="lead">Measure is the open-source mobile app monitoring and crash reporting platform helping mobile teams get to the root cause of crashes, ANRs, bugs, and performance issues faster.</p>
+    </div>
+    <a class="sponsor-panel" href="https://measure.sh/?utm_source=mobilearchitecturelab&amp;utm_medium=website&amp;utm_campaign=mal_website" target="_blank" rel="noopener" aria-label="Visit Measure">
+      <div class="measure-brand">
+        <img class="measure-logo" src="/logo/measure-logo-color.png" alt="Measure logo" loading="lazy" />
+        <div class="measure-name">Measure</div>
+      </div>
+      <p>Built for mobile engineers across Android, iOS, Flutter, Kotlin Multiplatform, and React Native — with session timelines, traces, logs, and app-health context for production debugging.</p>
+      <div class="sponsor-points">
+        <span>Crashes &amp; ANRs</span>
+        <span>Session timelines</span>
+        <span>Performance traces</span>
+        <span>Open source</span>
+      </div>
+    </a>
+  </div>
+  <div class="inner partner-wall" aria-labelledby="partners-title">
+    <div class="partner-head">
+      <div>
+        <div class="kicker">Partners</div>
+        <h2 id="partners-title">Backed by the mobile community.</h2>
+      </div>
+      <p class="partner-intro">Paytm, ATLAS SkillTech University, Google for Developers, Flutter Mumbai, FlutterFlow Developer Group Mumbai, and Swift Mumbai support MAL's mobile community.</p>
+    </div>
+    <div class="partner-grid">
+      <a class="partner-card" href="https://paytm.com/?utm_source=mobilearchitecturelab&amp;utm_medium=website&amp;utm_campaign=mal_website" target="_blank" rel="noopener" aria-label="Visit Paytm">
+        <span class="partner-role">Venue partner</span>
+        <span class="partner-brand">
+          <svg class="partner-logo-wide" viewBox="0 0 220 64" role="img" aria-label="Paytm" xmlns="http://www.w3.org/2000/svg">
+            <text x="4" y="45" font-family="Inter, Arial, sans-serif" font-size="44" font-weight="800" letter-spacing="-1.8"><tspan fill="#002E6E">Pay</tspan><tspan fill="#00BAF2">tm</tspan></text>
+          </svg>
+        </span>
+        <span class="partner-note">Venue support for Lab 1 in Mumbai.</span>
+      </a>
+      <a class="partner-card" href="https://atlasuniversity.edu.in/?utm_source=mobilearchitecturelab&amp;utm_medium=website&amp;utm_campaign=mal_website" target="_blank" rel="noopener" aria-label="Visit ATLAS SkillTech University">
+        <span class="partner-role">Venue partner · Lab 2</span>
+        <span class="partner-brand">
+          <span class="partner-icon atlas">A</span>
+          <span class="partner-name">ATLAS SkillTech University</span>
+        </span>
+        <span class="partner-note">Venue support for Lab 2 in Mumbai.</span>
+      </a>
+      <a class="partner-card" href="https://developers.google.com/?utm_source=mobilearchitecturelab&amp;utm_medium=website&amp;utm_campaign=mal_website" target="_blank" rel="noopener" aria-label="Visit Google for Developers">
+        <span class="partner-role">F&amp;B partner</span>
+        <img class="partner-logo-wide" src="/logo/google-for-developers-logo-lockup.png" alt="Google for Developers logo" loading="lazy" />
+        <span class="partner-note">Developer ecosystem support for Lab 1.</span>
+      </a>
+      <a class="partner-card" href="https://flutter.dev/community?utm_source=mobilearchitecturelab&amp;utm_medium=website&amp;utm_campaign=mal_website" target="_blank" rel="noopener" aria-label="Visit Flutter community">
+        <span class="partner-role">Tech community partner</span>
+        <span class="partner-brand">
+          <img class="partner-logo-square" src="/logo/flutter-mumbai.png" alt="Flutter Mumbai logo" loading="lazy" />
+          <span class="partner-name">Flutter Mumbai</span>
+        </span>
+        <span class="partner-note">Local Flutter builders and mentors.</span>
+      </a>
+      <a class="partner-card" href="https://flutterflow.io/?utm_source=mobilearchitecturelab&amp;utm_medium=website&amp;utm_campaign=mal_website" target="_blank" rel="noopener" aria-label="Visit FlutterFlow">
+        <span class="partner-role">Tech community partner</span>
+        <span class="partner-brand">
+          <span class="partner-logo-plaque">
+            <img src="/logo/flutterflow-logo.svg" alt="FlutterFlow logo" loading="lazy" />
+          </span>
+          <span class="partner-name">FlutterFlow Developer Group Mumbai</span>
+        </span>
+        <span class="partner-note">Design-to-code and rapid app builders.</span>
+      </a>
+      <a class="partner-card" href="https://swiftmumbai.in/?utm_source=mobilearchitecturelab&amp;utm_medium=website&amp;utm_campaign=mal_website" target="_blank" rel="noopener" aria-label="Visit Swift Mumbai">
+        <span class="partner-role">Tech community partner</span>
+        <span class="partner-brand">
+          <img class="partner-logo-square" src="/logo/swift-mumbai-logo.png" alt="Swift Mumbai logo" loading="lazy" />
+          <span class="partner-name">Swift Mumbai</span>
+        </span>
+        <span class="partner-note">Mumbai's community for Swift and iOS builders.</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 4 · ORGANIZERS ===================== -->
+<section id="organizers" style="background:var(--bg-2)">
+  <div class="glow" style="background:var(--kotlin);top:-180px;left:8%;opacity:.12"></div>
+  <div class="inner" aria-labelledby="organizers-title">
+    <div class="kicker">The team</div>
+    <h2 id="organizers-title">Meet the organizers.</h2>
+    <p class="lead">MAL is organized by mobile practitioners building a stronger engineering community in Mumbai.</p>
+    <div class="organizer-grid">
+      <a class="card organizer-card" href="https://www.linkedin.com/in/viveky259/" target="_blank" rel="noopener" aria-label="View Vivek Yadav on LinkedIn"><img class="organizer-avatar" src="https://media.licdn.com/dms/image/v2/D5603AQGaja0fIiJCCw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1673819828660?e=2147483647&amp;v=beta&amp;t=fd5GE5VVEtKUoezl1k54FVAe6s_O8WoyInCdWtjNi4U" alt="Vivek Yadav" loading="lazy" /><h3>Vivek Yadav</h3><p>Organizer</p><span class="organizer-link">LinkedIn ↗</span></a>
+      <a class="card organizer-card" href="https://www.linkedin.com/in/yogeshsingh2810/" target="_blank" rel="noopener" aria-label="View Yogesh Singh on LinkedIn"><img class="organizer-avatar" src="https://ui-avatars.com/api/?name=Yogesh+Singh&amp;background=3DA8F5&amp;color=07111F&amp;size=256&amp;bold=true" alt="Yogesh Singh" loading="lazy" /><h3>Yogesh Singh</h3><p>Co-organizer</p><span class="organizer-link">LinkedIn ↗</span></a>
+      <a class="card organizer-card" href="https://www.linkedin.com/in/nikhilnaidun/" target="_blank" rel="noopener" aria-label="View Nikhil Naidu on LinkedIn"><img class="organizer-avatar" src="https://media.licdn.com/dms/image/v2/C4D03AQGbrppJSdsnNQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1662718727307?e=2147483647&amp;v=beta&amp;t=EzAHhStxmt5tSIXkT7j5ptT02QF0DQS_tzmglNd7zHs" alt="Nikhil Naidu" loading="lazy" /><h3>Nikhil Naidu</h3><p>Co-organizer</p><span class="organizer-link">LinkedIn ↗</span></a>
+      <a class="card organizer-card" href="https://www.linkedin.com/in/prashantrdalai/" target="_blank" rel="noopener" aria-label="View Prashant R Dalai on LinkedIn"><img class="organizer-avatar" src="https://media.licdn.com/dms/image/v2/D4D03AQHeRLUnr9dGtg/profile-displayphoto-scale_200_200/B4DZjNaeWQGkAY-/0/1755792938098?e=2147483647&amp;v=beta&amp;t=NJ9Pt2LwMSKeXxCNCklI2pAkG1HJnPIvcOTmvKGpELM" alt="Prashant R Dalai" loading="lazy" /><h3>Prashant R Dalai</h3><p>Co-organizer</p><span class="organizer-link">LinkedIn ↗</span></a>
+      <a class="card organizer-card" href="https://www.linkedin.com/in/prasadsawant97/" target="_blank" rel="noopener" aria-label="View Prasad Sawant on LinkedIn"><img class="organizer-avatar" src="https://media.licdn.com/dms/image/v2/D4D03AQFET3ZlK3uIMA/profile-displayphoto-scale_200_200/B4DZ4tTBhBK4Ac-/0/1778876424526?e=2147483647&amp;v=beta&amp;t=AYLgY1pIDJZ9MO6NBxDW7l7EnTk1wj-NipuQ3inlkAY" alt="Prasad Sawant" loading="lazy" /><h3>Prasad Sawant</h3><p>Co-organizer</p><span class="organizer-link">LinkedIn ↗</span></a>
+      <a class="card organizer-card" href="https://www.linkedin.com/in/rushit-r-757aa0167/" target="_blank" rel="noopener" aria-label="View Rakshit on LinkedIn"><img class="organizer-avatar" src="https://ui-avatars.com/api/?name=Rakshit&amp;background=61DAFB&amp;color=07111F&amp;size=256&amp;bold=true" alt="Rakshit" loading="lazy" /><h3>Rakshit</h3><p>Co-organizer</p><span class="organizer-link">LinkedIn ↗</span></a>
+      <a class="card organizer-card" href="https://www.linkedin.com/in/yashadulkar/" target="_blank" rel="noopener" aria-label="View Yash Adulkar on LinkedIn"><img class="organizer-avatar" src="https://media.licdn.com/dms/image/v2/D4D03AQHFQjaoZmwVLw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1710669018315?e=2147483647&amp;v=beta&amp;t=dcX4MIXNd8QAaKVFSqBZA5JCPHdHuXJcs6YqVXT5Z8k" alt="Yash Adulkar" loading="lazy" /><h3>Yash Adulkar</h3><p>Co-organizer</p><span class="organizer-link">LinkedIn ↗</span></a>
+      <a class="card organizer-card" href="https://www.linkedin.com/in/adityasutar/" target="_blank" rel="noopener" aria-label="View Aditya Sutar on LinkedIn"><img class="organizer-avatar" src="https://media.licdn.com/dms/image/v2/D4D03AQFvEm_6zyJrvA/profile-displayphoto-shrink_200_200/B4DZOuyT8wGUAY-/0/1733804246017?e=2147483647&amp;v=beta&amp;t=Ftfyt4MRI47tBEAj4GtuiWE3qDTSBeoGD2WHfOuaaPs" alt="Aditya Sutar" loading="lazy" /><h3>Aditya Sutar</h3><p>Co-organizer</p><span class="organizer-link">LinkedIn ↗</span></a>
+    </div>
+  </div>
+</section>
+
+<aside class="assessment-popup" id="assessment-popup" aria-label="Event 02 assessment submission">
+  <button class="close" type="button" aria-label="Dismiss assessment submission reminder">×</button>
+  <a href="https://forms.gle/4sGL4wB9PhiaShq38" target="_blank" rel="noopener" aria-label="Submit your Event 02 assessment">
+    <span class="label">Event 02 assessment</span>
+    <strong>Complete your assessment submission.</strong>
+    <p>Attended our second event? Submit your assessment and share your experience with us.</p>
+    <span class="submit-link">Submit assessment →</span>
+  </a>
+</aside>
+
+<dialog class="image-dialog" id="image-dialog" aria-labelledby="image-dialog-title">
+  <div class="image-dialog__top">
+    <div class="image-dialog__title" id="image-dialog-title">Image preview</div>
+    <div class="image-dialog__actions">
+      <span class="image-dialog__status" id="image-dialog-status" role="status" aria-live="polite"></span>
+      <button class="image-dialog__close" id="image-dialog-close" type="button" aria-label="Close image preview">×</button>
+    </div>
+  </div>
+  <div class="image-dialog__body">
+    <div class="image-dialog__stage" id="image-dialog-stage">
+      <img id="image-dialog-image" alt="" />
+    </div>
+    <aside class="image-dialog__notes" aria-label="Image notes">
+      <h2>Annotate image</h2>
+      <p>Drag over an area to add a note. Select an existing highlight to edit it. Notes are saved in this browser.</p>
+      <label for="image-dialog-note">Selected note</label>
+      <textarea id="image-dialog-note" placeholder="Write a note about this area…" disabled></textarea>
+      <div class="image-dialog__note-actions">
+        <button class="image-dialog__save" id="image-dialog-save" type="button" disabled>Save note</button>
+        <button class="image-dialog__delete" id="image-dialog-delete" type="button" disabled>Delete</button>
+      </div>
+      <div class="image-dialog__list" id="image-dialog-list" aria-label="Saved annotations"></div>
+      <p style="margin-top:18px;font-size:11px;color:var(--faint)">Powered by <a href="https://annotorious.dev/?utm_source=mobilearchitecturelab&amp;utm_medium=website&amp;utm_campaign=mal_website" target="_blank" rel="noopener">Annotorious</a>, an open-source image annotation library.</p>
+    </aside>
+  </div>
+</dialog>
+
+<footer>
+  <div style="font-family:'Sora';font-weight:800;letter-spacing:.05em;color:var(--ink);margin-bottom:8px">MAL</div>
+  Mobile Architecture Lab · Built by practitioners, for practitioners.<br/>
+  Title Sponsor: <a href="https://measure.sh/?utm_source=mobilearchitecturelab&amp;utm_medium=website&amp;utm_campaign=mal_website" target="_blank" rel="noopener">Measure</a><br/>
+  Venue: Paytm, Mumbai<br/>
+  Partners: Google for Developers · Flutter Mumbai · FlutterFlow Developer Group Mumbai<br/>
+  <a href="/lab3/">Lab 3 details</a> &nbsp;·&nbsp; <a href="/homework/">Lab 1 homework</a> &nbsp;·&nbsp; <a href="/assignment-2/">Lab 2 homework</a> &nbsp;·&nbsp; <a href="/MAL_LAB2_HOMEWORK.md">Lab 2 Markdown brief</a> &nbsp;·&nbsp; <a href="/sponsor/">Sponsor MAL</a>
+</footer>
+
+<script>
+  (function(){
+    var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) return;
+
+    var targets = [
+      '.nav',
+      '#hero .inner > *',
+      '#how .inner > .kicker, #how .inner > h2, #how .inner > .lead, #how .product, #how .grid > *, #how .labs > *',
+      '#sponsor .sponsor-copy > *, #sponsor .sponsor-panel, #sponsor .partner-head > *, #sponsor .partner-card',
+      '#organizers .inner > .kicker, #organizers .inner > h2, #organizers .inner > .lead, #organizers .organizer-card',
+      'footer'
+    ];
+    var revealed = [];
+    var seen = [];
+
+    targets.forEach(function(selector){
+      document.querySelectorAll(selector).forEach(function(element){
+        if (seen.indexOf(element) !== -1) return;
+        seen.push(element);
+        element.setAttribute('data-reveal', '');
+        element.style.setProperty('--reveal-delay', Math.min(revealed.length % 6, 5) * 70 + 'ms');
+        revealed.push(element);
+      });
+    });
+
+    if (!revealed.length) return;
+    document.documentElement.classList.add('motion-ready');
+
+    if (!('IntersectionObserver' in window)) {
+      revealed.forEach(function(element){ element.classList.add('is-visible'); });
+      return;
+    }
+
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        window.setTimeout(function(){ entry.target.classList.add('motion-settled'); }, 1000);
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.14, rootMargin: '0px 0px -8% 0px' });
+
+    revealed.forEach(function(element){ observer.observe(element); });
+  })();
+</script>
+<script>
+  (function(){
+    var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var finePointer = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
+    if (reducedMotion || !finePointer || !window.PointerEvent) return;
+
+    var halo = document.createElement('div');
+    halo.className = 'cursor-halo';
+    halo.setAttribute('aria-hidden', 'true');
+    halo.innerHTML = '<div class="cursor-halo__ring"></div>';
+    document.body.appendChild(halo);
+
+    var targetX = -100;
+    var targetY = -100;
+    var currentX = targetX;
+    var currentY = targetY;
+    var frame = 0;
+
+    function render(){
+      currentX += (targetX - currentX) * .24;
+      currentY += (targetY - currentY) * .24;
+      halo.style.transform = 'translate3d(' + (currentX - 17) + 'px,' + (currentY - 17) + 'px,0)';
+      if (Math.abs(targetX - currentX) > .1 || Math.abs(targetY - currentY) > .1) {
+        frame = window.requestAnimationFrame(render);
+      } else {
+        frame = 0;
+      }
+    }
+
+    document.addEventListener('pointermove', function(event){
+      targetX = event.clientX;
+      targetY = event.clientY;
+      halo.classList.add('is-visible');
+      if (!frame) frame = window.requestAnimationFrame(render);
+    }, { passive: true });
+
+    document.addEventListener('pointerover', function(event){
+      halo.classList.toggle('is-interactive', Boolean(event.target.closest('a, button, input, textarea, select, [role="button"]')));
+    });
+    window.addEventListener('blur', function(){ halo.classList.remove('is-visible'); });
+  })();
+</script>
+<script>
+  (function(){
+    var toggle = document.querySelector('.theme-toggle');
+    var popup = document.querySelector('#assessment-popup');
+    var closePopup = popup && popup.querySelector('.close');
+
+    if (closePopup) {
+      closePopup.addEventListener('click', function(){
+        popup.remove();
+        try {
+          sessionStorage.setItem('mal-assessment-popup-dismissed', '1');
+        } catch (e) {}
+      });
+      try {
+        if (sessionStorage.getItem('mal-assessment-popup-dismissed') === '1') {
+          popup.remove();
+        }
+      } catch (e) {}
+    }
+
+    if (!toggle) return;
+
+    function syncLabel(){
+      var isLight = document.documentElement.dataset.theme === 'light';
+      toggle.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
+      toggle.setAttribute('aria-pressed', String(isLight));
+    }
+
+    toggle.addEventListener('click', function(){
+      var next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+      if (next === 'light') {
+        document.documentElement.dataset.theme = 'light';
+      } else {
+        delete document.documentElement.dataset.theme;
+      }
+      try {
+        localStorage.setItem('mal-theme', next);
+      } catch (e) {}
+      syncLabel();
+    });
+
+    syncLabel();
+  })();
+</script>
+<script>
+  (function(){
+    var dialog = document.getElementById('image-dialog');
+    var dialogImage = document.getElementById('image-dialog-image');
+    var dialogTitle = document.getElementById('image-dialog-title');
+    var dialogStatus = document.getElementById('image-dialog-status');
+    var noteInput = document.getElementById('image-dialog-note');
+    var saveButton = document.getElementById('image-dialog-save');
+    var deleteButton = document.getElementById('image-dialog-delete');
+    var annotationList = document.getElementById('image-dialog-list');
+    var closeButton = document.getElementById('image-dialog-close');
+    var annotator = null;
+    var selectedId = null;
+    var activeSource = '';
+    var activeTrigger = null;
+
+    if (!dialog || !dialogImage) return;
+
+    function storageKey(){
+      return 'mal-image-annotations:' + location.pathname + ':' + activeSource;
+    }
+
+    function readAnnotations(){
+      try {
+        var saved = localStorage.getItem(storageKey());
+        return saved ? JSON.parse(saved) : [];
+      } catch (e) { return []; }
+    }
+
+    function writeAnnotations(){
+      if (!annotator) return;
+      try { localStorage.setItem(storageKey(), JSON.stringify(annotator.getAnnotations())); } catch (e) {}
+    }
+
+    function noteFor(annotation){
+      var body = (annotation.bodies || []).find(function(item){ return item.purpose === 'commenting'; });
+      return body ? (body.value || '') : '';
+    }
+
+    function setStatus(message){ dialogStatus.textContent = message || ''; }
+
+    function renderList(){
+      annotationList.innerHTML = '';
+      if (!annotator) return;
+      var annotations = annotator.getAnnotations();
+      annotations.forEach(function(annotation, index){
+        var button = document.createElement('button');
+        button.type = 'button';
+        button.textContent = noteFor(annotation) || 'Untitled note ' + (index + 1);
+        button.addEventListener('click', function(){
+          annotator.setSelected(annotation.id, false);
+          selectAnnotation(annotation);
+        });
+        annotationList.appendChild(button);
+      });
+    }
+
+    function selectAnnotation(annotation){
+      selectedId = annotation ? annotation.id : null;
+      noteInput.disabled = !annotation;
+      saveButton.disabled = !annotation;
+      deleteButton.disabled = !annotation;
+      noteInput.value = annotation ? noteFor(annotation) : '';
+      if (annotation) noteInput.focus();
+    }
+
+    function setupAnnotator(){
+      if (annotator || !dialog.open || !dialogImage.src) return;
+      if (!window.Annotorious) {
+        setStatus('Annotation tool unavailable; image viewing still works.');
+        window.setTimeout(setupAnnotator, 250);
+        return;
+      }
+      try {
+        annotator = window.Annotorious.createImageAnnotator(dialogImage, {
+          drawingMode: 'drag',
+          style: { fill: '#5EE6A8', fillOpacity: 0.22, stroke: '#5EE6A8', strokeOpacity: 1 }
+        });
+        annotator.setAnnotations(readAnnotations());
+        annotator.on('createAnnotation', function(annotation){
+          annotator.setSelected(annotation.id, false);
+          selectAnnotation(annotation);
+          renderList();
+          setStatus('New note area created.');
+          writeAnnotations();
+        });
+        annotator.on('selectionChanged', function(annotations){
+          selectAnnotation(annotations[0] || null);
+        });
+        annotator.on('updateAnnotation', function(annotation){
+          if (selectedId === annotation.id) selectAnnotation(annotation);
+          renderList();
+          writeAnnotations();
+        });
+        annotator.on('deleteAnnotation', function(annotation){
+          if (selectedId === annotation.id) selectAnnotation(null);
+          renderList();
+          writeAnnotations();
+        });
+        renderList();
+        setStatus('Drag on the image to add a note.');
+      } catch (error) {
+        annotator = null;
+        setStatus('Annotations could not be loaded; image viewing still works.');
+      }
+    }
+
+    function openImage(trigger){
+      var stage = document.getElementById('image-dialog-stage');
+      if (annotator) {
+        writeAnnotations();
+        annotator.destroy();
+        annotator = null;
+      }
+      stage.innerHTML = '';
+      dialogImage = document.createElement('img');
+      dialogImage.id = 'image-dialog-image';
+      stage.appendChild(dialogImage);
+      activeTrigger = trigger;
+      activeSource = trigger.currentSrc || trigger.src;
+      dialogTitle.textContent = trigger.alt || 'Image preview';
+      dialogImage.alt = trigger.alt || 'Image preview';
+      dialogImage.src = activeSource;
+      setStatus('Loading annotation tools…');
+      document.body.classList.add('image-dialog-open');
+      dialog.showModal();
+      dialogImage.addEventListener('load', setupAnnotator, { once: true });
+      if (dialogImage.complete) setupAnnotator();
+    }
+
+    function closeImage(){
+      writeAnnotations();
+      if (annotator) annotator.destroy();
+      annotator = null;
+      selectedId = null;
+      dialogImage.removeAttribute('src');
+      dialog.close();
+      document.body.classList.remove('image-dialog-open');
+      if (activeTrigger) activeTrigger.focus();
+      activeTrigger = null;
+    }
+
+    document.querySelectorAll('img').forEach(function(image){
+      image.classList.add('image-preview-trigger');
+      image.tabIndex = 0;
+      image.setAttribute('role', 'button');
+      image.setAttribute('aria-label', 'Open ' + (image.alt || 'image') + ' full screen');
+      image.addEventListener('click', function(event){
+        event.preventDefault();
+        event.stopPropagation();
+        openImage(image);
+      });
+      image.addEventListener('keydown', function(event){
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          event.stopPropagation();
+          openImage(image);
+        }
+      });
+    });
+
+    saveButton.addEventListener('click', function(){
+      if (!annotator || !selectedId) return;
+      var current = annotator.getAnnotationById(selectedId);
+      if (!current) return;
+      var value = noteInput.value.trim();
+      var bodies = (current.bodies || []).filter(function(body){ return body.purpose !== 'commenting'; });
+      if (value) bodies.push({ purpose: 'commenting', value: value });
+      annotator.updateAnnotation(Object.assign({}, current, { bodies: bodies }));
+      setStatus('Note saved in this browser.');
+    });
+
+    deleteButton.addEventListener('click', function(){
+      if (!annotator || !selectedId) return;
+      annotator.removeAnnotation(selectedId);
+      setStatus('Annotation deleted.');
+    });
+
+    closeButton.addEventListener('click', closeImage);
+    dialog.addEventListener('cancel', function(event){ event.preventDefault(); closeImage(); });
+    dialog.addEventListener('click', function(event){
+      if (event.target === dialog) closeImage();
+    });
+  })();
+</script>
+</body>
+</html>
